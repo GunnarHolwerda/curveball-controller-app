@@ -15,6 +15,10 @@ export class QuizService {
     return this.http.get<AllQuizzesResponse>(`${this.path}/quizzes`).toPromise();
   }
 
+  updateQuiz(quizId: string, properties: Partial<IQuizResponse>): Promise<{ quiz: IQuizResponse }> {
+    return this.http.put<{ quiz: IQuizResponse }>(`${this.path}/quizzes/${quizId}`, properties).toPromise();
+  }
+
   getQuiz(quizId: string): Promise<{ quiz: FullQuizResponse }> {
     return this.http.get<{ quiz: FullQuizResponse }>(`${this.path}/quizzes/${quizId}`).toPromise();
   }

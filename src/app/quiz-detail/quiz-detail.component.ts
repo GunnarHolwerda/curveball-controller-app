@@ -20,6 +20,16 @@ export class QuizDetailComponent implements OnInit {
     });
   }
 
+  async onUpdate(): Promise<void> {
+    const updatedQuiz = (await this.quizService.updateQuiz(this.quiz.quizId, {
+      active: this.quiz.active
+    })).quiz;
+    this.quiz = {
+      ...updatedQuiz,
+      questions: this.quiz.questions
+    };
+  }
+
   async onQuestionStart(question: IQuestionResponse): Promise<void> {
     const startedQuestion = (await this.quizService.startQuestion(this.quiz.quizId, question.questionId)).question;
     const indexOfOriginalQuestion = this.quiz.questions.findIndex(q => q.questionId === startedQuestion.questionId);

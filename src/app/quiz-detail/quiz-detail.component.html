@@ -1,5 +1,9 @@
 <div class="row">
-  <h1>{{quiz?.title}}</h1>
+  <div class="col my-2 mx-1">
+    <h1>{{quiz?.title}}</h1>
+    <mat-slide-toggle *ngIf="quiz" [(ngModel)]="quiz.active">Active</mat-slide-toggle>
+    <button class="float-right" mat-raised-button color="primary" (click)="onUpdate()">Update</button>
+  </div>
 </div>
 <div class="row">
   <div class="col">

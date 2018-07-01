@@ -10,11 +10,14 @@ import { MatSnackBar } from '@angular/material';
 })
 export class AllQuizzesComponent implements OnInit {
   quizzes: Array<FullQuizResponse> = [];
+  loading: boolean;
 
   constructor(private quizService: QuizService, private snackBar: MatSnackBar) { }
 
   async ngOnInit() {
+    this.loading = true;
     this.quizzes = (await this.quizService.allQuizzes()).quizzes;
+    this.loading = false;
   }
 
   async startQuiz(quiz: IQuizResponse): Promise<void> {

@@ -28,6 +28,7 @@ import {
   MatTabsModule,
   MatToolbarModule,
   MatTooltipModule,
+  MatExpansionModule,
 } from '@angular/material';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -58,6 +59,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     MatTabsModule,
     MatToolbarModule,
     MatTooltipModule,
+    MatExpansionModule,
     OverlayModule,
     PortalModule,
     PlatformModule,
@@ -92,6 +94,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     OverlayModule,
     PortalModule,
     PlatformModule,
+    MatExpansionModule,
     NgbModule
   ]
 })

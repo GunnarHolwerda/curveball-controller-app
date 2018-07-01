@@ -1,5 +1,15 @@
 <div class="container">
   <mat-list>
-    <mat-list-item *ngFor="let quiz of quizzes">{{quiz.title}}</mat-list-item>
+    <mat-card *ngFor="let quiz of quizzes" class="my-2">
+      <mat-card-content>
+        <div class="row">
+          <h5 class="text-success mx-2" *ngIf="quiz.active">Active</h5>
+          <a class="h5" [routerLink]="[quiz.quizId]">{{quiz.title}}</a>
+        </div>
+      </mat-card-content>
+      <mat-card-actions>
+        <button *ngIf="!quiz.active" mat-button color="primary" (click)="startQuiz(quiz)">Start</button>
+      </mat-card-actions>
+    </mat-card>
   </mat-list>
 </div>

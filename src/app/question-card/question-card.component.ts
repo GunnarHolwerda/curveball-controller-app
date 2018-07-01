@@ -8,15 +8,19 @@ import { IQuestionResponse, IChoiceResponse } from '../models/question';
 })
 export class QuestionCardComponent implements OnInit {
   @Input() question: IQuestionResponse;
+  @Output() start: EventEmitter<IQuestionResponse> = new EventEmitter();
   @Output() choiceSelected: EventEmitter<IChoiceResponse> = new EventEmitter();
 
   constructor() { }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
   onChoiceSelect(choice: IChoiceResponse): void {
     this.choiceSelected.emit(choice);
+  }
+
+  onStart(): void {
+    this.start.emit(this.question);
   }
 
 }

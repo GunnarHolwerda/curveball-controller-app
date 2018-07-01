@@ -1,0 +1,22 @@
+<div class="row">
+  <h1>{{quiz?.title}}</h1>
+</div>
+<div class="row">
+  <div class="col">
+    <div class="my-2" *ngFor="let question of quiz?.questions">
+      <cb-question-card [question]="question" (start)="onQuestionStart($event)"></cb-question-card>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col">
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          JSON
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <pre>{{quiz | json}}</pre>
+    </mat-expansion-panel>
+  </div>
+</div>

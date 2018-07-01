@@ -11,14 +11,17 @@ import { AllQuizzesComponent } from './all-quizzes/all-quizzes.component';
 import { HttpClientModule } from '@angular/common/http';
 import { QuizService } from './services/quiz.service';
 import { AppRoutingModule } from './app-routing.module';
-import { RouterModule } from '@angular/router';
+import { QuizDetailComponent } from './quiz-detail/quiz-detail.component';
+import { RouterOutletComponent } from './router-outlet/router-outlet.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     TestQuizComponent,
     QuestionCardComponent,
-    AllQuizzesComponent
+    AllQuizzesComponent,
+    QuizDetailComponent,
+    RouterOutletComponent
   ],
   imports: [
     BrowserModule,

@@ -5,10 +5,14 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
 import { CurveballMaterialModule } from './curveball-material/curveball-material.module';
+import { TestQuizComponent } from './test-quiz/test-quiz.component';
+import { QuestionCardComponent } from './question-card/question-card.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    TestQuizComponent,
+    QuestionCardComponent
   ],
   imports: [
     BrowserModule,

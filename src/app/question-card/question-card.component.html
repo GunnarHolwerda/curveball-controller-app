@@ -1,0 +1,15 @@
+<mat-card>
+  <mat-card-title>
+    <div class="row">
+      <h3 class="px-2">{{question.questionNum}})</h3>
+      {{question.question}}
+    </div>
+  </mat-card-title>
+  <mat-card-content>
+    <mat-list>
+      <mat-list-item *ngFor="let choice of question.choices">
+        <button mat-button color="primary" (click)="onChoiceSelect(choice)">{{choice.text}}</button>
+      </mat-list-item>
+    </mat-list>
+  </mat-card-content>
+</mat-card>

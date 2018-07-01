@@ -29,6 +29,7 @@ import {
   MatToolbarModule,
   MatTooltipModule,
 } from '@angular/material';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   imports: [
@@ -60,6 +61,7 @@ import {
     OverlayModule,
     PortalModule,
     PlatformModule,
+    NgbModule
   ],
   declarations: [],
   exports: [
@@ -89,7 +91,8 @@ import {
     MatTooltipModule,
     OverlayModule,
     PortalModule,
-    PlatformModule
+    PlatformModule,
+    NgbModule
   ]
 })
 export class CurveballMaterialModule { }

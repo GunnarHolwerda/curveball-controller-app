@@ -2,7 +2,7 @@
   <div class="col my-2 mx-1">
     <h1>{{quiz?.title}}</h1>
     <mat-slide-toggle *ngIf="quiz" [(ngModel)]="quiz.active">Active</mat-slide-toggle>
-    <button class="float-right" mat-raised-button color="primary" (click)="onUpdate()">Update</button>
+    <button class="float-right" mat-raised-button color="primary" (click)="onUpdate()" [disabled]="!hasChanged()">Update</button>
   </div>
 </div>
 <div class="row">

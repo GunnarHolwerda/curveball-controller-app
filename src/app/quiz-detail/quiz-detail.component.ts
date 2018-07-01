@@ -3,6 +3,8 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { FullQuizResponse } from '../models/quizzes';
 import { QuizService } from '../services/quiz.service';
 import { IQuestionResponse } from '../models/question';
+// @ts-ignore:one-line
+import deepEqual from 'deep-equal';
 
 @Component({
   selector: 'cb-quiz-detail',
@@ -10,6 +12,7 @@ import { IQuestionResponse } from '../models/question';
   styleUrls: ['./quiz-detail.component.css']
 })
 export class QuizDetailComponent implements OnInit {
+  originalQuiz: FullQuizResponse;
   quiz: FullQuizResponse;
 
   constructor(private route: ActivatedRoute, private quizService: QuizService) { }
@@ -17,7 +20,12 @@ export class QuizDetailComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe(async (params: Params) => {
       this.quiz = (await this.quizService.getQuiz(params.quizId)).quiz;
+      this.originalQuiz = { ...this.quiz };
     });
+  }
+
+  hasChanged(): boolean {
+    return !deepEqual(this.quiz, this.originalQuiz);
   }
 
   async onUpdate(): Promise<void> {

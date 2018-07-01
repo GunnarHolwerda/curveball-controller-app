@@ -18,8 +18,13 @@
   <mat-card-content>
     <mat-list>
       <mat-list-item *ngFor="let choice of question.choices">
-        <button mat-button color="primary" (click)="onChoiceSelect(choice)">{{choice.text}}</button>
+        <button mat-flat-button color="accent" (click)="onChoiceSelect(choice)">{{choice.text}}</button>
       </mat-list-item>
     </mat-list>
   </mat-card-content>
+  <mat-card-actions>
+    <div class="row mx-2">
+      <button *ngIf="!question.sent" mat-raised-button color="primary" (click)="onSend()">Send</button>
+    </div>
+  </mat-card-actions>
 </mat-card>

@@ -19,7 +19,7 @@ export class QuestionCardComponent implements OnInit {
     this.choiceSelected.emit(choice);
   }
 
-  onStart(): void {
+  onSend(): void {
     this.start.emit(this.question);
   }
 

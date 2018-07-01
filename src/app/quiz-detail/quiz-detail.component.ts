@@ -20,8 +20,10 @@ export class QuizDetailComponent implements OnInit {
     });
   }
 
-  onQuestionStart(question: IQuestionResponse): void {
-    this.quizService.startQuestion(this.quiz.quizId, question.questionId);
+  async onQuestionStart(question: IQuestionResponse): Promise<void> {
+    const startedQuestion = (await this.quizService.startQuestion(this.quiz.quizId, question.questionId)).question;
+    const indexOfOriginalQuestion = this.quiz.questions.findIndex(q => q.questionId === startedQuestion.questionId);
+    this.quiz.questions[indexOfOriginalQuestion] = startedQuestion;
   }
 
 }

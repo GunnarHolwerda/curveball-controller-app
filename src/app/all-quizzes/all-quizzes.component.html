@@ -37,8 +37,8 @@
           <th mat-header-cell mat-sort-header *matHeaderCellDef> Active </th>
           <td mat-cell *matCellDef="let element">
             <mat-chip-list>
-              <mat-chip class="bg-success text-light" *ngIf="element.active">Active</mat-chip>
-              <mat-chip *ngIf="!element.active">Inactive</mat-chip>
+              <mat-chip class="bg-success text-light" [selectable]="false" [disableRipple]="true" *ngIf="element.active">Active</mat-chip>
+              <mat-chip *ngIf="!element.active" [selectable]="false" [disableRipple]="true">Inactive</mat-chip>
             </mat-chip-list>
           </td>
         </ng-container>

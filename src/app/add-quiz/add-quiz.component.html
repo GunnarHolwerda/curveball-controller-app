@@ -1,0 +1,61 @@
+<div class="row">
+  <div class="col">
+    <form [formGroup]="createQuizForm">
+      <div class="d-flex flex-column">
+        <mat-form-field>
+          <input matInput placeholder="Title" type="text" name="title" formControlName="title">
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="Amount" type="number" name="potAmount" formControlName="potAmount">
+        </mat-form-field>
+        <div class="d-flex flex-row mb-3">
+          <h3>Questions</h3>
+          <button class="ml-3" mat-flat-button (click)="addQuestion()">Add</button>
+        </div>
+        <div formArrayName="questions" *ngFor="let question of createQuizForm.get('questions').controls; let i = index;">
+          <div class="d-flex my-3" [formGroupName]="i">
+            <div class="flex-row d-flex justify-content-around w-100">
+              <div class="mx-2 my-auto" style="width: 1em">
+                {{question.value.questionNum}})
+              </div>
+
+              <mat-form-field style="flex: 6" class="px-2">
+                <input matInput formControlName="question" type="text" placeholder="Question">
+              </mat-form-field>
+              <button *ngIf="i !== 0" class="close-button" (click)="removeQuestion(i)">
+                <span>x</span>
+              </button>
+            </div>
+          </div>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Choices
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="d-flex py-2 flex-column" [formGroupName]="i">
+              <div class="d-flex" formArrayName="choices" *ngFor="let choices of createQuizForm.get('questions').at(i).get('choices').controls; let j = index;">
+                <div class="w-100 d-flex justify-content-around py-2" [formGroupName]="j">
+                  <div class="mx-2 my-auto" style="width: 1em">
+                    <button *ngIf="j !== 0" class="close-button" (click)="removeChoice(i, j)">
+                      <span>x</span>
+                    </button>
+                  </div>
+                  <mat-form-field style="flex: 6" class="px-2">
+                    <input matInput formControlName="text" type="text" placeholder="Text">
+                  </mat-form-field>
+                  <mat-checkbox style="flex: 1" class="ml-2 align-self-center" formControlName="isAnswer">Answer</mat-checkbox>
+                </div>
+              </div>
+            </div>
+            <mat-action-row>
+              <button mat-button (click)="addChoice(i)">Add Choice</button>
+            </mat-action-row>
+          </mat-expansion-panel>
+        </div>
+        <mat-divider></mat-divider>
+      </div>
+      <button class="mt-4" mat-raised-button color="accent" (click)="onSumbit()" [disabled]="createQuizForm.invalid">Create</button>
+    </form>
+  </div>
+</div>

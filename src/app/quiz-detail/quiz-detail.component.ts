@@ -5,6 +5,7 @@ import { QuizService } from '../services/quiz.service';
 import { IQuestionResponse } from '../models/question';
 // @ts-ignore:one-line
 import deepEqual from 'deep-equal';
+import { RealtimeService } from '../services/realtime.service';
 
 @Component({
   selector: 'cb-quiz-detail',
@@ -15,7 +16,7 @@ export class QuizDetailComponent implements OnInit {
   originalQuiz: FullQuizResponse;
   quiz: FullQuizResponse;
 
-  constructor(private route: ActivatedRoute, private quizService: QuizService) { }
+  constructor(private route: ActivatedRoute, private quizService: QuizService, private realTime: RealtimeService) { }
 
   ngOnInit() {
     this.route.params.subscribe(async (params: Params) => {
@@ -36,10 +37,12 @@ export class QuizDetailComponent implements OnInit {
       ...updatedQuiz,
       questions: this.quiz.questions
     };
+    this.originalQuiz = { ...this.quiz };
   }
 
   async onQuestionStart(question: IQuestionResponse): Promise<void> {
     const startedQuestion = (await this.quizService.startQuestion(this.quiz.quizId, question.questionId)).question;
+    this.realTime.emitQuestion(startedQuestion);
     const indexOfOriginalQuestion = this.quiz.questions.findIndex(q => q.questionId === startedQuestion.questionId);
     this.quiz.questions[indexOfOriginalQuestion] = startedQuestion;
   }

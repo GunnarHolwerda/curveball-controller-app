@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -13,6 +13,7 @@ import { QuizService } from './services/quiz.service';
 import { AppRoutingModule } from './app-routing.module';
 import { QuizDetailComponent } from './quiz-detail/quiz-detail.component';
 import { RouterOutletComponent } from './router-outlet/router-outlet.component';
+import { AddQuizComponent } from './add-quiz/add-quiz.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { RouterOutletComponent } from './router-outlet/router-outlet.component';
     QuestionCardComponent,
     AllQuizzesComponent,
     QuizDetailComponent,
-    RouterOutletComponent
+    RouterOutletComponent,
+    AddQuizComponent
   ],
   imports: [
     BrowserModule,
@@ -30,6 +32,7 @@ import { RouterOutletComponent } from './router-outlet/router-outlet.component';
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
+    ReactiveFormsModule
   ],
   providers: [
     QuizService

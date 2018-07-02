@@ -4,11 +4,13 @@ import { AllQuizzesComponent } from './all-quizzes/all-quizzes.component';
 import { TestQuizComponent } from './test-quiz/test-quiz.component';
 import { QuizDetailComponent } from './quiz-detail/quiz-detail.component';
 import { RouterOutletComponent } from './router-outlet/router-outlet.component';
+import { AddQuizComponent } from './add-quiz/add-quiz.component';
 
 const routes: Routes = [
   {
     path: 'quizzes', component: RouterOutletComponent, children: [
       { path: '', component: AllQuizzesComponent },
+      { path: 'add', component: AddQuizComponent },
       { path: ':quizId', component: QuizDetailComponent }
     ]
   },

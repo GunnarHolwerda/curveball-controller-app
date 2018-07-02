@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { QuizService } from '../services/quiz.service';
 import { FullQuizResponse, IQuizResponse } from '../models/quizzes';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar, MatSort, MatTableDataSource, MAT_CHIPS_DEFAULT_OPTIONS } from '@angular/material';
 
 @Component({
   selector: 'cb-all-quizzes',
@@ -9,6 +9,9 @@ import { MatSnackBar } from '@angular/material';
   styleUrls: ['./all-quizzes.component.css']
 })
 export class AllQuizzesComponent implements OnInit {
+  @ViewChild(MatSort) sort: MatSort;
+  dataSource: MatTableDataSource<FullQuizResponse>;
+  displayedColumns: Array<string> = ['title', 'questions', 'created', 'completed', 'active'];
   quizzes: Array<FullQuizResponse> = [];
   loading: boolean;
 
@@ -18,6 +21,8 @@ export class AllQuizzesComponent implements OnInit {
     this.loading = true;
     this.quizzes = (await this.quizService.allQuizzes()).quizzes;
     this.loading = false;
+    this.dataSource = new MatTableDataSource(this.quizzes);
+    this.dataSource.sort = this.sort;
   }
 
   async startQuiz(quiz: IQuizResponse): Promise<void> {

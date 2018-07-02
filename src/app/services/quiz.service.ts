@@ -32,4 +32,8 @@ export class QuizService {
       `${this.path}/quizzes/${quizId}/questions/${questionId}:start`, null
     ).toPromise();
   }
+
+  createQuiz(quiz: Partial<IQuizResponse>): Promise<{ quiz: IQuizResponse }> {
+    return this.http.post<{ quiz: IQuizResponse }>(`${this.path}/quizzes`, quiz).toPromise();
+  }
 }

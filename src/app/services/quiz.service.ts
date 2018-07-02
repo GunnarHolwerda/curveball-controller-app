@@ -3,6 +3,7 @@ import { AllQuizzesResponse, IQuizResponse, FullQuizResponse } from '../models/q
 import { HttpClient } from '@angular/common/http';
 import { QuizStartResponse } from '../models/started-quiz';
 import { IQuestionResponse } from '../models/question';
+import { QuestionsPayload } from '../models/question-payload';
 
 @Injectable({
   providedIn: 'root'
@@ -35,5 +36,9 @@ export class QuizService {
 
   createQuiz(quiz: Partial<IQuizResponse>): Promise<{ quiz: IQuizResponse }> {
     return this.http.post<{ quiz: IQuizResponse }>(`${this.path}/quizzes`, quiz).toPromise();
+  }
+
+  addQuestions(quizId: string, questions: QuestionsPayload): Promise<{ questions: Array<string> }> {
+    return this.http.post<{ questions: Array<string> }>(`${this.path}/quizzes/${quizId}/questions`, questions).toPromise();
   }
 }

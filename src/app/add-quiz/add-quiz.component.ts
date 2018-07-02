@@ -66,7 +66,9 @@ export class AddQuizComponent implements OnInit {
   }
 
   async onSubmit(): Promise<void> {
-    const { quiz } = await this.quizService.createQuiz(this.createQuizForm.value);
+    const { potAmount, title, questions } = this.createQuizForm.value;
+    const { quiz } = await this.quizService.createQuiz({ potAmount, title });
+    await this.quizService.addQuestions(quiz.quizId, { questions });
     this.router.navigate(['/quizzes', quiz.quizId]);
   }
 }

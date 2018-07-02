@@ -14,6 +14,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { QuizDetailComponent } from './quiz-detail/quiz-detail.component';
 import { RouterOutletComponent } from './router-outlet/router-outlet.component';
 import { AddQuizComponent } from './add-quiz/add-quiz.component';
+import { CurveballNavComponent } from './curveball-nav/curveball-nav.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { AddQuizComponent } from './add-quiz/add-quiz.component';
     AllQuizzesComponent,
     QuizDetailComponent,
     RouterOutletComponent,
-    AddQuizComponent
+    AddQuizComponent,
+    CurveballNavComponent
   ],
   imports: [
     BrowserModule,

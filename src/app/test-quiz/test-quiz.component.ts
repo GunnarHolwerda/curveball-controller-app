@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import * as socketio from 'socket.io-client';
-import { IQuestionResponse, IChoiceResponse } from '../models/question';
+import { IQuestionResponse, IChoiceResponse, ITokenResponse } from '../models/question';
 import { RealtimeService } from '../services/realtime.service';
 
 @Component({
@@ -38,8 +38,8 @@ export class TestQuizComponent implements OnInit, OnDestroy {
     }
     localStorage.setItem('quizId', this.quizId);
     this.quizRoom = this.realTime.connectToQuiz(this.quizId);
-    this.quizRoom.on('question', (q: IQuestionResponse) => {
-      this.questions.push(q);
+    this.quizRoom.on('question', (q: { question: IQuestionResponse } & ITokenResponse) => {
+      this.questions.push(q.question);
     });
     this.quizRoom.on('results', (r) => {
       console.log(r);

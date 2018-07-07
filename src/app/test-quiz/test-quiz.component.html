@@ -10,6 +10,6 @@
 <button *ngIf="quizRoom?.connected" mat-button color="warn" (click)="onDisconnect()">Disconnect</button>
 <div class="row">
   <div class="col">
-    <cb-question-card *ngFor="let question of questions" [question]="question" (choiceSelected)="selectChoice($event)"></cb-question-card>
+    <cb-question-card *ngFor="let question of questions" [question]="question" (choiceSelected)="selectChoice($event)" [disableActions]="true"></cb-question-card>
   </div>
 </div>

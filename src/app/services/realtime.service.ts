@@ -32,6 +32,6 @@ export class RealtimeService {
   }
 
   connectToQuiz(quizId: string): SocketIOClient.Socket {
-    return socketio.connect(`http://localhost:3001/quizzes/${quizId}`);
+    return socketio.connect(`${this.path}/${quizId}`);
   }
 }

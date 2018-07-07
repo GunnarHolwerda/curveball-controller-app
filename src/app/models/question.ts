@@ -9,6 +9,10 @@ export interface IQuestionResponse {
     choices: Array<IChoiceResponse>;
 }
 
+export interface ITokenResponse {
+    token?: string;
+}
+
 export interface IChoiceResponse {
     choiceId: string;
     questionId: string;

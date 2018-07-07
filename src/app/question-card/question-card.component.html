@@ -17,12 +17,12 @@
   </mat-card-subtitle>
   <mat-card-content>
     <div class="d-flex flex-row">
-      <button *ngFor="let choice of question.choices" class="mx-2" mat-flat-button color="accent" (click)="onChoiceSelect(choice)">{{choice.text}}</button>
+      <button *ngFor="let choice of question.choices" class="mx-2" mat-flat-button color="primary" (click)="onChoiceSelect(choice)">{{choice.text}}</button>
     </div>
   </mat-card-content>
   <mat-card-actions>
     <div class="row mx-2">
-      <button *ngIf="!question.sent" mat-raised-button color="primary" (click)="onSend()">Send</button>
+      <button mat-raised-button color="secondary" (click)="onSend()">{{question.sent? 'Resend Question' : 'Send'}}</button>
     </div>
   </mat-card-actions>
 </mat-card>

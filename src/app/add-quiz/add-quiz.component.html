@@ -42,7 +42,7 @@
                     </button>
                   </div>
                   <mat-form-field style="flex: 6" class="px-2">
-                    <input matInput formControlName="text" type="text" placeholder="Text">
+                    <input matInput (keyup.enter)="addChoice(i)" formControlName="text" type="text" placeholder="Text">
                   </mat-form-field>
                   <mat-checkbox style="flex: 1" class="ml-2 align-self-center" formControlName="isAnswer">Answer</mat-checkbox>
                 </div>

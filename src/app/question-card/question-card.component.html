@@ -23,6 +23,7 @@
   <mat-card-actions *ngIf="!disableActions">
     <div class="row mx-2">
       <button mat-raised-button color="secondary" (click)="onSend()">{{question.sent? 'Resend Question' : 'Send'}}</button>
+      <button *ngIf="question.sent" mat-raised-button color="secondary" (click)="onResultsCalculate()">Calculate Results</button>
     </div>
   </mat-card-actions>
 </mat-card>

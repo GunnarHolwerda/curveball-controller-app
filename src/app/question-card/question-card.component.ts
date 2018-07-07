@@ -10,6 +10,7 @@ export class QuestionCardComponent implements OnInit {
   @Input() question: IQuestionResponse;
   @Input() disableActions = false;
   @Output() start: EventEmitter<IQuestionResponse> = new EventEmitter();
+  @Output() results: EventEmitter<IQuestionResponse> = new EventEmitter();
   @Output() choiceSelected: EventEmitter<IChoiceResponse> = new EventEmitter();
 
   constructor() { }
@@ -18,6 +19,10 @@ export class QuestionCardComponent implements OnInit {
 
   onChoiceSelect(choice: IChoiceResponse): void {
     this.choiceSelected.emit(choice);
+  }
+
+  onResultsCalculate(): void {
+    this.results.emit(this.question);
   }
 
   onSend(): void {

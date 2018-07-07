@@ -73,6 +73,11 @@ export class QuizDetailComponent implements OnInit {
     this.replaceQuestion(startedQuestion);
   }
 
+  async onCalculateResults(question: IQuestionResponse): Promise<void> {
+    const results = await this.quizService.calculateResults(this.quiz.quizId, question.questionId);
+    this.realTime.emitResults(this.quiz.quizId, results);
+  }
+
   private async updateQuiz(quizProperties: Partial<IQuizResponse>): Promise<void> {
     const updatedQuiz = (await this.quizService.updateQuiz(this.quiz.quizId, quizProperties)).quiz;
     this.replaceQuiz(updatedQuiz);

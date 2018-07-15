@@ -4,13 +4,29 @@ import { HttpClient } from '@angular/common/http';
 import { QuestionResults } from '../models/question-results';
 import * as socketio from 'socket.io-client';
 import { IUser } from '../models/user';
+import { IQuizResponse } from '../models/quizzes';
+import { Observable, Observer } from '../../../node_modules/rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RealtimeService {
+  private socket: SocketIOClient.Socket;
   private path = 'http://localhost:3001';
-  constructor(private http: HttpClient) { }
+  private _quizRoom: Observable<IQuizResponse>;
+
+  constructor(private http: HttpClient) {
+    this.socket = socketio.connect(this.path);
+    this._quizRoom = new Observable((observer: Observer<IQuizResponse>) => {
+      this.socket.on('start', (data: IQuizResponse) => {
+        observer.next(data);
+      });
+    });
+  }
+
+  public get quizRoom(): Observable<IQuizResponse> {
+    return this._quizRoom;
+  }
 
   emitQuestion(question: IQuestionResponse, token?: string): Promise<IQuestionResponse> {
     return this.http.post<IQuestionResponse>(`${this.path}/quizzes/${question.quizId}/question:emit`, { question, token }).toPromise();
@@ -28,8 +44,8 @@ export class RealtimeService {
     return this.http.get<{ quizId: string }>(`${this.path}/quizzes/${quizId}`).toPromise();
   }
 
-  createQuizRoom(quizId: string): Promise<void> {
-    return this.http.post<void>(`${this.path}/quizzes`, { quizId }).toPromise();
+  createQuizRoom(quiz: IQuizResponse): Promise<void> {
+    return this.http.post<void>(`${this.path}/quizzes`, { quiz }).toPromise();
   }
 
   deleteQuizRoom(quizId: string): Promise<void> {

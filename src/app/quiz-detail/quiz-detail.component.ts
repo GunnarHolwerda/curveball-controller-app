@@ -68,7 +68,7 @@ export class QuizDetailComponent implements OnInit {
 
   async onCreateQuizRoom(): Promise<void> {
     await this.updateQuiz({ active: true });
-    await this.realTime.createQuizRoom(this.quiz.quizId);
+    await this.realTime.createQuizRoom(this.quiz);
     this.quizRoom = this.quiz.quizId;
   }
 
@@ -79,7 +79,7 @@ export class QuizDetailComponent implements OnInit {
 
   async onStart(): Promise<void> {
     const response = await this.quizService.startQuiz(this.quiz.quizId);
-    await this.realTime.createQuizRoom(response.quiz.quizId);
+    await this.realTime.createQuizRoom(response.quiz);
     await this.realTime.emitQuestion(response.firstQuestion, response.token);
     this.replaceQuiz(response.quiz, response.firstQuestion);
   }

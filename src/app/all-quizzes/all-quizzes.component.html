@@ -18,7 +18,7 @@
 
         <!-- Weight Column -->
         <ng-container matColumnDef="questions">
-          <th mat-header-cell mat-sort-header class="text-center" *matHeaderCellDef> Number of Questions </th>
+          <th mat-header-cell mat-sort-header *matHeaderCellDef> Number of Questions </th>
           <td mat-cell class="text-center" *matCellDef="let element"> {{element.questions.length}} </td>
         </ng-container>
 
@@ -30,7 +30,10 @@
 
         <ng-container matColumnDef="completed">
           <th mat-header-cell mat-sort-header *matHeaderCellDef> Completed </th>
-          <td mat-cell *matCellDef="let element"> {{element.completed}} </td>
+          <td mat-cell *matCellDef="let element">
+            <i *ngIf="element.completed" class="material-icons text-success">check</i>
+            <i *ngIf="!element.completed" class="material-icons text-danger">close</i>
+          </td>
         </ng-container>
 
         <ng-container matColumnDef="active">

@@ -3,6 +3,7 @@ import { IQuestionResponse } from '../models/question';
 import { HttpClient } from '@angular/common/http';
 import { QuestionResults } from '../models/question-results';
 import * as socketio from 'socket.io-client';
+import { IUser } from '../models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,10 @@ export class RealtimeService {
 
   emitResults(quizId: string, results: QuestionResults): Promise<QuestionResults> {
     return this.http.post<QuestionResults>(`${this.path}/quizzes/${quizId}/results:emit`, results).toPromise();
+  }
+
+  emitWinners(quizId: string, finalists: Array<IUser>): Promise<void> {
+    return this.http.post<void>(`${this.path}/quizzes/${quizId}/winners:emit`, finalists).toPromise();
   }
 
   getQuizRoom(quizId: string): Promise<{ quizId: string }> {

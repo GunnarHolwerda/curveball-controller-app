@@ -6,6 +6,7 @@ import { IQuestionResponse } from '../models/question';
 // @ts-ignore:one-line
 import deepEqual from 'deep-equal';
 import { RealtimeService } from '../services/realtime.service';
+import { IUser } from '../models/user';
 
 @Component({
   selector: 'cb-quiz-detail',
@@ -16,6 +17,7 @@ export class QuizDetailComponent implements OnInit {
   originalQuiz: FullQuizResponse;
   quiz: FullQuizResponse;
   quizRoom: string;
+  alivePlayers: Array<IUser> = [];
 
   constructor(private route: ActivatedRoute, private quizService: QuizService, private realTime: RealtimeService) { }
 
@@ -36,11 +38,26 @@ export class QuizDetailComponent implements OnInit {
   }
 
   canStart(): boolean {
-    return this.quizRoom !== undefined && this.quiz.active;
+    return !this.quiz.completed && this.quizRoom !== undefined && this.quiz.active;
   }
 
   hasQuizRoom(): boolean {
     return this.quizRoom !== undefined;
+  }
+
+  allQuestionsAreSent(): boolean {
+    this.quiz.questions.forEach((q) => {
+      if (q.sent !== null) {
+        return false;
+      }
+    });
+    return true;
+  }
+
+  async onComplete(): Promise<void> {
+    this.updateQuiz({ completed: true, active: false });
+    const { users } = await this.quizService.getParticipants(this.quiz.quizId);
+    this.realTime.emitWinners(this.quiz.quizId, users);
   }
 
   async onUpdate(): Promise<void> {
@@ -76,6 +93,7 @@ export class QuizDetailComponent implements OnInit {
   async onCalculateResults(question: IQuestionResponse): Promise<void> {
     const results = await this.quizService.calculateResults(this.quiz.quizId, question.questionId);
     this.realTime.emitResults(this.quiz.quizId, results);
+    this.quizService.getParticipants(this.quiz.quizId).then(result => this.alivePlayers = result.users);
   }
 
   private async updateQuiz(quizProperties: Partial<IQuizResponse>): Promise<void> {

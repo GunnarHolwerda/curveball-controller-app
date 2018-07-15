@@ -5,6 +5,7 @@ import { TestQuizComponent } from './test-quiz/test-quiz.component';
 import { QuizDetailComponent } from './quiz-detail/quiz-detail.component';
 import { RouterOutletComponent } from './router-outlet/router-outlet.component';
 import { AddQuizComponent } from './add-quiz/add-quiz.component';
+import { ConnectToQuizComponent } from './connect-to-quiz/connect-to-quiz.component';
 
 const routes: Routes = [
   {
@@ -14,7 +15,12 @@ const routes: Routes = [
       { path: ':quizId', component: QuizDetailComponent }
     ]
   },
-  { path: 'test', component: TestQuizComponent },
+  {
+    path: 'test', component: RouterOutletComponent, children: [
+      { path: '', component: ConnectToQuizComponent },
+      { path: ':quizId', component: TestQuizComponent }
+    ]
+  },
   { path: '', redirectTo: 'test', pathMatch: 'full' }
 ];
 

@@ -15,6 +15,7 @@ import { QuizDetailComponent } from './quiz-detail/quiz-detail.component';
 import { RouterOutletComponent } from './router-outlet/router-outlet.component';
 import { AddQuizComponent } from './add-quiz/add-quiz.component';
 import { CurveballNavComponent } from './curveball-nav/curveball-nav.component';
+import { ConnectToQuizComponent } from './connect-to-quiz/connect-to-quiz.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { CurveballNavComponent } from './curveball-nav/curveball-nav.component';
     QuizDetailComponent,
     RouterOutletComponent,
     AddQuizComponent,
-    CurveballNavComponent
+    CurveballNavComponent,
+    ConnectToQuizComponent
   ],
   imports: [
     BrowserModule,

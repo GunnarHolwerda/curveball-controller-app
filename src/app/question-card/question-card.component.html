@@ -1,8 +1,22 @@
 <mat-card>
   <mat-card-title>
     <div class="row">
-      <h3 class="px-2">{{question.questionNum}})</h3>
-      {{question.question}}
+      <div class="col">
+        <div class="row">
+          <h3 class="px-2">{{question.questionNum}})</h3>
+          {{question.question}}
+        </div>
+      </div>
+      <div class="col my-auto">
+        <div class="row justify-content-end mr-5">
+          <h6 class="px-2">Sport:
+            <span class="font-weight-bold">{{question.sport}}</span>
+          </h6>
+          <h6 class="px-2">Ticker:
+            <span class="font-weight-bold">{{question.ticker}}</span>
+          </h6>
+        </div>
+      </div>
     </div>
   </mat-card-title>
   <mat-card-subtitle *ngIf="question.sent">

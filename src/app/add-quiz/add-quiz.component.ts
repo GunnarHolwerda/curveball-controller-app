@@ -28,6 +28,8 @@ export class AddQuizComponent implements OnInit {
     return new FormGroup({
       question: new FormControl('', Validators.required),
       questionNum: new FormControl(questionNum, Validators.required),
+      sport: new FormControl('', Validators.required),
+      ticker: new FormControl('', Validators.required),
       choices: new FormArray([this.createChoice()])
     });
   }

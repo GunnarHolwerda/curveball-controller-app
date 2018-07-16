@@ -1,15 +1,21 @@
-<form *ngIf="!quizRoom || quizRoom.disconnected; else connectMessage" (ngSubmit)="onSubmit()" #form="ngForm">
-  <mat-form-field>
-    <input required matInput placeholder="Quiz Id" name="quizId" [(ngModel)]="quizId">
-  </mat-form-field>
-  <button mat-button type="submit" [disabled]="form.invalid">Connect to Quiz</button>
-</form>
-<ng-template #connectMessage>
-  <h3>Connected to {{quizId}}</h3>
-</ng-template>
-<button *ngIf="quizRoom?.connected" mat-button color="warn" (click)="onDisconnect()">Disconnect</button>
-<div class="row">
+<div *ngIf="!quizRoom; else content" class="row text-center">
   <div class="col">
-    <cb-question-card *ngFor="let question of questions" [question]="question" (choiceSelected)="selectChoice($event)" [disableActions]="true"></cb-question-card>
+    <div class="row justify-content-center">
+      <i class="material-icons text-danger" style="font-size: 50px">close</i>
+    </div>
+    <div class="row justify-content-center">
+      <h5>Quiz Room does not exist for "{{quizId}}"</h5>
+    </div>
   </div>
 </div>
+<ng-template #content>
+  <div class="row">
+    <h3>Connected to {{quizId}}</h3>
+    <button *ngIf="quizRoom?.connected" mat-button color="warn" (click)="onDisconnect()">Disconnect</button>
+    <div class="row">
+      <div class="col">
+        <cb-question-card *ngFor="let question of questions" [question]="question" (choiceSelected)="selectChoice($event)" [disableActions]="true"></cb-question-card>
+      </div>
+    </div>
+  </div>
+</ng-template>

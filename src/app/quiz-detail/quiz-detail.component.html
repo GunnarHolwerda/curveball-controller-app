@@ -1,30 +1,45 @@
-<div class="row">
-  <div class="col my-2 mx-1">
-    <h1>{{quiz?.title}}</h1>
-    <p class="font-weight-light text-secondary">{{quiz?.quizId}}</p>
-    <mat-slide-toggle *ngIf="quiz" [(ngModel)]="quiz.active">Active</mat-slide-toggle>
-    <button class="float-right" mat-raised-button color="primary" (click)="onUpdate()" [disabled]="!hasChanged()">Update</button>
-    <button class="float-right mx-2" mat-raised-button color="accent" (click)="onStart()" [disabled]="!canStart()">Start</button>
-    <button class="float-right mx-2" mat-raised-button color="accent" *ngIf="!hasQuizRoom()" (click)="onCreateQuizRoom()">Create Quiz Room</button>
-    <button class="float-right mx-2" mat-raised-button color="secondary" *ngIf="hasQuizRoom()" (click)="onDeleteQuizRoom()">Delete Quiz Room</button>
-  </div>
+<div class="row d-flex justify-content-center align-items-center my-5" *ngIf="!quiz; else content">
+  <mat-spinner></mat-spinner>
 </div>
-<div class="row">
-  <div class="col">
-    <div class="my-2" *ngFor="let question of quiz?.questions">
-      <cb-question-card [question]="question" (start)="onQuestionStart($event)" (results)="onCalculateResults($event)"></cb-question-card>
+<ng-template #content>
+  <div class="row">
+    <div class="col my-2 mx-1">
+      <h1>{{quiz?.title}}</h1>
+      <div class="row">
+        <div class="col d-flex align-items-center">
+          <p class="font-weight-light text-secondary">{{quiz?.quizId}}</p>
+        </div>
+        <div class="col text-right">
+          <p>
+            <span style="font-size: 25px">{{alivePlayers.length}}</span> players still alive</p>
+        </div>
+      </div>
+      <mat-slide-toggle *ngIf="quiz" [(ngModel)]="quiz.active">Active</mat-slide-toggle>
+      <button class="float-right" mat-raised-button color="primary" (click)="onUpdate()" [disabled]="!hasChanged()">Update</button>
+      <button class="float-right mx-2" mat-raised-button color="accent" (click)="onStart()" [disabled]="!canStart()">Start</button>
+      <button class="float-right mx-2" mat-raised-button color="warn" *ngIf="quiz?.active && !quiz.completed && hasQuizRoom() && allQuestionsAreSent()"
+        (click)="onComplete()">Complete</button>
+      <button class="float-right mx-2" mat-raised-button color="accent" *ngIf="!hasQuizRoom()" (click)="onCreateQuizRoom()">Create Quiz Room</button>
+      <button class="float-right mx-2" mat-raised-button color="secondary" *ngIf="hasQuizRoom()" (click)="onDeleteQuizRoom()">Delete Quiz Room</button>
     </div>
   </div>
-</div>
-<div class="row">
-  <div class="col">
-    <mat-expansion-panel>
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          JSON
-        </mat-panel-title>
-      </mat-expansion-panel-header>
-      <pre>{{quiz | json}}</pre>
-    </mat-expansion-panel>
+  <div class="row">
+    <div class="col">
+      <div class="my-2" *ngFor="let question of quiz?.questions">
+        <cb-question-card [question]="question" (start)="onQuestionStart($event)" (results)="onCalculateResults($event)"></cb-question-card>
+      </div>
+    </div>
   </div>
-</div>
+  <div class="row">
+    <div class="col">
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            JSON
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <pre>{{quiz | json}}</pre>
+      </mat-expansion-panel>
+    </div>
+  </div>
+</ng-template>

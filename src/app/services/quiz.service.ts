@@ -5,6 +5,7 @@ import { QuizStartResponse } from '../models/started-quiz';
 import { IQuestionResponse } from '../models/question';
 import { QuestionsPayload } from '../models/question-payload';
 import { QuestionResults } from '../models/question-results';
+import { IUser } from '../models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -45,5 +46,9 @@ export class QuizService {
 
   calculateResults(quizId: string, questionId: string): Promise<QuestionResults> {
     return this.http.get<QuestionResults>(`${this.path}/quizzes/${quizId}/questions/${questionId}:results`).toPromise();
+  }
+
+  getParticipants(quizId: string): Promise<{ users: Array<IUser> }> {
+    return this.http.get<{ users: Array<IUser> }>(`${this.path}/quizzes/${quizId}/users`).toPromise();
   }
 }

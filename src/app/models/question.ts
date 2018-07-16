@@ -2,6 +2,8 @@ export interface IQuestionResponse {
     questionId: string;
     created: string;
     question: string;
+    ticker: string;
+    sport: string;
     questionNum: number;
     sent: boolean;
     expired: string;

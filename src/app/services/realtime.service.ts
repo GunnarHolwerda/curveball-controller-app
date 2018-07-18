@@ -17,7 +17,7 @@ export interface ActiveQuiz {
 })
 export class RealtimeService {
   private socket: SocketIOClient.Socket;
-  private path = 'http://localhost:3001';
+  private path = 'https://localhost:3001';
   private _quizRoom: Observable<ActiveQuiz>;
   private _activeQuizzes: ReplaySubject<Array<ActiveQuiz>> = new ReplaySubject();
 

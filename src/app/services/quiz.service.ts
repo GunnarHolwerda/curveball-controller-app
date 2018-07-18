@@ -11,7 +11,7 @@ import { IUser } from '../models/user';
   providedIn: 'root'
 })
 export class QuizService {
-  private path = 'http://localhost:3000';
+  private path = 'https://localhost:3000';
   constructor(private http: HttpClient) { }
 
   allQuizzes(): Promise<AllQuizzesResponse> {

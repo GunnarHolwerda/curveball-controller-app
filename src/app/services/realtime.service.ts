@@ -70,7 +70,14 @@ export class RealtimeService {
     return this.http.delete<void>(`${this.path}/quizzes/${quizId}`).toPromise();
   }
 
-  connectToQuiz(quizId: string): SocketIOClient.Socket {
-    return socketio.connect(`${this.path}/${quizId}`);
+  async connectToQuiz(quizId: string): Promise<SocketIOClient.Socket> {
+    return new Promise<SocketIOClient.Socket>((resolve) => {
+      const socket = socketio.connect(`${this.path}/${quizId}`);
+      socket.on('connect', () => {
+        socket.on('authenticated', () => {
+          resolve(socket);
+        }).emit('authenticate', { token: this.userService.activeJwt });
+      });
+    });
   }
 }

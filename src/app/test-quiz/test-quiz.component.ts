@@ -34,8 +34,8 @@ export class TestQuizComponent implements OnInit, OnDestroy {
     }
   }
 
-  connectToQuizRoom() {
-    this.quizRoom = this.realTime.connectToQuiz(this.quizId);
+  async connectToQuizRoom(): Promise<void> {
+    this.quizRoom = await this.realTime.connectToQuiz(this.quizId);
     this.quizRoom.on('question', (q: { question: IQuestionResponse } & ITokenResponse) => {
       this.questions.push(q.question);
     });

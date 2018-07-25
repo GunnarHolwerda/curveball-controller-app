@@ -3,7 +3,6 @@ export interface IUser {
     username: string;
     name: string;
     phone: string;
-    referred: boolean;
     photo: string;
     lastAccessed: string;
     created: string;

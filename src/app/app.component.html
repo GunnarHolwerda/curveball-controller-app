@@ -1,4 +1,9 @@
-<cb-curveball-nav></cb-curveball-nav>
-<div class="container mt-3">
-    <router-outlet></router-outlet>
+<div class="center" *ngIf="!user; else app">
+    <mat-spinner mode="indeterminate"></mat-spinner>
 </div>
+<ng-template #app>
+    <cb-curveball-nav></cb-curveball-nav>
+    <div class="container mt-3">
+        <router-outlet></router-outlet>
+    </div>
+</ng-template>

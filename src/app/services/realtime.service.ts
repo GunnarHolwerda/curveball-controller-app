@@ -5,7 +5,8 @@ import { QuestionResults } from '../models/question-results';
 import * as socketio from 'socket.io-client';
 import { IUser } from '../models/user';
 import { IQuizResponse } from '../models/quizzes';
-import { Observable, Observer, ReplaySubject } from '../../../node_modules/rxjs';
+import { Observable, ReplaySubject, Subject } from '../../../node_modules/rxjs';
+import { UserService } from './user.service';
 
 export interface ActiveQuiz {
   quizId: string;
@@ -17,19 +18,23 @@ export interface ActiveQuiz {
 })
 export class RealtimeService {
   private socket: SocketIOClient.Socket;
-  private path = 'https://localhost:3001';
-  private _quizRoom: Observable<ActiveQuiz>;
+  private path = 'http://localhost:3001';
+  private _quizRoom: Subject<ActiveQuiz> = new Subject();
   private _activeQuizzes: ReplaySubject<Array<ActiveQuiz>> = new ReplaySubject();
 
-  constructor(private http: HttpClient) {
-    this.socket = socketio.connect(this.path);
-    this._quizRoom = new Observable((observer) => {
-      this.socket.on('start', (data: ActiveQuiz) => {
-        observer.next(data);
+  constructor(private http: HttpClient, private userService: UserService) {
+    this.userService.user.subscribe(() => {
+      this.socket = socketio.connect(this.path);
+      this.socket.on('connect', () => {
+        this.socket.on('authenticated', () => {
+          this.socket.on('start', (data: ActiveQuiz) => {
+            this._quizRoom.next(data);
+          });
+          this.socket.on('active_quizzes', (data: Array<ActiveQuiz>) => {
+            this._activeQuizzes.next(data);
+          });
+        }).emit('authenticate', { token: this.userService.activeJwt });
       });
-    });
-    this.socket.on('active_quizzes', (data: Array<ActiveQuiz>) => {
-      this._activeQuizzes.next(data);
     });
   }
 

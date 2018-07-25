@@ -3,11 +3,13 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --host 0.0.0.0 -- ",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "clean:images": "docker rmi $(docker images -qa -f 'dangling=true') || true ",
+    "build:image": "npm run clean:images && docker build -t curveball/control ."
   },
   "private": true,
   "dependencies": {

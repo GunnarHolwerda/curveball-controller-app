@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { UserService } from '../services/user.service';
+import { IUser } from '../models/user';
 
 @Component({
   selector: 'cb-curveball-nav',
@@ -7,9 +9,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CurveballNavComponent implements OnInit {
 
-  constructor() { }
+  constructor(private userService: UserService) { }
 
   ngOnInit() {
+  }
+
+  get user(): IUser {
+    return this.userService.activeUser;
   }
 
 }

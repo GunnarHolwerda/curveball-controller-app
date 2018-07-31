@@ -3,7 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  // tslint:disable-next-line
+  internalToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJjY2Q0ZTUxYi02ODY5LTRkNTEtYjNkMS1hZmYxOGRhMTU3NmUifQ.nKkhVxFRjpL9yCUKj1PATXdGTjY5fowyuC9y9YuNjAk'
 };
 
 /*

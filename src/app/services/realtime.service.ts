@@ -8,7 +8,7 @@ import { IQuizResponse } from '../models/quizzes';
 import { Observable, ReplaySubject, Subject } from '../../../node_modules/rxjs';
 import { UserService } from './user.service';
 
-import { environment } from '../../environments/environment';
+import { Env } from './environment.service';
 
 export interface ActiveQuiz {
   quizId: string;
@@ -20,17 +20,18 @@ export interface ActiveQuiz {
 })
 export class RealtimeService {
   private socket: SocketIOClient.Socket;
-  private path = 'http://localhost:3001';
+  private basePath: string;
   private _quizRoom: Subject<ActiveQuiz> = new Subject();
   private _activeQuizzes: ReplaySubject<Array<ActiveQuiz>> = new ReplaySubject();
   private headers: { [header: string]: string };
 
-  constructor(private http: HttpClient, private userService: UserService) {
+  constructor(private http: HttpClient, private userService: UserService, private env: Env) {
+    this.basePath = this.env.realtimeEndpoint;
     this.headers = {
-      'Authorization': `Bearer ${environment.internalToken}`
+      'Authorization': `Bearer ${this.env.internalToken}`
     };
     this.userService.user.subscribe(() => {
-      this.socket = socketio.connect(this.path);
+      this.socket = socketio.connect(this.basePath);
       this.socket.on('connect', () => {
         this.socket.on('authenticated', () => {
           this.socket.on('start', (data: ActiveQuiz) => {
@@ -54,33 +55,37 @@ export class RealtimeService {
 
   emitQuestion(question: IQuestionResponse, token?: string): Promise<IQuestionResponse> {
     return this.http.post<IQuestionResponse>(
-      `${this.path}/quizzes/${question.quizId}/question:emit`, { question, token }, { headers: this.headers }
+      `${this.basePath}/quizzes/${question.quizId}/question:emit`, { question, token }, { headers: this.headers }
     ).toPromise();
   }
 
   emitResults(quizId: string, results: QuestionResults): Promise<QuestionResults> {
-    return this.http.post<QuestionResults>(`${this.path}/quizzes/${quizId}/results:emit`, results, { headers: this.headers }).toPromise();
+    return this.http.post<QuestionResults>(
+      `${this.basePath}/quizzes/${quizId}/results:emit`,
+      results,
+      { headers: this.headers }
+    ).toPromise();
   }
 
   emitWinners(quizId: string, finalists: Array<IUser>): Promise<void> {
-    return this.http.post<void>(`${this.path}/quizzes/${quizId}/winners:emit`, finalists, { headers: this.headers }).toPromise();
+    return this.http.post<void>(`${this.basePath}/quizzes/${quizId}/winners:emit`, finalists, { headers: this.headers }).toPromise();
   }
 
   getQuizRoom(quizId: string): Promise<{ quizId: string }> {
-    return this.http.get<{ quizId: string }>(`${this.path}/quizzes/${quizId}`, { headers: this.headers }).toPromise();
+    return this.http.get<{ quizId: string }>(`${this.basePath}/quizzes/${quizId}`, { headers: this.headers }).toPromise();
   }
 
   createQuizRoom(quiz: IQuizResponse): Promise<void> {
-    return this.http.post<void>(`${this.path}/quizzes`, { quiz }, { headers: this.headers }).toPromise();
+    return this.http.post<void>(`${this.basePath}/quizzes`, { quiz }, { headers: this.headers }).toPromise();
   }
 
   deleteQuizRoom(quizId: string): Promise<void> {
-    return this.http.delete<void>(`${this.path}/quizzes/${quizId}`, { headers: this.headers }).toPromise();
+    return this.http.delete<void>(`${this.basePath}/quizzes/${quizId}`, { headers: this.headers }).toPromise();
   }
 
   async connectToQuiz(quizId: string): Promise<SocketIOClient.Socket> {
     return new Promise<SocketIOClient.Socket>((resolve) => {
-      const socket = socketio.connect(`${this.path}/${quizId}`);
+      const socket = socketio.connect(`${this.basePath}/${quizId}`);
       socket.on('connect', () => {
         socket.on('authenticated', () => {
           resolve(socket);

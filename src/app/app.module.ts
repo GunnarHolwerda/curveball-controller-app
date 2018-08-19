@@ -16,6 +16,7 @@ import { RouterOutletComponent } from './router-outlet/router-outlet.component';
 import { AddQuizComponent } from './add-quiz/add-quiz.component';
 import { CurveballNavComponent } from './curveball-nav/curveball-nav.component';
 import { ConnectToQuizComponent } from './connect-to-quiz/connect-to-quiz.component';
+import { Env } from './services/environment.service';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { ConnectToQuizComponent } from './connect-to-quiz/connect-to-quiz.compon
     ReactiveFormsModule
   ],
   providers: [
-    QuizService
+    QuizService,
+    Env
   ],
   bootstrap: [AppComponent]
 })

@@ -12,7 +12,7 @@
           <h3>Questions</h3>
           <button class="ml-3" mat-flat-button (click)="addQuestion()">Add</button>
         </div>
-        <div formArrayName="questions" *ngFor="let question of createQuizForm.get('questions').controls; let i = index;">
+        <div formArrayName="questions" *ngFor="let question of questions.controls; let i = index;">
           <div class="d-flex my-3" [formGroupName]="i">
             <div class="flex-row d-flex justify-content-around w-100">
               <div class="mx-2 my-auto" style="width: 1em">

@@ -31,7 +31,7 @@ export class RealtimeService {
       'Authorization': `Bearer ${this.env.internalToken}`
     };
     this.userService.user.subscribe(() => {
-      this.socket = socketio.connect(this.basePath);
+      this.socket = socketio.connect(this.basePath, { transports: ['websocket'] });
       this.socket.on('connect', () => {
         this.socket.on('authenticated', () => {
           this.socket.on('start', (data: ActiveQuiz) => {

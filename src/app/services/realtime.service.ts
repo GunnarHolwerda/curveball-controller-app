@@ -85,7 +85,7 @@ export class RealtimeService {
 
   async connectToQuiz(quizId: string): Promise<SocketIOClient.Socket> {
     return new Promise<SocketIOClient.Socket>((resolve) => {
-      const socket = socketio.connect(`${this.basePath}/${quizId}`);
+      const socket = socketio.connect(`${this.basePath}/${quizId}`, { transports: ['websocket'] });
       socket.on('connect', () => {
         socket.on('authenticated', () => {
           resolve(socket);

@@ -31,7 +31,7 @@ export class RealtimeService {
       'Authorization': `Bearer ${this.env.internalToken}`
     };
     this.userService.user.subscribe(() => {
-      this.socket = socketio.connect(this.basePath, { transports: ['websocket'] });
+      this.socket = socketio.connect(this.basePath, this.socketIoOpts);
       this.socket.on('connect', () => {
         this.socket.on('authenticated', () => {
           this.socket.on('start', (data: ActiveQuiz) => {
@@ -43,6 +43,12 @@ export class RealtimeService {
         }).emit('authenticate', { token: this.userService.activeJwt });
       });
     });
+  }
+
+  private get socketIoOpts(): SocketIOClient.ConnectOpts {
+    return {
+      transports: ['websocket']
+    };
   }
 
   public get quizRoom(): Observable<ActiveQuiz> {
@@ -85,7 +91,7 @@ export class RealtimeService {
 
   async connectToQuiz(quizId: string): Promise<SocketIOClient.Socket> {
     return new Promise<SocketIOClient.Socket>((resolve) => {
-      const socket = socketio.connect(`${this.basePath}/${quizId}`, { transports: ['websocket'] });
+      const socket = socketio.connect(`${this.basePath}/${quizId}`, this.socketIoOpts);
       socket.on('connect', () => {
         socket.on('authenticated', () => {
           resolve(socket);

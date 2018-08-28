@@ -15,12 +15,15 @@
         </div>
       </div>
       <mat-slide-toggle *ngIf="quiz" [(ngModel)]="quiz.active">Active</mat-slide-toggle>
+      <button class="float-right mx-2" mat-raised-button color="error" (click)="resetQuiz()" [disabled]="!quiz?.active">Reset</button>
       <button class="float-right" mat-raised-button color="primary" (click)="onUpdate()" [disabled]="!hasChanged()">Update</button>
       <button class="float-right mx-2" mat-raised-button color="accent" (click)="onStart()" [disabled]="!canStart()">Start</button>
       <button class="float-right mx-2" mat-raised-button color="warn" *ngIf="quiz?.active && !quiz.completed && hasQuizRoom() && allQuestionsAreSent()"
         (click)="onComplete()">Complete</button>
-      <button class="float-right mx-2" mat-raised-button color="accent" *ngIf="!hasQuizRoom()" (click)="onCreateQuizRoom()">Create Quiz Room</button>
-      <button class="float-right mx-2" mat-raised-button color="secondary" *ngIf="hasQuizRoom()" (click)="onDeleteQuizRoom()">Delete Quiz Room</button>
+      <button class="float-right mx-2" mat-raised-button color="accent" *ngIf="!hasQuizRoom()" (click)="onCreateQuizRoom()">Create
+        Quiz Room</button>
+      <button class="float-right mx-2" mat-raised-button color="secondary" *ngIf="hasQuizRoom()" (click)="onDeleteQuizRoom()">Delete
+        Quiz Room</button>
     </div>
   </div>
   <div class="row">

@@ -63,4 +63,10 @@ export class QuizService {
   getParticipants(quizId: string): Promise<{ users: Array<IUser> }> {
     return this.http.get<{ users: Array<IUser> }>(`${this.basePath}/quizzes/${quizId}/users`, { headers: this.headers }).toPromise();
   }
+
+  resetQuiz(quizId: string): Promise<{ quiz: FullQuizResponse }> {
+    return this.http.post<{ quiz: FullQuizResponse }>(
+      `${this.basePath}/quizzes/${quizId}/reset`, null, { headers: this.headers }
+    ).toPromise();
+  }
 }

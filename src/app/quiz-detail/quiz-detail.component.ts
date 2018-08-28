@@ -38,7 +38,7 @@ export class QuizDetailComponent implements OnInit {
   }
 
   canStart(): boolean {
-    return !this.quiz.completed && this.quizRoom !== undefined && this.quiz.active;
+    return !this.quiz.completed && this.quizRoom !== undefined;
   }
 
   hasQuizRoom(): boolean {
@@ -81,7 +81,7 @@ export class QuizDetailComponent implements OnInit {
     const response = await this.quizService.startQuiz(this.quiz.quizId);
     await this.realTime.createQuizRoom(response.quiz);
     await this.realTime.emitQuestion(response.firstQuestion, response.token);
-    this.replaceQuiz(response.quiz, response.firstQuestion);
+    this.replaceQuiz(response.quiz, [response.firstQuestion]);
   }
 
   async onQuestionStart(question: IQuestionResponse): Promise<void> {
@@ -92,7 +92,7 @@ export class QuizDetailComponent implements OnInit {
 
   async resetQuiz(): Promise<void> {
     const resetQuiz = await this.quizService.resetQuiz(this.quiz.quizId);
-    this.replaceQuiz(resetQuiz.quiz);
+    this.replaceQuiz(resetQuiz.quiz, resetQuiz.quiz.questions);
   }
 
   async onCalculateResults(question: IQuestionResponse): Promise<void> {
@@ -106,9 +106,9 @@ export class QuizDetailComponent implements OnInit {
     this.replaceQuiz(updatedQuiz);
   }
 
-  private replaceQuiz(newQuizData: IQuizResponse, question?: IQuestionResponse): void {
-    if (question) {
-      this.replaceQuestion(question);
+  private replaceQuiz(newQuizData: IQuizResponse, questions?: Array<IQuestionResponse>): void {
+    if (questions) {
+      questions.forEach(q => this.replaceQuestion(q));
     }
     this.quiz = {
       ...newQuizData,

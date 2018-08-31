@@ -6,6 +6,7 @@ import { QuizDetailComponent } from './quiz-detail/quiz-detail.component';
 import { RouterOutletComponent } from './router-outlet/router-outlet.component';
 import { AddQuizComponent } from './add-quiz/add-quiz.component';
 import { ConnectToQuizComponent } from './connect-to-quiz/connect-to-quiz.component';
+import { TestStreamComponent } from './test-stream/test-stream.component';
 
 const routes: Routes = [
   {
@@ -21,6 +22,7 @@ const routes: Routes = [
       { path: ':quizId', component: TestQuizComponent }
     ]
   },
+  { path: 'stream', component: TestStreamComponent },
   { path: '', redirectTo: 'test', pathMatch: 'full' }
 ];
 

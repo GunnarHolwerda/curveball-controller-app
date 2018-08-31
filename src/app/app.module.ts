@@ -17,6 +17,7 @@ import { AddQuizComponent } from './add-quiz/add-quiz.component';
 import { CurveballNavComponent } from './curveball-nav/curveball-nav.component';
 import { ConnectToQuizComponent } from './connect-to-quiz/connect-to-quiz.component';
 import { Env } from './services/environment.service';
+import { TestStreamComponent } from './test-stream/test-stream.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { Env } from './services/environment.service';
     RouterOutletComponent,
     AddQuizComponent,
     CurveballNavComponent,
-    ConnectToQuizComponent
+    ConnectToQuizComponent,
+    TestStreamComponent
   ],
   imports: [
     BrowserModule,

@@ -46,12 +46,13 @@ export class QuizDetailComponent implements OnInit {
   }
 
   allQuestionsAreSent(): boolean {
-    this.quiz.questions.forEach((q) => {
-      if (q.sent !== null) {
-        return false;
+    const result = this.quiz.questions.reduce((carry, q) => {
+      if (q.sent === null) {
+        return false && carry;
       }
-    });
-    return true;
+      return carry;
+    }, true);
+    return result;
   }
 
   async onComplete(): Promise<void> {

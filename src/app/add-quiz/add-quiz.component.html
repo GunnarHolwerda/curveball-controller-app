@@ -1,16 +1,18 @@
-<div class="row">
+<div class="row mb-5">
   <div class="col">
+    <h1>{{createQuizForm.controls.title.value || 'New Quiz'}}</h1>
     <form [formGroup]="createQuizForm">
       <div class="d-flex flex-column">
-        <mat-form-field>
-          <input matInput placeholder="Title" type="text" name="title" formControlName="title">
-        </mat-form-field>
-        <mat-form-field>
-          <input matInput placeholder="Amount" type="number" name="potAmount" formControlName="potAmount">
-        </mat-form-field>
-        <div class="d-flex flex-row mb-3">
+        <div class="d-flex flex-row">
+          <mat-form-field style="flex: 3">
+            <input matInput placeholder="Title" type="text" name="title" formControlName="title">
+          </mat-form-field>
+          <mat-form-field class="ml-5" style="flex: 1">
+            <input matInput placeholder="Amount" type="number" name="potAmount" formControlName="potAmount">
+          </mat-form-field>
+        </div>
+        <div class="d-flex flex-row mt-3">
           <h3>Questions</h3>
-          <button class="ml-3" mat-flat-button (click)="addQuestion()">Add</button>
         </div>
         <div formArrayName="questions" *ngFor="let question of questions.controls; let i = index;">
           <div class="d-flex my-3" [formGroupName]="i">
@@ -18,19 +20,19 @@
               <div class="mx-2 my-auto" style="width: 1em">
                 {{question.value.questionNum}})
               </div>
-
-              <mat-form-field style="flex: 6" class="px-2">
+              <mat-form-field style="flex: 5" class="px-2">
                 <input matInput formControlName="question" type="text" placeholder="Question">
               </mat-form-field>
               <mat-form-field style="flex: 1" class="px-2">
-                <input matInput formControlName="sport" type="text" placeholder="Sport">
+                <mat-select formControlName="sport">
+                  <mat-option *ngFor="let topic of topics" [value]="topic.value">
+                    {{topic.label}}
+                  </mat-option>
+                </mat-select>
               </mat-form-field>
-              <mat-form-field style="flex: 2" class="px-2">
-                <input matInput formControlName="ticker" type="text" placeholder="Ticker">
+              <mat-form-field style="flex: 3" class="px-2">
+                <input matInput formControlName="ticker" type="text" placeholder="Headline (max 15 characters)">
               </mat-form-field>
-              <button *ngIf="i !== 0" class="close-button" (click)="removeQuestion(i)">
-                <span>x</span>
-              </button>
             </div>
           </div>
           <mat-expansion-panel>
@@ -42,11 +44,6 @@
             <div class="d-flex py-2 flex-column" [formGroupName]="i">
               <div class="d-flex" formArrayName="choices" *ngFor="let choices of createQuizForm.get('questions').at(i).get('choices').controls; let j = index;">
                 <div class="w-100 d-flex justify-content-around py-2" [formGroupName]="j">
-                  <div class="mx-2 my-auto" style="width: 1em">
-                    <button *ngIf="j !== 0" class="close-button" (click)="removeChoice(i, j)">
-                      <span>x</span>
-                    </button>
-                  </div>
                   <mat-form-field style="flex: 6" class="px-2">
                     <input matInput (keyup.enter)="addChoice(i)" formControlName="text" type="text" placeholder="Text">
                   </mat-form-field>
@@ -54,14 +51,12 @@
                 </div>
               </div>
             </div>
-            <mat-action-row>
-              <button mat-button (click)="addChoice(i)">Add Choice</button>
-            </mat-action-row>
           </mat-expansion-panel>
         </div>
         <mat-divider></mat-divider>
       </div>
       <button class="mt-4" mat-raised-button color="accent" (click)="onSubmit()" [disabled]="createQuizForm.invalid">Create</button>
+      <button class="ml-3" mat-raised-button color="primary" (click)="addQuestion()">Add Question</button>
     </form>
   </div>
 </div>

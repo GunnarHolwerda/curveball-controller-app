@@ -3,6 +3,7 @@ import { IQuestionResponse, IChoiceResponse, ITokenResponse } from '../models/qu
 import { RealtimeService } from '../services/realtime.service';
 import { ActivatedRoute, Params } from '../../../node_modules/@angular/router';
 import { MatSnackBar } from '../../../node_modules/@angular/material';
+import { QuestionResults } from '../models/question-results';
 
 @Component({
   selector: 'cb-test-quiz',
@@ -12,7 +13,7 @@ import { MatSnackBar } from '../../../node_modules/@angular/material';
 export class TestQuizComponent implements OnInit, OnDestroy {
   quizRoom: SocketIOClient.Socket;
   quizId: string;
-  questions: Array<IQuestionResponse> = [];
+  events: Array<{ type: string, value: any }> = [];
 
   constructor(private route: ActivatedRoute, private realTime: RealtimeService, private snackbar: MatSnackBar) { }
 
@@ -37,23 +38,31 @@ export class TestQuizComponent implements OnInit, OnDestroy {
   async connectToQuizRoom(): Promise<void> {
     this.quizRoom = await this.realTime.connectToQuiz(this.quizId);
     this.quizRoom.on('question', (q: { question: IQuestionResponse } & ITokenResponse) => {
-      console.log('question', q);
-      this.questions.push(q.question);
+      this.addEvent('question', q.question);
     });
-    this.quizRoom.on('results', (r) => {
-      console.log('results', r);
+    this.quizRoom.on('results', (r: QuestionResults) => {
+      this.addEvent('results', r);
     });
-    this.quizRoom.on('winners', (r) => {
-      console.log('winners', r);
+    this.quizRoom.on('winners', (w) => {
+      this.addEvent('winners', w);
     });
+  }
+
+  addEvent(type: string, value: any): void {
+    console.log(type, value);
+    this.events.push({ type, value });
   }
 
   selectChoice(choice: IChoiceResponse): void {
     console.log(choice);
   }
 
+  question(index: number): IQuestionResponse {
+    return this.events[index].value;
+  }
+
   onDisconnect() {
     this.quizRoom.disconnect();
-    this.questions = [];
+    this.events = [];
   }
 }

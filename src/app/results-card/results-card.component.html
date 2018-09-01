@@ -2,6 +2,8 @@
   <mat-card-title><span class="font-weight-bold">Results</span></mat-card-title>
   <mat-card-subtitle>{{results.totalAnswers}} total answers</mat-card-subtitle>
   <mat-card-content>
-    <h5 *ngFor="let choice of question.choices">{{choice.text}}: {{results[choice.choiceId] || 0}}</h5>
+    <h5 *ngFor="let choice of question.choices" [ngClass]="{'text-success': isAnswer(choice.choiceId), 'text-danger': !isAnswer(choice.choiceId)}">
+      {{choice.text}}: {{results[choice.choiceId] || 0}}
+    </h5>
   </mat-card-content>
 </mat-card>

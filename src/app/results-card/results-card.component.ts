@@ -24,4 +24,8 @@ export class ResultsCardComponent implements OnInit {
     return Object.keys(results);
   }
 
+  isAnswer(choiceId: string): boolean {
+    return this.results.correctAnswer === choiceId;
+  }
+
 }

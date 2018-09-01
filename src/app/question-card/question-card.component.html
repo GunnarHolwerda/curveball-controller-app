@@ -23,9 +23,9 @@
     <div class="row mx-2">
       <div class="col">
         <h6>
-          <span class="font-weight-bold">Sent:</span> {{question.sent | date:'full'}}</h6>
-        <h6>
-          <span class="font-weight-bold">Expires:</span> {{question.expired | date:'full'}}</h6>
+          <span class="font-weight-bold">Sent:</span> {{question.sent | date:'mediumTime'}}</h6>
+        <h6 class="font-weight-bold text-success" *ngIf="!expired()">Expires in {{secondsRemaining}} seconds</h6>
+        <h6 class="font-weight-bold text-danger" *ngIf="expired()">Expired</h6>
       </div>
     </div>
   </mat-card-subtitle>
@@ -36,8 +36,8 @@
   </mat-card-content>
   <mat-card-actions *ngIf="!disableActions">
     <div class="row mx-2">
-      <button mat-raised-button color="secondary" (click)="onSend()">{{question.sent? 'Resend Question' : 'Send'}}</button>
-      <button *ngIf="question.sent" mat-raised-button color="secondary" (click)="onResultsCalculate()">Calculate Results</button>
+      <button mat-raised-button color="secondary" (click)="onSend()">{{question.sent? 'Send again' : 'Send'}}</button>
+      <button *ngIf="question.sent" mat-raised-button color="secondary" (click)="onResultsCalculate()">Send Results</button>
     </div>
   </mat-card-actions>
 </mat-card>

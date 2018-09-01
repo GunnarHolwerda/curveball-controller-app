@@ -22,7 +22,6 @@ export class AddQuizComponent implements OnInit {
       potAmount: new FormControl(0, Validators.required),
       questions: new FormArray([this.createQuestion()])
     });
-    console.log(this.createQuizForm);
     this.questions = this.createQuizForm.get('questions') as FormArray;
   }
 

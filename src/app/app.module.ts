@@ -18,6 +18,7 @@ import { CurveballNavComponent } from './curveball-nav/curveball-nav.component';
 import { ConnectToQuizComponent } from './connect-to-quiz/connect-to-quiz.component';
 import { Env } from './services/environment.service';
 import { ResultsCardComponent } from './results-card/results-card.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { ResultsCardComponent } from './results-card/results-card.component';
     AddQuizComponent,
     CurveballNavComponent,
     ConnectToQuizComponent,
-    ResultsCardComponent
+    ResultsCardComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

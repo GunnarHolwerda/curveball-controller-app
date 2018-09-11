@@ -6,22 +6,29 @@ import { QuizDetailComponent } from './quiz-detail/quiz-detail.component';
 import { RouterOutletComponent } from './router-outlet/router-outlet.component';
 import { AddQuizComponent } from './add-quiz/add-quiz.component';
 import { ConnectToQuizComponent } from './connect-to-quiz/connect-to-quiz.component';
+import { LoginComponent } from './login/login.component';
 
 const routes: Routes = [
   {
-    path: 'quizzes', component: RouterOutletComponent, children: [
-      { path: '', component: AllQuizzesComponent },
-      { path: 'add', component: AddQuizComponent },
-      { path: ':quizId', component: QuizDetailComponent }
+    path: 'app', children: [
+      { path: '', redirectTo: '/app/quizzes', pathMatch: 'full' },
+      {
+        path: 'quizzes', component: RouterOutletComponent, children: [
+          { path: '', component: AllQuizzesComponent },
+          { path: 'add', component: AddQuizComponent },
+          { path: ':quizId', component: QuizDetailComponent }
+        ]
+      },
+      {
+        path: 'test', component: RouterOutletComponent, children: [
+          { path: '', component: ConnectToQuizComponent },
+          { path: ':quizId', component: TestQuizComponent }
+        ]
+      }
     ]
   },
-  {
-    path: 'test', component: RouterOutletComponent, children: [
-      { path: '', component: ConnectToQuizComponent },
-      { path: ':quizId', component: TestQuizComponent }
-    ]
-  },
-  { path: '', redirectTo: 'test', pathMatch: 'full' }
+  { path: 'login', component: LoginComponent },
+  { path: '', redirectTo: '/app/quizzes', pathMatch: 'full' }
 ];
 
 @NgModule({

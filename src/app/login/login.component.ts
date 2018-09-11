@@ -21,6 +21,9 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    if (this.userService.activeUser) {
+      this.router.navigate(['/app']);
+    }
     this.loginForm = new FormGroup({
       phone: new FormControl('', [Validators.required]),
       verifyCode: new FormControl('', [Validators.required]),

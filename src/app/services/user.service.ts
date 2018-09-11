@@ -23,12 +23,15 @@ export class UserService {
 
   constructor(private http: HttpClient, private env: Env) {
     this.path = this.env.quizEndpoint;
-    this.loadNewActiveUser(AdminPhoneNum, DefaultVerifyCode);
   }
 
   public async loadNewActiveUser(phone: string, code: string): Promise<void> {
     const { userId } = await this.createUser(phone);
     const { user, token } = await this.verifyUser(userId, code);
+    this.setActiveUser(user, token);
+  }
+
+  public setActiveUser(user: IUser, token: string): void {
     this._activeUser = user;
     this._activeToken = token;
     this._user.next(this._activeUser);

@@ -2,6 +2,8 @@ import { environment } from '../../environments/environment';
 import { CurveballEnvironment } from '../models/curveball-env';
 
 export class Env implements CurveballEnvironment {
+  private _internalToken: string;
+
   constructor() { }
 
   public get production(): boolean {
@@ -9,7 +11,7 @@ export class Env implements CurveballEnvironment {
   }
 
   public get internalToken(): string {
-    return environment.internalToken;
+    return this._internalToken;
   }
 
   public get realtimeEndpoint(): string {
@@ -18,5 +20,9 @@ export class Env implements CurveballEnvironment {
 
   public get quizEndpoint(): string {
     return environment.quizEndpoint;
+  }
+
+  public set internalToken(token: string) {
+    this._internalToken = token;
   }
 }

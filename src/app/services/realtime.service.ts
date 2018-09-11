@@ -23,13 +23,9 @@ export class RealtimeService {
   private basePath: string;
   private _quizRoom: Subject<ActiveQuiz> = new Subject();
   private _activeQuizzes: ReplaySubject<Array<ActiveQuiz>> = new ReplaySubject();
-  private headers: { [header: string]: string };
 
   constructor(private http: HttpClient, private userService: UserService, private env: Env) {
     this.basePath = this.env.realtimeEndpoint;
-    this.headers = {
-      'Authorization': `Bearer ${this.env.internalToken}`
-    };
     this.userService.user.subscribe(() => {
       this.socket = socketio.connect(this.basePath, this.socketIoOpts);
       this.socket.on('connect', () => {
@@ -43,6 +39,12 @@ export class RealtimeService {
         }).emit('authenticate', { token: this.userService.activeJwt });
       });
     });
+  }
+
+  private get headers(): { [header: string]: string } {
+    return {
+      'Authorization': `Bearer ${this.env.internalToken}`
+    };
   }
 
   private get socketIoOpts(): SocketIOClient.ConnectOpts {

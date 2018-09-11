@@ -1,3 +1,21 @@
-<p>
-  login works!
-</p>
+<div class="row">
+  <div class="col d-flex justify-content-center flex-column mx-auto" style="max-width: 40%">
+    <form [formGroup]="loginForm">
+      <div *ngIf="!phoneSubmitted; else verifyForm">
+        <mat-form-field>
+          <input class="my-3" type="phone" matInput formControlName="phone" placeholder="Phone">
+        </mat-form-field>
+        <button class="ml-3" mat-button (click)="submitPhone()" color="primary">Get Code</button>
+      </div>
+      <ng-template #verifyForm>
+        <mat-form-field>
+          <input class="my-3" type="text" matInput formControlName="verifyCode" placeholder="Verification Code">
+        </mat-form-field>
+        <mat-form-field>
+          <input class="my-3" type="text" matInput formControlName="token" placeholder="Token">
+        </mat-form-field>
+        <button class="ml-3" mat-button (click)="login()" color="primary">Login</button>
+      </ng-template>
+    </form>
+  </div>
+</div>

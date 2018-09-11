@@ -13,11 +13,13 @@ import { Env } from './environment.service';
 })
 export class QuizService {
   private basePath: string;
-  private headers: { [header: string]: string };
 
   constructor(private http: HttpClient, private env: Env) {
     this.basePath = this.env.quizEndpoint;
-    this.headers = {
+  }
+
+  private get headers(): { [header: string]: string } {
+    return {
       'Authorization': `Bearer ${this.env.internalToken}`
     };
   }

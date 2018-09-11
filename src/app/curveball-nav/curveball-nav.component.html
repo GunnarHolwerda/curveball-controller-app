@@ -18,7 +18,7 @@
       </li>
     </ul>
   </div>
-  <span class="navbar-brand">
+  <span *ngIf="user" class="navbar-brand">
     <img [src]="user.photo" width="30" height="30" class="d-inline-block align-top" alt="Profile image">
     {{user.username}}
   </span>

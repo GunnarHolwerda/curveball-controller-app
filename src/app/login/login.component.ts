@@ -47,6 +47,9 @@ export class LoginComponent implements OnInit {
       const result = await this.userService.verifyUser(this.userId, verifyCode);
       this.userService.setActiveUser(result.user, result.token);
       this.env.internalToken = token;
+      sessionStorage.setItem('quizJwt', result.token);
+      sessionStorage.setItem('internalToken', token);
+      sessionStorage.setItem('user', JSON.stringify(result.user));
       this.router.navigate(['/app']);
     } catch (e) {
       console.error(e);

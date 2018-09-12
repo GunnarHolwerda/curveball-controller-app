@@ -3,6 +3,7 @@ import { IQuestionResponse } from '../models/question';
 import { HttpClient } from '@angular/common/http';
 import { QuestionResults } from '../models/question-results';
 import * as socketio from 'socket.io-client';
+import { filter } from 'rxjs/operators';
 import { IUser } from '../models/user';
 import { IQuizResponse } from '../models/quizzes';
 import { Observable, ReplaySubject, Subject } from '../../../node_modules/rxjs';
@@ -26,7 +27,7 @@ export class RealtimeService {
 
   constructor(private http: HttpClient, private userService: UserService, private env: Env) {
     this.basePath = this.env.realtimeEndpoint;
-    this.userService.user.subscribe(() => {
+    this.userService.user.pipe(filter(u => u !== null)).subscribe(() => {
       this.socket = socketio.connect(this.basePath, this.socketIoOpts);
       this.socket.on('connect', () => {
         this.socket.on('authenticated', () => {

@@ -46,6 +46,15 @@ export class TestQuizComponent implements OnInit, OnDestroy {
     this.quizRoom.on('winners', (w) => {
       this.addEvent('winners', w);
     });
+    this.quizRoom.on('num_connected', (count: number) => {
+      console.log('num_connected', count);
+    });
+    this.quizRoom.on('user_connected', () => {
+      console.log('a user connected');
+    });
+    this.quizRoom.on('user_disconnected', () => {
+      console.log('a user disconnected');
+    });
   }
 
   addEvent(type: string, value: any): void {

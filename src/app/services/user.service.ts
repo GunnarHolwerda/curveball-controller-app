@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '../../../node_modules/@angular/common/http';
 import { IUser } from '../models/user';
-import { Subject } from '../../../node_modules/rxjs';
+import { Subject, BehaviorSubject } from '../../../node_modules/rxjs';
 import { Env } from './environment.service';
 
 const AdminPhoneNum = '000-000-0000';
@@ -17,11 +17,19 @@ interface UserData {
 })
 export class UserService {
   private path: string;
-  private _user: Subject<IUser> = new Subject();
+  private _user: BehaviorSubject<IUser> = new BehaviorSubject<IUser>(null);
   private _activeUser: IUser;
   private _activeToken: string;
 
   constructor(private http: HttpClient, private env: Env) {
+    const quizJwt = sessionStorage.getItem('quizJwt');
+    const internalToken = sessionStorage.getItem('internalToken');
+    const userJson = sessionStorage.getItem('user');
+    if (quizJwt && internalToken && userJson) {
+      const user = JSON.parse(userJson);
+      this.setActiveUser(user, quizJwt);
+      this.env.internalToken = internalToken;
+    }
     this.path = this.env.quizEndpoint;
   }
 

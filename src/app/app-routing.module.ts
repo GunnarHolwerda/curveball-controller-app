@@ -26,7 +26,7 @@ const routes: Routes = [
         path: 'test',
         component: RouterOutletComponent,
         children: [
-          { path: '', component: ConnectToQuizComponent },
+          { path: '', component: ConnectToQuizComponent, pathMatch: 'full' },
           { path: ':quizId', component: TestQuizComponent }
         ]
       }

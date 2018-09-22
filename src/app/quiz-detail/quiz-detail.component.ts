@@ -57,8 +57,8 @@ export class QuizDetailComponent implements OnInit {
 
   async onComplete(): Promise<void> {
     this.updateQuiz({ completed: true, active: false });
-    const { users } = await this.quizService.getParticipants(this.quiz.quizId);
-    this.realTime.emitWinners(this.quiz.quizId, users);
+    const { users, amountWon } = await this.quizService.completeQuiz(this.quiz.quizId);
+    this.realTime.emitWinners(this.quiz.quizId, { users, amountWon });
   }
 
   async onUpdate(): Promise<void> {

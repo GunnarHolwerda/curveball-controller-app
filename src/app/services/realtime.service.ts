@@ -82,8 +82,11 @@ export class RealtimeService {
     ).toPromise();
   }
 
-  emitWinners(quizId: string, finalists: Array<IUser>): Promise<void> {
-    return this.http.post<void>(`${this.basePath}/quizzes/${quizId}/winners:emit`, finalists, { headers: this.headers }).toPromise();
+  emitWinners(quizId: string, winners: Array<IUser>, amountWon): Promise<void> {
+    return this.http.post<void>(`${this.basePath}/quizzes/${quizId}/winners:emit`, {
+      users: winners,
+      amountWon
+    }, { headers: this.headers }).toPromise();
   }
 
   getQuizRoom(quizId: string): Promise<{ quizId: string }> {

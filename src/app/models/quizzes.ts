@@ -1,4 +1,5 @@
 import { IQuestionResponse } from './question';
+import { IUser } from './user';
 
 export interface AllQuizzesResponse {
     quizzes: Array<FullQuizResponse>;
@@ -14,4 +15,9 @@ export interface IQuizResponse {
 }
 export interface FullQuizResponse extends IQuizResponse {
     questions: Array<IQuestionResponse>;
+}
+
+export interface QuizCompleteResponse {
+    users: Array<IUser>;
+    amountWon: string;
 }

@@ -4,6 +4,7 @@ import { RealtimeService } from '../services/realtime.service';
 import { ActivatedRoute, Params } from '../../../node_modules/@angular/router';
 import { MatSnackBar } from '../../../node_modules/@angular/material';
 import { QuestionResults } from '../models/question-results';
+import { IUser } from '../models/user';
 
 @Component({
   selector: 'cb-test-quiz',
@@ -43,8 +44,8 @@ export class TestQuizComponent implements OnInit, OnDestroy {
     this.quizRoom.on('results', (r: QuestionResults) => {
       this.addEvent('results', r);
     });
-    this.quizRoom.on('winners', (w) => {
-      this.addEvent('winners', w);
+    this.quizRoom.on('winners', (w: { users: Array<IUser>, amountWon: string }) => {
+      this.addEvent('winners', w.users);
     });
     this.quizRoom.on('num_connected', (count: number) => {
       console.log('num_connected', count);

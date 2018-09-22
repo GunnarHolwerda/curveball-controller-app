@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AllQuizzesResponse, IQuizResponse, FullQuizResponse } from '../models/quizzes';
+import { AllQuizzesResponse, IQuizResponse, FullQuizResponse, QuizCompleteResponse } from '../models/quizzes';
 import { HttpClient } from '@angular/common/http';
 import { QuizStartResponse } from '../models/started-quiz';
 import { IQuestionResponse } from '../models/question';
@@ -64,6 +64,10 @@ export class QuizService {
 
   getParticipants(quizId: string): Promise<{ users: Array<IUser> }> {
     return this.http.get<{ users: Array<IUser> }>(`${this.basePath}/quizzes/${quizId}/users`, { headers: this.headers }).toPromise();
+  }
+
+  completeQuiz(quizId: string): Promise<QuizCompleteResponse> {
+    return this.http.post<QuizCompleteResponse>(`${this.basePath}/quizzes/${quizId}/complete`, null, { headers: this.headers }).toPromise();
   }
 
   resetQuiz(quizId: string): Promise<{ quiz: FullQuizResponse }> {

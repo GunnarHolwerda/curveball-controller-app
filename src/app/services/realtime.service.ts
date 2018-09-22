@@ -16,6 +16,11 @@ export interface ActiveQuiz {
   title: string;
   potAmount: number;
 }
+
+export interface QuizStartEvent {
+  quiz: ActiveQuiz;
+  ticker: Array<{ sport: string, ticker: string }>;
+}
 @Injectable({
   providedIn: 'root'
 })
@@ -31,8 +36,8 @@ export class RealtimeService {
       this.socket = socketio.connect(this.basePath, this.socketIoOpts);
       this.socket.on('connect', () => {
         this.socket.on('authenticated', () => {
-          this.socket.on('start', (data: ActiveQuiz) => {
-            this._quizRoom.next(data);
+          this.socket.on('start', (data: QuizStartEvent) => {
+            this._quizRoom.next(data.quiz);
           });
           this.socket.on('active_quizzes', (data: Array<ActiveQuiz>) => {
             this._activeQuizzes.next(data);
@@ -84,8 +89,8 @@ export class RealtimeService {
     return this.http.get<{ quizId: string }>(`${this.basePath}/quizzes/${quizId}`, { headers: this.headers }).toPromise();
   }
 
-  createQuizRoom(quiz: IQuizResponse): Promise<void> {
-    return this.http.post<void>(`${this.basePath}/quizzes`, { quiz }, { headers: this.headers }).toPromise();
+  createQuizRoom(quiz: IQuizResponse, ticker: Array<{ sport: string, ticker: string }>): Promise<void> {
+    return this.http.post<void>(`${this.basePath}/quizzes`, { quiz, ticker }, { headers: this.headers }).toPromise();
   }
 
   deleteQuizRoom(quizId: string): Promise<void> {

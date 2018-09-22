@@ -15,6 +15,7 @@ export interface ActiveQuiz {
   quizId: string;
   title: string;
   potAmount: number;
+  numQuestions: number;
 }
 
 export interface QuizStartEvent {
@@ -89,8 +90,12 @@ export class RealtimeService {
     return this.http.get<{ quizId: string }>(`${this.basePath}/quizzes/${quizId}`, { headers: this.headers }).toPromise();
   }
 
-  createQuizRoom(quiz: IQuizResponse, ticker: Array<{ sport: string, ticker: string }>): Promise<void> {
-    return this.http.post<void>(`${this.basePath}/quizzes`, { quiz, ticker }, { headers: this.headers }).toPromise();
+  createQuizRoom(quiz: IQuizResponse, ticker: Array<{ sport: string, ticker: string }>, numQuestions: number): Promise<void> {
+    const payload = {
+      quiz: { ...quiz, numQuestions },
+      ticker
+    };
+    return this.http.post<void>(`${this.basePath}/quizzes`, payload, { headers: this.headers }).toPromise();
   }
 
   deleteQuizRoom(quizId: string): Promise<void> {

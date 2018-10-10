@@ -16,6 +16,7 @@
       </div>
       <mat-chip-list ariaOrientation="horizontal">
         <mat-chip color="primary" [selected]="quiz?.active">{{quiz?.active ? 'Active' : 'Inactive'}}</mat-chip>
+        <mat-chip color="primary" [selected]="quiz?.auth">{{quiz?.auth ? 'Requires QT Auth' : 'No Auth'}}</mat-chip>
       </mat-chip-list>
       <button class="float-right mx-2" mat-raised-button color="error" (click)="resetQuiz()" [disabled]="!quiz?.active">Reset</button>
       <button class="float-right" mat-raised-button color="primary" (click)="onUpdate()" [disabled]="!hasChanged()">Update</button>
@@ -31,7 +32,8 @@
   <div class="row">
     <div class="col">
       <div class="my-2" *ngFor="let question of quiz?.questions">
-        <cb-question-card [question]="question" [disableActions]="!quiz?.active" (start)="onQuestionStart($event)" (results)="onCalculateResults($event)"></cb-question-card>
+        <cb-question-card [question]="question" [disableActions]="!quiz?.active" (start)="onQuestionStart($event)"
+          (results)="onCalculateResults($event)"></cb-question-card>
       </div>
     </div>
   </div>

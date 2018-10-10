@@ -12,6 +12,7 @@ export interface IQuizResponse {
     potAmount: number;
     completed: boolean;
     created: string;
+    auth: boolean;
 }
 export interface FullQuizResponse extends IQuizResponse {
     questions: Array<IQuestionResponse>;

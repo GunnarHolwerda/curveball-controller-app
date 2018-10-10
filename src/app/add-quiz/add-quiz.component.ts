@@ -20,6 +20,7 @@ export class AddQuizComponent implements OnInit {
     this.createQuizForm = new FormGroup({
       title: new FormControl(null, Validators.required),
       potAmount: new FormControl(0, Validators.required),
+      auth: new FormControl(true, Validators.required),
       questions: new FormArray([this.createQuestion()])
     });
     this.questions = this.createQuizForm.get('questions') as FormArray;
@@ -57,8 +58,8 @@ export class AddQuizComponent implements OnInit {
   }
 
   async onSubmit(): Promise<void> {
-    const { potAmount, title, questions } = this.createQuizForm.value;
-    const { quiz } = await this.quizService.createQuiz({ potAmount, title });
+    const { potAmount, title, auth, questions } = this.createQuizForm.value;
+    const { quiz } = await this.quizService.createQuiz({ potAmount, title, auth });
     await this.quizService.addQuestions(quiz.quizId, { questions });
     this.router.navigate(['/quizzes', quiz.quizId]);
   }

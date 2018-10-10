@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { QuizService } from '../services/quiz.service';
-import { FullQuizResponse, IQuizResponse } from '../models/quizzes';
-import { MatSnackBar, MatSort, MatTableDataSource, MAT_CHIPS_DEFAULT_OPTIONS } from '@angular/material';
+import { FullQuizResponse } from '../models/quizzes';
+import { MatSnackBar, MatSort, MatTableDataSource } from '@angular/material';
 
 @Component({
   selector: 'cb-all-quizzes',
@@ -17,22 +17,13 @@ export class AllQuizzesComponent implements OnInit {
 
   constructor(private quizService: QuizService, private snackBar: MatSnackBar) { }
 
-  async ngOnInit() {
+  ngOnInit() {
     this.loading = true;
-    this.quizzes = (await this.quizService.allQuizzes()).quizzes;
-    this.loading = false;
-    this.dataSource = new MatTableDataSource(this.quizzes);
-    this.dataSource.sort = this.sort;
-  }
-
-  async startQuiz(quiz: IQuizResponse): Promise<void> {
-    try {
-      await this.quizService.startQuiz(quiz.quizId);
-    } catch (e) {
-      console.log(e);
-      if (e.status === 409) {
-        this.snackBar.open(`Action failed: ${e.error.message}`, 'Dismiss');
-      }
-    }
+    this.quizService.allQuizzes().then(({ quizzes }) => {
+      this.quizzes = quizzes;
+      this.dataSource = new MatTableDataSource(this.quizzes);
+      this.dataSource.sort = this.sort;
+      this.loading = false;
+    });
   }
 }

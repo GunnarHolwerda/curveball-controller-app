@@ -1,6 +1,6 @@
 export interface QuestionResults {
     totalAnswers: number;
-    correctAnswer: string;
+    correctAnswer?: string;
     results: {
         [choiceId: string]: number;
     };

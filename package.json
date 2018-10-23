@@ -9,6 +9,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
+    "deploy:dev": "npm run build:dev && aws s3 sync dist/curveball-control s3://dev-curveball-controller && aws cloudfront create-invalidation --distribution-id E7JQ7XD5HUMXE --paths /",
     "clean:images": "docker rmi $(docker images -qa -f 'dangling=true') || true ",
     "build:image": "npm run clean:images && docker build -t curveball/control ."
   },

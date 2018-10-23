@@ -20,7 +20,7 @@ export class AddQuizComponent implements OnInit {
     this.createQuizForm = new FormGroup({
       title: new FormControl(null, Validators.required),
       potAmount: new FormControl(0, Validators.required),
-      auth: new FormControl(true, Validators.required),
+      auth: new FormControl(false, Validators.required),
       questions: new FormArray([this.createQuestion()])
     });
     this.questions = this.createQuizForm.get('questions') as FormArray;
@@ -32,7 +32,7 @@ export class AddQuizComponent implements OnInit {
       questionNum: new FormControl(questionNum, Validators.required),
       sport: new FormControl(this.topics[0].value, Validators.required),
       ticker: new FormControl(null, [Validators.required, Validators.maxLength(15)]),
-      choices: new FormArray([this.createChoice(), this.createChoice(), this.createChoice()])
+      choices: new FormArray([this.createChoice()])
     });
   }
 
@@ -51,6 +51,12 @@ export class AddQuizComponent implements OnInit {
     const questions = this.createQuizForm.get('questions') as FormArray;
     const choices = questions.at(question).get('choices') as FormArray;
     choices.push(this.createChoice());
+  }
+
+  removeChoice(question: number, choice: number): void {
+    const questions = this.createQuizForm.get('questions') as FormArray;
+    const choices = questions.at(question).get('choices') as FormArray;
+    choices.removeAt(choice);
   }
 
   get topics(): Array<{ value: string, label: string }> {

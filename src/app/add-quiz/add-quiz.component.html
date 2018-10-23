@@ -11,7 +11,7 @@
             <input matInput placeholder="Amount" type="number" name="potAmount" formControlName="potAmount">
           </mat-form-field>
           <mat-checkbox class="ml-5 pt-2" style="flex: 1" placeholder="Auth" type="checkbox" name="auth"
-            formControlName="auth">Auth</mat-checkbox>
+            formControlName="auth">Enforce correct answers</mat-checkbox>
         </div>
         <div class="d-flex flex-row mt-3">
           <h3>Questions</h3>
@@ -37,23 +37,29 @@
               </mat-form-field>
             </div>
           </div>
-          <mat-expansion-panel>
-            <mat-expansion-panel-header>
-              <mat-panel-title>
-                Choices
-              </mat-panel-title>
-            </mat-expansion-panel-header>
-            <div class="d-flex py-2 flex-column" [formGroupName]="i">
-              <div class="d-flex" formArrayName="choices" *ngFor="let choices of createQuizForm.get('questions').at(i).get('choices').controls; let j = index;">
-                <div class="w-100 d-flex justify-content-around py-2" [formGroupName]="j">
-                  <mat-form-field style="flex: 6" class="px-2">
-                    <input matInput (keyup.enter)="addChoice(i)" formControlName="text" type="text" placeholder="Text">
-                  </mat-form-field>
-                  <mat-checkbox style="flex: 1" class="ml-2 align-self-center" formControlName="isAnswer">Answer</mat-checkbox>
+          <mat-card class="ml-4">
+            <mat-card-title>
+              <span>Choices</span>
+            </mat-card-title>
+            <mat-card-content>
+              <div class="d-flex py-2 flex-column" [formGroupName]="i">
+                <div class="d-flex" formArrayName="choices" *ngFor="let choices of createQuizForm.get('questions').at(i).get('choices').controls; let j = index;">
+                  <div class="w-100 d-flex justify-content-around py-2" [formGroupName]="j">
+                    <button (click)="removeChoice(i, j)" mat-icon-button style="min-width: 0">
+                      <mat-icon>close</mat-icon>
+                    </button>
+                    <mat-form-field style="flex: 6" class="px-2">
+                      <input matInput formControlName="text" type="text" placeholder="Text">
+                    </mat-form-field>
+                    <mat-checkbox style="flex: 1" class="ml-2 align-self-center" formControlName="isAnswer">Answer</mat-checkbox>
+                  </div>
                 </div>
               </div>
-            </div>
-          </mat-expansion-panel>
+            </mat-card-content>
+            <mat-card-actions>
+              <button mat-button color="primary" (click)="addChoice(i)">Add Choice</button>
+            </mat-card-actions>
+          </mat-card>
         </div>
         <mat-divider></mat-divider>
       </div>

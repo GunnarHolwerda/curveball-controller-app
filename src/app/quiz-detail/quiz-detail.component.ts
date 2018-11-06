@@ -75,6 +75,7 @@ export class QuizDetailComponent implements OnInit {
   }
 
   async onDeleteQuizRoom(): Promise<void> {
+    await this.realTime.emitComplete(this.quiz.quizId);
     await this.realTime.deleteQuizRoom(this.quiz.quizId);
     this.quizRoom = undefined;
   }

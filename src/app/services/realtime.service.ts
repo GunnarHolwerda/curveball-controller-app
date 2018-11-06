@@ -68,6 +68,10 @@ export class RealtimeService {
     return this._activeQuizzes;
   }
 
+  emitComplete(quizId: string): Promise<void> {
+    return this.http.post<void>(`${this.basePath}/quizzes/${quizId}/complete:emit`, { headers: this.headers }).toPromise();
+  }
+
   emitQuestion(question: IQuestionResponse, token?: string): Promise<IQuestionResponse> {
     return this.http.post<IQuestionResponse>(
       `${this.basePath}/quizzes/${question.quizId}/question:emit`, { question, token }, { headers: this.headers }

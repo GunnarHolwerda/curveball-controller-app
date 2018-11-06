@@ -55,9 +55,9 @@ export class QuizDetailComponent implements OnInit {
     return result;
   }
 
-  async onComplete(): Promise<void> {
-    this.updateQuiz({ completed: true, active: false });
+  async onSendWinners(): Promise<void> {
     const { users, amountWon } = await this.quizService.completeQuiz(this.quiz.quizId);
+    this.updateQuiz({ completed: true, active: false });
     this.realTime.emitWinners(this.quiz.quizId, users, amountWon);
   }
 
@@ -75,9 +75,15 @@ export class QuizDetailComponent implements OnInit {
   }
 
   async onDeleteQuizRoom(): Promise<void> {
+    if (!this.quiz.completed) {
+      await this.quizService.completeQuiz(this.quiz.quizId);
+      this.updateQuiz({ completed: true, active: false });
+    }
     await this.realTime.emitComplete(this.quiz.quizId);
-    await this.realTime.deleteQuizRoom(this.quiz.quizId);
-    this.quizRoom = undefined;
+    setTimeout(async () => {
+      await this.realTime.deleteQuizRoom(this.quiz.quizId);
+      this.quizRoom = undefined;
+    }, 3000);
   }
 
   async onStart(): Promise<void> {

@@ -22,7 +22,7 @@
       <button class="float-right" mat-raised-button color="primary" (click)="onUpdate()" [disabled]="!hasChanged()">Update</button>
       <button class="float-right mx-2" mat-raised-button color="accent" (click)="onStart()" [disabled]="!canStart()">Start</button>
       <button class="float-right mx-2" mat-raised-button color="warn" *ngIf="quiz?.active && !quiz.completed && hasQuizRoom() && allQuestionsAreSent()"
-        (click)="onComplete()">Complete</button>
+        (click)="onSendWinners()">Send Winners</button>
       <button class="float-right mx-2" mat-raised-button color="accent" *ngIf="!hasQuizRoom()" (click)="onCreateQuizRoom()">Create
         Quiz Room</button>
       <button class="float-right mx-2" mat-raised-button color="secondary" *ngIf="hasQuizRoom()" (click)="onDeleteQuizRoom()">Delete

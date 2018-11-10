@@ -3,7 +3,7 @@
   <mat-card-subtitle>{{results.totalAnswers}} total answers</mat-card-subtitle>
   <mat-card-content>
     <h5 *ngFor="let choice of question.choices" [ngClass]="{'text-success': isAnswer(choice.choiceId), 'text-danger': !isAnswer(choice.choiceId)}">
-      {{choice.text}}: {{results[choice.choiceId] || 0}}
+      {{choice.text}}: {{results.results[choice.choiceId] || 0}}
     </h5>
   </mat-card-content>
 </mat-card>

@@ -15,6 +15,7 @@ export class TestQuizComponent implements OnInit, OnDestroy {
   quizRoom: SocketIOClient.Socket;
   quizId: string;
   events: Array<{ type: string, value: any }> = [];
+  numConnectedUsers = 0;
 
   constructor(private route: ActivatedRoute, private realTime: RealtimeService, private snackbar: MatSnackBar) { }
 
@@ -48,12 +49,15 @@ export class TestQuizComponent implements OnInit, OnDestroy {
       this.addEvent('winners', w.users);
     });
     this.quizRoom.on('num_connected', (count: number) => {
+      this.numConnectedUsers = count;
       console.log('num_connected', count);
     });
     this.quizRoom.on('user_connected', () => {
+      this.numConnectedUsers++;
       console.log('a user connected');
     });
     this.quizRoom.on('user_disconnected', () => {
+      this.numConnectedUsers--;
       console.log('a user disconnected');
     });
   }

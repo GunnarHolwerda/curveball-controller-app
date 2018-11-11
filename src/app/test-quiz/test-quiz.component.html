@@ -14,7 +14,7 @@
     <button *ngIf="quizRoom?.connected" mat-raised-button color="warn" (click)="onDisconnect()">Disconnect</button>
     <div class="row w-100 mt-2 mb-5">
       <div class="col-sm-2">
-        <h4 class="mx-auto">{{ numConnectedUsers }} viewers</h4>
+        <h4 class="mx-auto">{{ connectedUsers.length }} viewers</h4>
       </div>
       <div class="col-sm">
         <div *ngFor="let event of events; index as i" class="mx-auto">

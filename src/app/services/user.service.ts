@@ -53,6 +53,10 @@ export class UserService {
     return this.http.post<UserData>(`${this.path}/users/${userId}/verify`, { code }).toPromise();
   }
 
+  public async getUser(userId: string): Promise<IUser> {
+    return this.http.get<IUser>(`${this.path}/users/${userId}`).toPromise();
+  }
+
   public get user(): Subject<IUser> {
     return this._user;
   }

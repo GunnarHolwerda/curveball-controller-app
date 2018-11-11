@@ -5,6 +5,8 @@ import { ActivatedRoute, Params } from '../../../node_modules/@angular/router';
 import { MatSnackBar } from '../../../node_modules/@angular/material';
 import { QuestionResults } from '../models/question-results';
 import { IUser } from '../models/user';
+import { QuizService } from '../services/quiz.service';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'cb-test-quiz',
@@ -15,9 +17,15 @@ export class TestQuizComponent implements OnInit, OnDestroy {
   quizRoom: SocketIOClient.Socket;
   quizId: string;
   events: Array<{ type: string, value: any }> = [];
-  numConnectedUsers = 0;
+  connectedUsers: Array<IUser> = [];
 
-  constructor(private route: ActivatedRoute, private realTime: RealtimeService, private snackbar: MatSnackBar) { }
+  constructor(
+    private route: ActivatedRoute,
+    private realTime: RealtimeService,
+    private snackbar: MatSnackBar,
+    private quizService: QuizService,
+    private userService: UserService
+  ) { }
 
   ngOnInit() {
     this.route.params.subscribe(async (params: Params) => {
@@ -48,17 +56,20 @@ export class TestQuizComponent implements OnInit, OnDestroy {
     this.quizRoom.on('winners', (w: { users: Array<IUser>, amountWon: string }) => {
       this.addEvent('winners', w.users);
     });
-    this.quizRoom.on('num_connected', (count: number) => {
-      this.numConnectedUsers = count;
+    this.quizRoom.on('num_connected', async (count: number) => {
       console.log('num_connected', count);
+      const results = await this.quizService.getParticipants(this.quizId);
+      console.log(results);
+      this.connectedUsers = results.connected;
     });
-    this.quizRoom.on('user_connected', () => {
-      this.numConnectedUsers++;
+    this.quizRoom.on('user_connected', async (data: { userId: string }) => {
       console.log('a user connected');
+      const user = await this.userService.getUser(data.userId);
+      this.connectedUsers.push(user);
     });
-    this.quizRoom.on('user_disconnected', () => {
-      this.numConnectedUsers--;
+    this.quizRoom.on('user_disconnected', (data: { userId: string }) => {
       console.log('a user disconnected');
+      this.connectedUsers = this.connectedUsers.filter((u) => u.userId === data.userId);
     });
   }
 

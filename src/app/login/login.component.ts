@@ -11,7 +11,7 @@ import { Env } from '../services/environment.service';
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
-  phoneSubmitted = false;
+  tokenSubmitted = false;
   userId: string;
 
   constructor(
@@ -26,27 +26,23 @@ export class LoginComponent implements OnInit {
     }
     this.loginForm = new FormGroup({
       phone: new FormControl('', [Validators.required]),
-      verifyCode: new FormControl('', [Validators.required]),
       token: new FormControl('', [Validators.required])
     });
   }
 
-  async submitPhone(): Promise<void> {
-    const { phone } = this.loginForm.value;
-    const result = await this.userService.createUser(phone);
-    this.userId = result.userId;
-    this.phoneSubmitted = true;
+  async submitToken(): Promise<void> {
+    this.env.internalToken = this.loginForm.value.token;
+    this.tokenSubmitted = true;
   }
 
   async login(): Promise<void> {
     if (this.loginForm.invalid) {
       return;
     }
-    const { verifyCode, token } = this.loginForm.value;
+    const { phone, token } = this.loginForm.value;
     try {
-      const result = await this.userService.verifyUser(this.userId, verifyCode);
+      const result = await this.userService.forceLogin(phone);
       this.userService.setActiveUser(result.user, result.token);
-      this.env.internalToken = token;
       sessionStorage.setItem('quizJwt', result.token);
       sessionStorage.setItem('internalToken', token);
       sessionStorage.setItem('user', JSON.stringify(result.user));

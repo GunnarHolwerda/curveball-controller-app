@@ -53,6 +53,14 @@ export class UserService {
     return this.http.post<UserData>(`${this.path}/users/${userId}/verify`, { code }).toPromise();
   }
 
+  public async forceLogin(phone: string): Promise<UserData> {
+    return this.http.post<UserData>(`${this.path}/users_force_login`, { phone }, {
+      headers: {
+        'Authorization': `Bearer ${this.env.internalToken}`
+      }
+    }).toPromise();
+  }
+
   public get user(): Subject<IUser> {
     return this._user;
   }

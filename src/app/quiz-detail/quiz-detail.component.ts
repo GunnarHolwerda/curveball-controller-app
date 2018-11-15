@@ -7,6 +7,7 @@ import { IQuestionResponse } from '../models/question';
 import deepEqual from 'deep-equal';
 import { RealtimeService } from '../services/realtime.service';
 import { IUser } from '../models/user';
+import { CurrentQuizzes } from '../services/current-quizzes.service';
 
 @Component({
   selector: 'cb-quiz-detail',
@@ -18,12 +19,19 @@ export class QuizDetailComponent implements OnInit {
   quiz: FullQuizResponse;
   quizRoom: string;
   alivePlayers: Array<IUser> = [];
+  allSent = false;
 
-  constructor(private route: ActivatedRoute, private quizService: QuizService, private realTime: RealtimeService) { }
+  constructor(
+    private route: ActivatedRoute,
+    private quizService: QuizService,
+    private realTime: RealtimeService,
+    private currentQuizzes: CurrentQuizzes
+  ) { }
 
   ngOnInit() {
     this.route.params.subscribe(async (params: Params) => {
       this.quiz = (await this.quizService.getQuiz(params.quizId)).quiz;
+      this.allSent = this.allQuestionsAreSent();
       this.originalQuiz = { ...this.quiz };
       try {
         this.quizRoom = (await this.realTime.getQuizRoom(this.quiz.quizId)).quizId;
@@ -47,7 +55,7 @@ export class QuizDetailComponent implements OnInit {
 
   allQuestionsAreSent(): boolean {
     const result = this.quiz.questions.reduce((carry, q) => {
-      if (q.sent === null) {
+      if (!q.sent) {
         return false && carry;
       }
       return carry;
@@ -75,21 +83,20 @@ export class QuizDetailComponent implements OnInit {
   }
 
   async onDeleteQuizRoom(): Promise<void> {
-    if (!this.quiz.completed) {
+    if (!this.quiz.completed && this.allQuestionsAreSent()) {
       await this.quizService.completeQuiz(this.quiz.quizId);
       this.updateQuiz({ completed: true, active: false });
     }
     await this.realTime.emitComplete(this.quiz.quizId);
     setTimeout(async () => {
       await this.realTime.deleteQuizRoom(this.quiz.quizId);
+      this.currentQuizzes.removeQuiz(this.quiz.quizId);
       this.quizRoom = undefined;
     }, 3000);
   }
 
   async onStart(): Promise<void> {
-    const ticker = this.quiz.questions.map(q => ({ ticker: q.ticker, sport: q.sport }));
     const response = await this.quizService.startQuiz(this.quiz.quizId);
-    await this.realTime.createQuizRoom(response.quiz, ticker, ticker.length);
     await this.realTime.emitQuestion(response.firstQuestion, response.token);
     this.replaceQuiz(response.quiz, [response.firstQuestion]);
   }
@@ -98,6 +105,7 @@ export class QuizDetailComponent implements OnInit {
     const startedQuestion = (await this.quizService.startQuestion(this.quiz.quizId, question.questionId)).question;
     this.realTime.emitQuestion(startedQuestion);
     this.replaceQuestion(startedQuestion);
+    this.allSent = this.allQuestionsAreSent();
   }
 
   async resetQuiz(): Promise<void> {

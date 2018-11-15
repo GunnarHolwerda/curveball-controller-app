@@ -2,12 +2,12 @@
   <mat-card-title>
     <div class="row">
       <div class="col">
-        <div class="row">
-          <h3 class="px-2">{{question.questionNum}})</h3>
+        <div class="row" [ngStyle]="{fontSize: titleSize}">
+          <span class="pr-2 font-weight-bold">{{question.questionNum}})</span>
           {{question.question}}
         </div>
       </div>
-      <div class="col-5 my-auto">
+      <div class="col-5 my-auto" *ngIf="showInfo">
         <div class="row justify-content-end mr-5">
           <h6 class="px-2">Sport:
             <span class="font-weight-bold">{{question.sport}}</span>

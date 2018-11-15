@@ -1,0 +1,23 @@
+<div class="row" *ngIf="quiz; else noConnection">
+  <h3 class="mx-auto">{{quiz.title}}</h3>
+  <div class="row w-100 mt-2 mb-5">
+    <div class="col-sm-2">
+      <h4 class="mx-auto">{{ numConnected }} viewers</h4>
+    </div>
+    <div class="col-sm">
+      <div *ngFor="let item of items; index as i" class="mx-auto">
+        <div [ngSwitch]="item.type" class="my-2" #scrollMe [scrollTop]="scrollMe.scrollHeight">
+          <cb-question-card *ngSwitchCase="'question'" titleSize="48px" [showInfo]="false" [question]="item.value"
+            (choiceSelected)="selectChoice($event)" [disableActions]="true">
+          </cb-question-card>
+          <cb-results-card *ngSwitchCase="'results'" [question]="items[i - 1]" [results]="item.value"></cb-results-card>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #noConnection>
+  <div class="row">
+    <h1 class="text-center mx-auto">Waiting for quiz to start...</h1>
+  </div>
+</ng-template>

@@ -8,6 +8,7 @@ import { AddQuizComponent } from './add-quiz/add-quiz.component';
 import { ConnectToQuizComponent } from './connect-to-quiz/connect-to-quiz.component';
 import { LoginComponent } from './login/login.component';
 import { UserGuard } from './user.guard';
+import { TeleprompterComponent } from './teleprompter/teleprompter.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -29,7 +30,8 @@ const routes: Routes = [
           { path: '', component: ConnectToQuizComponent, pathMatch: 'full' },
           { path: ':quizId', component: TestQuizComponent }
         ]
-      }
+      },
+      { path: 'teleprompter', canActivate: [UserGuard], component: TeleprompterComponent }
     ]
   },
   { path: '**', redirectTo: '/login', pathMatch: 'full' },

@@ -19,6 +19,7 @@ import { ConnectToQuizComponent } from './connect-to-quiz/connect-to-quiz.compon
 import { Env } from './services/environment.service';
 import { ResultsCardComponent } from './results-card/results-card.component';
 import { LoginComponent } from './login/login.component';
+import { TeleprompterComponent } from './teleprompter/teleprompter.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { LoginComponent } from './login/login.component';
     CurveballNavComponent,
     ConnectToQuizComponent,
     ResultsCardComponent,
-    LoginComponent
+    LoginComponent,
+    TeleprompterComponent
   ],
   imports: [
     BrowserModule,

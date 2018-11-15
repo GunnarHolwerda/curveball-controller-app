@@ -17,11 +17,12 @@
       <mat-chip-list ariaOrientation="horizontal">
         <mat-chip color="primary" [selected]="quiz?.active">{{quiz?.active ? 'Active' : 'Inactive'}}</mat-chip>
         <mat-chip color="primary" [selected]="quiz?.auth">{{quiz?.auth ? 'Requires QT Auth' : 'No Auth'}}</mat-chip>
+        <mat-chip color="primary" *ngIf="quiz?.completed" [selected]="quiz?.completed">Completed</mat-chip>
       </mat-chip-list>
       <button class="float-right mx-2" mat-raised-button color="error" (click)="resetQuiz()" [disabled]="!quiz?.active">Reset</button>
       <button class="float-right" mat-raised-button color="primary" (click)="onUpdate()" [disabled]="!hasChanged()">Update</button>
       <button class="float-right mx-2" mat-raised-button color="accent" (click)="onStart()" [disabled]="!canStart()">Start</button>
-      <button class="float-right mx-2" mat-raised-button color="warn" *ngIf="quiz?.active && !quiz.completed && hasQuizRoom() && allQuestionsAreSent()"
+      <button class="float-right mx-2" mat-raised-button color="warn" *ngIf="quiz?.active && !quiz.completed && hasQuizRoom() && allSent"
         (click)="onSendWinners()">Send Winners</button>
       <button class="float-right mx-2" mat-raised-button color="accent" *ngIf="!hasQuizRoom()" (click)="onCreateQuizRoom()">Create
         Quiz Room</button>

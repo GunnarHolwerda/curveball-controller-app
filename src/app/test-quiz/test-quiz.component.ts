@@ -5,6 +5,7 @@ import { ActivatedRoute, Params } from '../../../node_modules/@angular/router';
 import { MatSnackBar } from '../../../node_modules/@angular/material';
 import { QuestionResults } from '../models/question-results';
 import { IUser } from '../models/user';
+import { CurrentQuizzes } from '../services/current-quizzes.service';
 
 @Component({
   selector: 'cb-test-quiz',
@@ -17,7 +18,12 @@ export class TestQuizComponent implements OnInit, OnDestroy {
   events: Array<{ type: string, value: any }> = [];
   numConnectedUsers = 0;
 
-  constructor(private route: ActivatedRoute, private realTime: RealtimeService, private snackbar: MatSnackBar) { }
+  constructor(
+    private route: ActivatedRoute,
+    private realTime: RealtimeService,
+    private snackbar: MatSnackBar,
+    private currentQuizzes: CurrentQuizzes
+  ) { }
 
   ngOnInit() {
     this.route.params.subscribe(async (params: Params) => {
@@ -59,6 +65,9 @@ export class TestQuizComponent implements OnInit, OnDestroy {
     this.quizRoom.on('user_disconnected', () => {
       this.numConnectedUsers--;
       console.log('a user disconnected');
+    });
+    this.quizRoom.on('complete', () => {
+      this.currentQuizzes.removeQuiz(this.quizId);
     });
   }
 

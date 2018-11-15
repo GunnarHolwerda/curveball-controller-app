@@ -10,6 +10,7 @@ import { Observable, ReplaySubject, Subject } from '../../../node_modules/rxjs';
 import { UserService } from './user.service';
 
 import { Env } from './environment.service';
+import { CurrentQuizzes } from './current-quizzes.service';
 
 export interface ActiveQuiz {
   quizId: string;
@@ -28,20 +29,18 @@ export interface QuizStartEvent {
 export class RealtimeService {
   private socket: SocketIOClient.Socket;
   private basePath: string;
-  private _quizRoom: Subject<ActiveQuiz> = new Subject();
-  private _activeQuizzes: ReplaySubject<Array<ActiveQuiz>> = new ReplaySubject();
 
-  constructor(private http: HttpClient, private userService: UserService, private env: Env) {
+  constructor(private http: HttpClient, private userService: UserService, private env: Env, private quizzes: CurrentQuizzes) {
     this.basePath = this.env.realtimeEndpoint;
     this.userService.user.pipe(filter(u => u !== null)).subscribe(() => {
       this.socket = socketio.connect(this.basePath, this.socketIoOpts);
       this.socket.on('connect', () => {
         this.socket.on('authenticated', () => {
           this.socket.on('start', (data: QuizStartEvent) => {
-            this._quizRoom.next(data.quiz);
+            this.quizzes.startQuiz(data.quiz);
           });
           this.socket.on('active_quizzes', (data: Array<ActiveQuiz>) => {
-            this._activeQuizzes.next(data);
+            this.quizzes.addQuiz(data);
           });
         }).emit('authenticate', { token: this.userService.activeJwt });
       });
@@ -58,14 +57,6 @@ export class RealtimeService {
     return {
       transports: ['websocket']
     };
-  }
-
-  public get quizRoom(): Observable<ActiveQuiz> {
-    return this._quizRoom;
-  }
-
-  public get activeQuizzes(): Observable<Array<ActiveQuiz>> {
-    return this._activeQuizzes;
   }
 
   emitComplete(quizId: string): Promise<void> {

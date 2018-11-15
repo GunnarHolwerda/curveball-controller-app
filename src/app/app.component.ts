@@ -5,6 +5,7 @@ import { Subscription } from '../../node_modules/rxjs';
 import { Router } from '../../node_modules/@angular/router';
 import { UserService } from './services/user.service';
 import { IUser } from './models/user';
+import { CurrentQuizzes } from './services/current-quizzes.service';
 
 @Component({
   selector: 'cb-root',
@@ -16,7 +17,7 @@ export class AppComponent implements OnInit, OnDestroy {
   private activeQuizzesSubscription: Subscription;
 
   constructor(
-    private realtime: RealtimeService,
+    private quizzes: CurrentQuizzes,
     private snackbar: MatSnackBar,
     private router: Router,
     private userService: UserService
@@ -24,12 +25,12 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.userService.user.subscribe(() => {
-      this.quizRoomSubscription = this.realtime.quizRoom.subscribe((quiz) => {
+      this.quizRoomSubscription = this.quizzes.quizStart.subscribe((quiz) => {
         this.snackbar.open(`A quiz ${quiz.title} just started`, 'Dismiss', {
           duration: 5000
         });
       });
-      this.activeQuizzesSubscription = this.realtime.activeQuizzes.subscribe((quizzes) => {
+      this.activeQuizzesSubscription = this.quizzes.quizzes.subscribe((quizzes) => {
         quizzes.forEach((q) => {
           const snackbarRef = this.snackbar.open(`A quiz ${q.title} is currently live!`, 'View', {
             duration: 5000

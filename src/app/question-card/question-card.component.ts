@@ -9,6 +9,8 @@ import { IQuestionResponse, IChoiceResponse } from '../models/question';
 export class QuestionCardComponent implements OnInit, OnChanges {
   @Input() question: IQuestionResponse;
   @Input() disableActions = false;
+  @Input() showInfo = true;
+  @Input() titleSize = '24px';
   @Output() start: EventEmitter<IQuestionResponse> = new EventEmitter();
   @Output() results: EventEmitter<IQuestionResponse> = new EventEmitter();
   @Output() choiceSelected: EventEmitter<IChoiceResponse> = new EventEmitter();

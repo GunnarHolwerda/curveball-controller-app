@@ -8,6 +8,7 @@ import deepEqual from 'deep-equal';
 import { RealtimeService } from '../services/realtime.service';
 import { IUser } from '../models/user';
 import { CurrentQuizzes } from '../services/current-quizzes.service';
+import { Env } from '../services/environment.service';
 
 @Component({
   selector: 'cb-quiz-detail',
@@ -25,7 +26,8 @@ export class QuizDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private quizService: QuizService,
     private realTime: RealtimeService,
-    private currentQuizzes: CurrentQuizzes
+    private currentQuizzes: CurrentQuizzes,
+    private env: Env
   ) { }
 
   ngOnInit() {
@@ -51,6 +53,10 @@ export class QuizDetailComponent implements OnInit {
 
   hasQuizRoom(): boolean {
     return this.quizRoom !== undefined;
+  }
+
+  canResetQuiz(): boolean {
+    return !this.env.production;
   }
 
   allQuestionsAreSent(): boolean {

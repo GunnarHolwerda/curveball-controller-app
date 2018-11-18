@@ -2,13 +2,13 @@
   <h3 class="mx-auto">{{quiz.title}}</h3>
   <div class="row w-100 mt-2 mb-5">
     <div class="col-sm-2">
-      <h4 class="mx-auto">{{ numConnected }} viewers</h4>
+      <h4 class="mx-auto">{{ numConnected }} people</h4>
     </div>
     <div class="col-sm">
       <div class="mx-auto">
         <div class="my-2">
           <div *ngIf="nextQuestion">
-            <h1 style="font-size: 4.5rem text-center">{{nextQuestion.question}}</h1>
+            <h1 style="font-size: 4.5rem">{{nextQuestion.question}}</h1>
             <div class="row">
               <div *ngFor="let choice of nextQuestion.choices" style="font-size: 4rem" class="col text-center">
                 {{choice.text}}

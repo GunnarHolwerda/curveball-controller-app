@@ -18,7 +18,8 @@ export class TeleprompterComponent implements OnInit, OnDestroy {
   questions: Array<IQuestionResponse> = [];
   numConnected: number;
   _socket: SocketIOClient.Socket;
-  items: Array<{ type: 'question' | 'results', value: QuestionResults | IQuestionResponse }> = [];
+  nextQuestion: IQuestionResponse;
+  currentResults: QuestionResults;
 
   constructor(private currentQuizzes: CurrentQuizzes, private quizService: QuizService, private realTime: RealtimeService) { }
 
@@ -54,12 +55,16 @@ export class TeleprompterComponent implements OnInit, OnDestroy {
     });
     this.socket.on('results', (results: QuestionResults) => {
       this.pushResults(results);
-      this.pushQuestion();
+      setTimeout(() => {
+        this.clearResults();
+        this.pushQuestion();
+      }, 10000);
     });
     this.socket.on('complete', () => {
-      this.items = [];
       this._socket = undefined;
       this.quiz = undefined;
+      this.nextQuestion = undefined;
+      this.currentResults = undefined;
       this.questions = [];
     });
   }
@@ -70,11 +75,15 @@ export class TeleprompterComponent implements OnInit, OnDestroy {
 
   private pushQuestion(): void {
     if (this.questions.length > 0) {
-      this.items.push({ type: 'question', value: this.questions.shift() });
+      this.nextQuestion = this.questions.shift();
     }
   }
 
   private pushResults(results: QuestionResults) {
-    this.items.push({ type: 'results', value: results });
+    this.currentResults = results;
+  }
+
+  private clearResults(): void {
+    this.currentResults = undefined;
   }
 }

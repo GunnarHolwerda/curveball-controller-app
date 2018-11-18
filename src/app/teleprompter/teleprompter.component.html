@@ -5,12 +5,21 @@
       <h4 class="mx-auto">{{ numConnected }} viewers</h4>
     </div>
     <div class="col-sm">
-      <div *ngFor="let item of items; index as i" class="mx-auto">
-        <div [ngSwitch]="item.type" class="my-2" #scrollMe [scrollTop]="scrollMe.scrollHeight">
-          <cb-question-card *ngSwitchCase="'question'" titleSize="48px" [showInfo]="false" [question]="item.value"
-            (choiceSelected)="selectChoice($event)" [disableActions]="true">
-          </cb-question-card>
-          <cb-results-card *ngSwitchCase="'results'" [question]="items[i - 1]" [results]="item.value"></cb-results-card>
+      <div class="mx-auto">
+        <div class="my-2">
+          <div *ngIf="nextQuestion">
+            <h1 style="font-size: 4.5rem text-center">{{nextQuestion.question}}</h1>
+            <div class="row">
+              <div *ngFor="let choice of nextQuestion.choices" style="font-size: 4rem" class="col text-center">
+                {{choice.text}}
+              </div>
+            </div>
+          </div>
+          <div *ngIf="currentResults" class="row">
+            <div *ngFor="let choice of nextQuestion.choices" class="col text-center" style="font-size: 4rem">
+              {{currentResults.results[choice.choiceId] || 0}}
+            </div>
+          </div>
         </div>
       </div>
     </div>

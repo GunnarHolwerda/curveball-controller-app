@@ -21,6 +21,7 @@ export class QuizDetailComponent implements OnInit {
   quizRoom: string;
   alivePlayers: Array<IUser> = [];
   allSent = false;
+  deletingQuizRoom = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -89,6 +90,7 @@ export class QuizDetailComponent implements OnInit {
   }
 
   async onDeleteQuizRoom(): Promise<void> {
+    this.deletingQuizRoom = true;
     if (!this.quiz.completed && this.allQuestionsAreSent()) {
       await this.quizService.completeQuiz(this.quiz.quizId);
       this.updateQuiz({ completed: true, active: false });
@@ -98,6 +100,7 @@ export class QuizDetailComponent implements OnInit {
       await this.realTime.deleteQuizRoom(this.quiz.quizId);
       this.currentQuizzes.removeQuiz(this.quiz.quizId);
       this.quizRoom = undefined;
+      this.deletingQuizRoom = false;
     }, 3000);
   }
 

@@ -8,7 +8,7 @@ export const environment: CurveballEnvironment = {
   production: false,
   // tslint:disable-next-line
   internalToken: '',
-  realtimeEndpoint: 'http://localhost:3001/realtime',
+  realtimeEndpoint: 'http://localhost:3001',
   quizEndpoint: 'http://localhost:3001/dev'
 };
 

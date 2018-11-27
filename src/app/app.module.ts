@@ -20,6 +20,7 @@ import { Env } from './services/environment.service';
 import { ResultsCardComponent } from './results-card/results-card.component';
 import { LoginComponent } from './login/login.component';
 import { TeleprompterComponent } from './teleprompter/teleprompter.component';
+import { RealtimeService } from './services/realtime.service';
 
 @NgModule({
   declarations: [
@@ -51,4 +52,8 @@ import { TeleprompterComponent } from './teleprompter/teleprompter.component';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor(_: RealtimeService) {
+
+  }
+}

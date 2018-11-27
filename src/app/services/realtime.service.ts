@@ -46,6 +46,10 @@ export class RealtimeService {
     });
   }
 
+  private get apiPath(): string {
+    return this.basePath + '/realtime';
+  }
+
   private get headers(): { [header: string]: string } {
     return {
       'Authorization': `Bearer ${this.env.internalToken}`
@@ -59,32 +63,32 @@ export class RealtimeService {
   }
 
   emitComplete(quizId: string): Promise<void> {
-    return this.http.post<void>(`${this.basePath}/quizzes/${quizId}/complete:emit`, {}, { headers: this.headers }).toPromise();
+    return this.http.post<void>(`${this.apiPath}/quizzes/${quizId}/complete:emit`, {}, { headers: this.headers }).toPromise();
   }
 
   emitQuestion(question: IQuestionResponse, token?: string): Promise<IQuestionResponse> {
     return this.http.post<IQuestionResponse>(
-      `${this.basePath}/quizzes/${question.quizId}/question:emit`, { question, token }, { headers: this.headers }
+      `${this.apiPath}/quizzes/${question.quizId}/question:emit`, { question, token }, { headers: this.headers }
     ).toPromise();
   }
 
   emitResults(quizId: string, results: QuestionResults): Promise<QuestionResults> {
     return this.http.post<QuestionResults>(
-      `${this.basePath}/quizzes/${quizId}/results:emit`,
+      `${this.apiPath}/quizzes/${quizId}/results:emit`,
       results,
       { headers: this.headers }
     ).toPromise();
   }
 
   emitWinners(quizId: string, winners: Array<IUser>, amountWon): Promise<void> {
-    return this.http.post<void>(`${this.basePath}/quizzes/${quizId}/winners:emit`, {
+    return this.http.post<void>(`${this.apiPath}/quizzes/${quizId}/winners:emit`, {
       users: winners,
       amountWon
     }, { headers: this.headers }).toPromise();
   }
 
   getQuizRoom(quizId: string): Promise<{ quizId: string }> {
-    return this.http.get<{ quizId: string }>(`${this.basePath}/quizzes/${quizId}`, { headers: this.headers }).toPromise();
+    return this.http.get<{ quizId: string }>(`${this.apiPath}/quizzes/${quizId}`, { headers: this.headers }).toPromise();
   }
 
   createQuizRoom(quiz: IQuizResponse, ticker: Array<{ sport: string, ticker: string }>, numQuestions: number): Promise<void> {
@@ -92,11 +96,11 @@ export class RealtimeService {
       quiz: { ...quiz, numQuestions },
       ticker
     };
-    return this.http.post<void>(`${this.basePath}/quizzes`, payload, { headers: this.headers }).toPromise();
+    return this.http.post<void>(`${this.apiPath}/quizzes`, payload, { headers: this.headers }).toPromise();
   }
 
   deleteQuizRoom(quizId: string): Promise<void> {
-    return this.http.delete<void>(`${this.basePath}/quizzes/${quizId}`, { headers: this.headers }).toPromise();
+    return this.http.delete<void>(`${this.apiPath}/quizzes/${quizId}`, { headers: this.headers }).toPromise();
   }
 
   async connectToQuiz(quizId: string): Promise<SocketIOClient.Socket> {

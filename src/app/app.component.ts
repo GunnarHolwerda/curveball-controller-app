@@ -1,5 +1,4 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { RealtimeService } from './services/realtime.service';
 import { MatSnackBar } from '../../node_modules/@angular/material';
 import { Subscription } from '../../node_modules/rxjs';
 import { Router } from '../../node_modules/@angular/router';

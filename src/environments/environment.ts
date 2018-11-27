@@ -7,9 +7,9 @@ import { CurveballEnvironment } from '../app/models/curveball-env';
 export const environment: CurveballEnvironment = {
   production: false,
   // tslint:disable-next-line
-  internalToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJjY2Q0ZTUxYi02ODY5LTRkNTEtYjNkMS1hZmYxOGRhMTU3NmUifQ.nKkhVxFRjpL9yCUKj1PATXdGTjY5fowyuC9y9YuNjAk',
-  realtimeEndpoint: 'http://localhost:3001',
-  quizEndpoint: 'https://localhost:3000'
+  internalToken: '',
+  realtimeEndpoint: 'http://localhost:3001/realtime',
+  quizEndpoint: 'http://localhost:3001/dev'
 };
 
 /*

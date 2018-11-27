@@ -6,7 +6,6 @@ import * as socketio from 'socket.io-client';
 import { filter } from 'rxjs/operators';
 import { IUser } from '../models/user';
 import { IQuizResponse } from '../models/quizzes';
-import { Observable, ReplaySubject, Subject } from '../../../node_modules/rxjs';
 import { UserService } from './user.service';
 
 import { Env } from './environment.service';

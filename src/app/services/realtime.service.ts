@@ -68,7 +68,9 @@ export class RealtimeService {
 
   emitQuestion(question: IQuestionResponse, token?: string): Promise<IQuestionResponse> {
     return this.http.post<IQuestionResponse>(
-      `${this.apiPath}/quizzes/${question.quizId}/question:emit`, { question, token }, { headers: this.headers }
+      `${this.apiPath}/quizzes/${question.quizId}/question:emit`,
+      { question, settings: { timeToDisplay: 15 }, token },
+      { headers: this.headers }
     ).toPromise();
   }
 

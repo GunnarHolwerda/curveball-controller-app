@@ -2,6 +2,7 @@
   <mat-spinner></mat-spinner>
 </div>
 <ng-template #content>
+  <cb-warning-banner *ngIf="bannerMessage()" [message]="bannerMessage()"></cb-warning-banner>
   <div class="row">
     <div class="col my-2 mx-1">
       <h1>{{quiz?.title}}</h1>
@@ -9,7 +10,7 @@
         <div class="col d-flex align-items-center">
           <p class="font-weight-light text-secondary">{{quiz?.quizId}}</p>
         </div>
-        <div class="col text-right">
+        <div *ngIf="quiz.auth && quiz.active" class="col text-right">
           <p>
             <span style="font-size: 25px">{{alivePlayers.length}}</span> players still alive</p>
         </div>
@@ -20,8 +21,10 @@
         <mat-chip color="primary" *ngIf="quiz?.completed" [selected]="quiz?.completed">Completed</mat-chip>
       </mat-chip-list>
       <div class="d-flex flex-row-reverse">
+        <button mat-icon-button (click)="openSettings()">
+          <mat-icon aria-label="Options menu">settings</mat-icon>
+        </button>
         <button class="mx-2" *ngIf="canResetQuiz()" mat-raised-button color="error" (click)="resetQuiz()" [disabled]="!quiz?.active">Reset</button>
-        <button mat-raised-button color="primary" (click)="onUpdate()" [disabled]="!hasChanged()">Update</button>
         <button class="mx-2" mat-raised-button color="accent" (click)="onStart()" [disabled]="!canStart()">Start</button>
         <button class="mx-2" mat-raised-button color="warn" *ngIf="quiz?.active && !quiz.completed && hasQuizRoom() && allSent"
           (click)="onSendWinners()">Send Winners</button>

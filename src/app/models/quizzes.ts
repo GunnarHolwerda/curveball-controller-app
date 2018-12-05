@@ -13,6 +13,7 @@ export interface IQuizResponse {
     completed: boolean;
     created: string;
     auth: boolean;
+    deleted: boolean;
 }
 export interface FullQuizResponse extends IQuizResponse {
     questions: Array<IQuestionResponse>;

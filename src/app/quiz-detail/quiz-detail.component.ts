@@ -9,6 +9,8 @@ import { RealtimeService } from '../services/realtime.service';
 import { IUser } from '../models/user';
 import { CurrentQuizzes } from '../services/current-quizzes.service';
 import { Env } from '../services/environment.service';
+import { MatDialog } from '@angular/material/dialog';
+import { QuizSettingsModalComponent } from '../quiz-settings-modal/quiz-settings-modal.component';
 
 @Component({
   selector: 'cb-quiz-detail',
@@ -28,7 +30,8 @@ export class QuizDetailComponent implements OnInit {
     private quizService: QuizService,
     private realTime: RealtimeService,
     private currentQuizzes: CurrentQuizzes,
-    private env: Env
+    private env: Env,
+    public dialog: MatDialog
   ) { }
 
   ngOnInit() {
@@ -42,10 +45,6 @@ export class QuizDetailComponent implements OnInit {
         this.quizRoom = undefined;
       }
     });
-  }
-
-  hasChanged(): boolean {
-    return !deepEqual(this.quiz, this.originalQuiz);
   }
 
   canStart(): boolean {
@@ -68,6 +67,25 @@ export class QuizDetailComponent implements OnInit {
       return carry;
     }, true);
     return result;
+  }
+
+  bannerMessage(): string {
+    if (this.quiz.deleted) {
+      return 'This quiz has been deleted';
+    }
+    return '';
+  }
+
+  openSettings(): void {
+    const dialogRef = this.dialog.open(QuizSettingsModalComponent, {
+      width: '250px',
+      data: { quiz: this.quiz }
+    });
+    dialogRef.afterClosed().subscribe((quiz) => {
+      if (quiz) {
+        this.replaceQuiz(quiz);
+      }
+    });
   }
 
   async onSendWinners(): Promise<void> {

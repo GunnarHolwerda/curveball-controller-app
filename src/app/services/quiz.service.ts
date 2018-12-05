@@ -75,4 +75,8 @@ export class QuizService {
       `${this.basePath}/quizzes/${quizId}/reset`, null, { headers: this.headers }
     ).toPromise();
   }
+
+  deleteQuiz(quizId: string): Promise<void> {
+    return this.http.delete<void>(`${this.basePath}/quizzes/${quizId}`, { headers: this.headers }).toPromise();
+  }
 }

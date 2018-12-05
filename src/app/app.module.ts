@@ -21,6 +21,8 @@ import { ResultsCardComponent } from './results-card/results-card.component';
 import { LoginComponent } from './login/login.component';
 import { TeleprompterComponent } from './teleprompter/teleprompter.component';
 import { RealtimeService } from './services/realtime.service';
+import { WarningBannerComponent } from './warning-banner/warning-banner.component';
+import { QuizSettingsModalComponent } from './quiz-settings-modal/quiz-settings-modal.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +37,9 @@ import { RealtimeService } from './services/realtime.service';
     ConnectToQuizComponent,
     ResultsCardComponent,
     LoginComponent,
-    TeleprompterComponent
+    TeleprompterComponent,
+    WarningBannerComponent,
+    QuizSettingsModalComponent
   ],
   imports: [
     BrowserModule,
@@ -49,6 +53,9 @@ import { RealtimeService } from './services/realtime.service';
   providers: [
     QuizService,
     Env
+  ],
+  entryComponents: [
+    QuizSettingsModalComponent
   ],
   bootstrap: [AppComponent]
 })

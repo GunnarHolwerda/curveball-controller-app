@@ -1,0 +1,10 @@
+<h1 mat-dialog-title>Quiz Settings</h1>
+<div mat-dialog-content>
+  <p>Settings have yet to be implemented!</p>
+</div>
+<div mat-dialog-actions>
+  <button mat-button color="warn" [disabled]="data.quiz.deleted" (click)="deleteQuiz()">{{data.quiz.deleted ? 'Deleted'
+    :
+    'Delete'}}</button>
+  <button mat-button [mat-dialog-close]="data.quiz">Close</button>
+</div>

@@ -1,5 +1,7 @@
 import { Component, OnInit, Input, EventEmitter, Output, AfterViewInit, OnChanges, SimpleChanges } from '@angular/core';
 import { IQuestionResponse, IChoiceResponse } from '../models/question';
+import { CurveballEnvironment } from '../models/curveball-env';
+import { Env } from '../services/environment.service';
 
 @Component({
   selector: 'cb-question-card',
@@ -14,11 +16,12 @@ export class QuestionCardComponent implements OnInit, OnChanges {
   @Output() start: EventEmitter<IQuestionResponse> = new EventEmitter();
   @Output() results: EventEmitter<IQuestionResponse> = new EventEmitter();
   @Output() choiceSelected: EventEmitter<IChoiceResponse> = new EventEmitter();
+  @Output() generateRandomAnswers: EventEmitter<{ questionId: string, numAnswers: number }> = new EventEmitter();
 
   secondsRemaining: number;
   countdown: any;
 
-  constructor() { }
+  constructor(private env: Env) { }
 
   ngOnInit() { }
 
@@ -44,6 +47,10 @@ export class QuestionCardComponent implements OnInit, OnChanges {
     this.choiceSelected.emit(choice);
   }
 
+  onGenerateRandomResults(numberOfResults: number = 100): void {
+    this.generateRandomAnswers.emit({ questionId: this.question.questionId, numAnswers: numberOfResults });
+  }
+
   secondsToExpiration(): number {
     const expirationDate = new Date(this.question.expired);
     const currentTime = new Date();
@@ -60,6 +67,10 @@ export class QuestionCardComponent implements OnInit, OnChanges {
 
   expired(): boolean {
     return this.secondsRemaining <= 0 || this.countdown === undefined;
+  }
+
+  canGenerateRandomResults(): boolean {
+    return !this.env.production;
   }
 
 }

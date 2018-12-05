@@ -41,7 +41,7 @@
     <div class="col">
       <div class="my-2" *ngFor="let question of quiz?.questions">
         <cb-question-card [question]="question" [disableActions]="!quiz?.active" (start)="onQuestionStart($event)"
-          (results)="onCalculateResults($event)"></cb-question-card>
+          (results)="onCalculateResults($event)" (generateRandomAnswers)="onGenerateRandomAnswers($event)"></cb-question-card>
       </div>
     </div>
   </div>

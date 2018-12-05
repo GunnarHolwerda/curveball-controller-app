@@ -23,6 +23,7 @@ import { TeleprompterComponent } from './teleprompter/teleprompter.component';
 import { RealtimeService } from './services/realtime.service';
 import { WarningBannerComponent } from './warning-banner/warning-banner.component';
 import { QuizSettingsModalComponent } from './quiz-settings-modal/quiz-settings-modal.component';
+import { TestToolsService } from './services/test-tools.service';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import { QuizSettingsModalComponent } from './quiz-settings-modal/quiz-settings-
   ],
   providers: [
     QuizService,
-    Env
+    Env,
+    TestToolsService
   ],
   entryComponents: [
     QuizSettingsModalComponent

@@ -11,6 +11,7 @@ import { CurrentQuizzes } from '../services/current-quizzes.service';
 import { Env } from '../services/environment.service';
 import { MatDialog } from '@angular/material/dialog';
 import { QuizSettingsModalComponent } from '../quiz-settings-modal/quiz-settings-modal.component';
+import { TestToolsService } from '../services/test-tools.service';
 
 @Component({
   selector: 'cb-quiz-detail',
@@ -31,7 +32,8 @@ export class QuizDetailComponent implements OnInit {
     private realTime: RealtimeService,
     private currentQuizzes: CurrentQuizzes,
     private env: Env,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private testTools: TestToolsService
   ) { }
 
   ngOnInit() {
@@ -144,6 +146,14 @@ export class QuizDetailComponent implements OnInit {
     const results = await this.quizService.calculateResults(this.quiz.quizId, question.questionId);
     this.realTime.emitResults(this.quiz.quizId, results);
     this.quizService.getParticipants(this.quiz.quizId).then(result => this.alivePlayers = result.users);
+  }
+
+  async onGenerateRandomAnswers(event: { questionId: string, numAnswers: number }): Promise<void> {
+    try {
+      await this.testTools.generateRandomAnswersForQuestion(event.questionId, event);
+    } catch (e) {
+      console.error(e);
+    }
   }
 
   private async updateQuiz(quizProperties: Partial<IQuizResponse>): Promise<void> {

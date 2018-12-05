@@ -36,8 +36,15 @@
   </mat-card-content>
   <mat-card-actions *ngIf="!disableActions">
     <div class="row mx-2">
-      <button mat-raised-button color="secondary" (click)="onSend()">{{question.sent? 'Send again' : 'Send'}}</button>
-      <button *ngIf="question.sent" mat-raised-button color="secondary" (click)="onResultsCalculate()">Send Results</button>
+      <div class="col-8">
+        <button mat-raised-button color="secondary" (click)="onSend()">{{question.sent? 'Send again' : 'Send'}}</button>
+        <button *ngIf="question.sent" mat-raised-button color="secondary" (click)="onResultsCalculate()">Send Results</button>
+      </div>
+      <div class="col-4 d-flex flex-row-reverse">
+        <button *ngIf="canGenerateRandomResults()" mat-raised-button color="warn" (click)="onGenerateRandomResults()">Generate
+          random
+          results</button>
+      </div>
     </div>
   </mat-card-actions>
 </mat-card>

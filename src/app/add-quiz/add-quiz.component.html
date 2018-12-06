@@ -23,7 +23,7 @@
                 {{question.value.questionNum}})
               </div>
               <mat-form-field style="flex: 5" class="px-2">
-                <input matInput formControlName="question" type="text" placeholder="Question">
+                <input matInput [maxlength]="64" formControlName="question" type="text" placeholder="Question">
               </mat-form-field>
               <mat-form-field style="flex: 1" class="px-2">
                 <mat-select formControlName="sport">
@@ -49,7 +49,7 @@
                       <mat-icon>close</mat-icon>
                     </button>
                     <mat-form-field style="flex: 6" class="px-2">
-                      <input matInput formControlName="text" type="text" placeholder="Text">
+                      <input matInput [maxlength]="64" formControlName="text" type="text" placeholder="Text">
                     </mat-form-field>
                     <mat-checkbox style="flex: 1" class="ml-2 align-self-center" formControlName="isAnswer">Answer</mat-checkbox>
                   </div>

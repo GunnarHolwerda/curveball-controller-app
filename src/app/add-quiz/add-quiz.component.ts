@@ -28,7 +28,7 @@ export class AddQuizComponent implements OnInit {
 
   createQuestion(questionNum = 1): FormGroup {
     return new FormGroup({
-      question: new FormControl(null, Validators.required),
+      question: new FormControl(null, [Validators.required, Validators.maxLength(64)]),
       questionNum: new FormControl(questionNum, Validators.required),
       sport: new FormControl(this.topics[0].value, Validators.required),
       ticker: new FormControl(null, [Validators.required, Validators.maxLength(15)]),
@@ -42,7 +42,7 @@ export class AddQuizComponent implements OnInit {
 
   createChoice(): FormGroup {
     return new FormGroup({
-      text: new FormControl('', Validators.required),
+      text: new FormControl('', [Validators.required, Validators.maxLength(64)]),
       isAnswer: new FormControl(false)
     });
   }

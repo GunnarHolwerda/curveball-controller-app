@@ -26,8 +26,8 @@
                 <input matInput [maxlength]="64" formControlName="question" type="text" placeholder="Question">
               </mat-form-field>
               <mat-form-field style="flex: 1" class="px-2">
-                <mat-select formControlName="sport">
-                  <mat-option *ngFor="let topic of topics" [value]="topic.value">
+                <mat-select formControlName="topic" placeholder="Topic">
+                  <mat-option *ngFor="let topic of topics" [value]="topic.topicId">
                     {{topic.label}}
                   </mat-option>
                 </mat-select>

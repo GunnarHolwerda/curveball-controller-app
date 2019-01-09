@@ -7,6 +7,7 @@ import { QuestionsPayload } from '../models/question-payload';
 import { QuestionResults } from '../models/question-results';
 import { IUser } from '../models/user';
 import { Env } from './environment.service';
+import { QuestionTopicsResponse } from '../models/question-topics-response';
 
 @Injectable({
   providedIn: 'root'
@@ -78,5 +79,9 @@ export class QuizService {
 
   deleteQuiz(quizId: string): Promise<void> {
     return this.http.delete<void>(`${this.basePath}/quizzes/${quizId}`, { headers: this.headers }).toPromise();
+  }
+
+  questionTopics(): Promise<QuestionTopicsResponse> {
+    return this.http.get<QuestionTopicsResponse>(`${this.basePath}/questions/topics`, { headers: this.headers }).toPromise();
   }
 }

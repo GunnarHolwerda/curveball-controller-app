@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
 import { QuizService } from '../services/quiz.service';
 import { Router } from '@angular/router';
-import { Topics } from '../models/topics';
+import { QuestionTopic } from '../models/question-topics-response';
 
 @Component({
   selector: 'cb-add-quiz',
@@ -10,6 +10,7 @@ import { Topics } from '../models/topics';
   styleUrls: ['./add-quiz.component.css']
 })
 export class AddQuizComponent implements OnInit {
+  topics: Array<QuestionTopic> = [];
   createQuizForm: FormGroup;
   questions: FormArray;
   questionChoices: { [questionNum: number]: FormArray } = {};
@@ -17,6 +18,9 @@ export class AddQuizComponent implements OnInit {
   constructor(private quizService: QuizService, private router: Router) { }
 
   ngOnInit() {
+    this.quizService.questionTopics().then(({ topics }) => {
+      this.topics = topics;
+    });
     this.createQuizForm = new FormGroup({
       title: new FormControl(null, Validators.required),
       potAmount: new FormControl(0, Validators.required),
@@ -30,7 +34,7 @@ export class AddQuizComponent implements OnInit {
     return new FormGroup({
       question: new FormControl(null, [Validators.required, Validators.maxLength(64)]),
       questionNum: new FormControl(questionNum, Validators.required),
-      sport: new FormControl(this.topics[0].value, Validators.required),
+      topic: new FormControl(null, Validators.required),
       ticker: new FormControl(null, [Validators.required, Validators.maxLength(15)]),
       choices: new FormArray([this.createChoice()])
     });
@@ -57,10 +61,6 @@ export class AddQuizComponent implements OnInit {
     const questions = this.createQuizForm.get('questions') as FormArray;
     const choices = questions.at(question).get('choices') as FormArray;
     choices.removeAt(choice);
-  }
-
-  get topics(): Array<{ value: string, label: string }> {
-    return Topics;
   }
 
   async onSubmit(): Promise<void> {

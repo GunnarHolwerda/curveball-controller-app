@@ -92,4 +92,8 @@ export class AddQuizComponent implements OnInit {
       return [];
     }
   }
+
+  enforcesCorrectAnswers(): boolean {
+    return this.createQuizForm.controls['auth'].value as boolean;
+  }
 }

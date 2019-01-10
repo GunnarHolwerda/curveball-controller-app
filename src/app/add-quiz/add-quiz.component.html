@@ -58,7 +58,8 @@
                     <mat-form-field style="flex: 6" class="px-2">
                       <input matInput [maxlength]="64" formControlName="text" type="text" placeholder="Text">
                     </mat-form-field>
-                    <mat-checkbox style="flex: 1" class="ml-2 align-self-center" formControlName="isAnswer">Answer</mat-checkbox>
+                    <mat-checkbox *ngIf="enforcesCorrectAnswers()" style="flex: 1" class="ml-2 align-self-center"
+                      formControlName="isAnswer">Answer</mat-checkbox>
                   </div>
                 </div>
               </div>

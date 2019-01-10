@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AllQuizzesResponse, IQuizResponse, FullQuizResponse, QuizCompleteResponse } from '../models/quizzes';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { QuizStartResponse } from '../models/started-quiz';
 import { IQuestionResponse } from '../models/question';
 import { QuestionsPayload } from '../models/question-payload';
@@ -8,6 +8,7 @@ import { QuestionResults } from '../models/question-results';
 import { IUser } from '../models/user';
 import { Env } from './environment.service';
 import { QuestionTopicsResponse } from '../models/question-topics-response';
+import { QuestionTypesResponse } from '../models/question-types-response';
 
 @Injectable({
   providedIn: 'root'
@@ -83,5 +84,12 @@ export class QuizService {
 
   questionTopics(): Promise<QuestionTopicsResponse> {
     return this.http.get<QuestionTopicsResponse>(`${this.basePath}/questions/topics`, { headers: this.headers }).toPromise();
+  }
+
+  questionTypes(forTopic?: number): Promise<QuestionTypesResponse> {
+    return this.http.get<QuestionTypesResponse>(
+      `${this.basePath}/questions/type`,
+      { headers: this.headers, params: { forTopic: forTopic.toString() } }
+    ).toPromise();
   }
 }

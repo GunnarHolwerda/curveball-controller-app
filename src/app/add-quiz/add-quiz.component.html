@@ -32,6 +32,13 @@
                   </mat-option>
                 </mat-select>
               </mat-form-field>
+              <mat-form-field style="flex: 1" class="px-2" *ngIf="typesLoadedForQuestion(i + 1)">
+                <mat-select formControlName="typeId" placeholder="Type">
+                  <mat-option *ngFor="let type of typesForQuestion(i + 1)" [value]="type.id">
+                    {{type.title}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
               <mat-form-field style="flex: 3" class="px-2">
                 <input matInput formControlName="ticker" type="text" placeholder="Headline (max 15 characters)">
               </mat-form-field>

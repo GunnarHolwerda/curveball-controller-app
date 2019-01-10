@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
 import { QuizService } from '../services/quiz.service';
 import { Router } from '@angular/router';
 import { QuestionTopic } from '../models/question-topics-response';
+import { QuestionType } from '../models/question-types-response';
 
 @Component({
   selector: 'cb-add-quiz',
@@ -11,6 +12,7 @@ import { QuestionTopic } from '../models/question-topics-response';
 })
 export class AddQuizComponent implements OnInit {
   topics: Array<QuestionTopic> = [];
+  questionTypes: { [questionNum: number]: Array<QuestionType> } = {};
   createQuizForm: FormGroup;
   questions: FormArray;
   questionChoices: { [questionNum: number]: FormArray } = {};
@@ -31,13 +33,22 @@ export class AddQuizComponent implements OnInit {
   }
 
   createQuestion(questionNum = 1): FormGroup {
-    return new FormGroup({
+    const questionGroup = new FormGroup({
       question: new FormControl(null, [Validators.required, Validators.maxLength(64)]),
       questionNum: new FormControl(questionNum, Validators.required),
       topic: new FormControl(null, Validators.required),
+      typeId: new FormControl(null, Validators.required),
       ticker: new FormControl(null, [Validators.required, Validators.maxLength(15)]),
       choices: new FormArray([this.createChoice()])
     });
+
+    questionGroup.controls['topic'].valueChanges.subscribe((newTopicId) => {
+      this.quizService.questionTypes(newTopicId).then(({ types }) => {
+        this.questionTypes[questionNum] = types;
+      });
+    });
+
+    return questionGroup;
   }
 
   addQuestion(): void {
@@ -68,5 +79,17 @@ export class AddQuizComponent implements OnInit {
     const { quiz } = await this.quizService.createQuiz({ potAmount, title, auth });
     await this.quizService.addQuestions(quiz.quizId, { questions });
     this.router.navigate(['/quizzes', quiz.quizId]);
+  }
+
+  typesLoadedForQuestion(questionNum: number): boolean {
+    return this.questionTypes[questionNum] && this.questionTypes[questionNum].length > 0;
+  }
+
+  typesForQuestion(questionNum: number): Array<QuestionType> {
+    if (this.typesLoadedForQuestion(questionNum)) {
+      return this.questionTypes[questionNum];
+    } else {
+      return [];
+    }
   }
 }

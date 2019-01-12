@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { IQuestionResponse, IChoiceResponse } from '../models/question';
-import { QuestionResults } from '../models/question-results';
+import { IQuestionResponse, IChoiceResponse } from '../../models/question';
+import { QuestionResults } from '../../models/question-results';
 
 @Component({
   selector: 'cb-results-card',

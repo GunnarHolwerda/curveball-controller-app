@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
-import { QuizService } from '../services/quiz.service';
 import { Router } from '@angular/router';
-import { QuestionTopic } from '../models/question-topics-response';
-import { QuestionType } from '../models/question-types-response';
+import { QuestionTopic } from 'src/app/models/question-topics-response';
+import { QuestionType } from 'src/app/models/question-types-response';
+import { QuizService } from 'src/app/services/quiz.service';
 
 @Component({
   selector: 'cb-add-quiz',

@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { QuizService } from '../services/quiz.service';
-import { FullQuizResponse } from '../models/quizzes';
 import { MatSnackBar, MatSort, MatTableDataSource } from '@angular/material';
+import { FullQuizResponse } from 'src/app/models/quizzes';
+import { QuizService } from 'src/app/services/quiz.service';
 
 @Component({
   selector: 'cb-all-quizzes',

@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { IQuizResponse } from '../models/quizzes';
-import { QuizService } from '../services/quiz.service';
+import { IQuizResponse } from 'src/app/models/quizzes';
+import { QuizService } from 'src/app/services/quiz.service';
 
 @Component({
   selector: 'cb-quiz-settings-modal',

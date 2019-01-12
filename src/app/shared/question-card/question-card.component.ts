@@ -1,8 +1,6 @@
-import { Component, OnInit, Input, EventEmitter, Output, AfterViewInit, OnChanges, SimpleChanges } from '@angular/core';
-import { IQuestionResponse, IChoiceResponse } from '../models/question';
-import { CurveballEnvironment } from '../models/curveball-env';
-import { Env } from '../services/environment.service';
-
+import { Component, OnInit, Input, EventEmitter, Output, OnChanges, SimpleChanges } from '@angular/core';
+import { IQuestionResponse, IChoiceResponse } from '../../models/question';
+import { Env } from '../../services/environment.service';
 @Component({
   selector: 'cb-question-card',
   templateUrl: './question-card.component.html',

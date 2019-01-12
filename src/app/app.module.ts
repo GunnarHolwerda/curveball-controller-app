@@ -5,42 +5,21 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
 import { CurveballMaterialModule } from './curveball-material/curveball-material.module';
-import { TestQuizComponent } from './test-quiz/test-quiz.component';
-import { QuestionCardComponent } from './question-card/question-card.component';
-import { AllQuizzesComponent } from './all-quizzes/all-quizzes.component';
 import { HttpClientModule } from '@angular/common/http';
 import { QuizService } from './services/quiz.service';
 import { AppRoutingModule } from './app-routing.module';
-import { QuizDetailComponent } from './quiz-detail/quiz-detail.component';
-import { RouterOutletComponent } from './router-outlet/router-outlet.component';
-import { AddQuizComponent } from './add-quiz/add-quiz.component';
 import { CurveballNavComponent } from './curveball-nav/curveball-nav.component';
-import { ConnectToQuizComponent } from './connect-to-quiz/connect-to-quiz.component';
 import { Env } from './services/environment.service';
-import { ResultsCardComponent } from './results-card/results-card.component';
 import { LoginComponent } from './login/login.component';
-import { TeleprompterComponent } from './teleprompter/teleprompter.component';
 import { RealtimeService } from './services/realtime.service';
-import { WarningBannerComponent } from './warning-banner/warning-banner.component';
-import { QuizSettingsModalComponent } from './quiz-settings-modal/quiz-settings-modal.component';
 import { TestToolsService } from './services/test-tools.service';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    TestQuizComponent,
-    QuestionCardComponent,
-    AllQuizzesComponent,
-    QuizDetailComponent,
-    RouterOutletComponent,
-    AddQuizComponent,
     CurveballNavComponent,
-    ConnectToQuizComponent,
-    ResultsCardComponent,
     LoginComponent,
-    TeleprompterComponent,
-    WarningBannerComponent,
-    QuizSettingsModalComponent
   ],
   imports: [
     BrowserModule,
@@ -49,15 +28,13 @@ import { TestToolsService } from './services/test-tools.service';
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SharedModule
   ],
   providers: [
     QuizService,
     Env,
     TestToolsService
-  ],
-  entryComponents: [
-    QuizSettingsModalComponent
   ],
   bootstrap: [AppComponent]
 })

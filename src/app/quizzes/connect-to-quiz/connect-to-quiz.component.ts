@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { NgForm } from '../../../node_modules/@angular/forms';
-import { RealtimeService, ActiveQuiz } from '../services/realtime.service';
-import { Router } from '../../../node_modules/@angular/router';
-import { CurrentQuizzes } from '../services/current-quizzes.service';
+import { NgForm } from '@angular/forms';
+import { ActiveQuiz } from 'src/app/services/realtime.service';
+import { CurrentQuizzes } from 'src/app/services/current-quizzes.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'cb-connect-to-quiz',

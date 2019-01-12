@@ -1,17 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { FullQuizResponse, IQuizResponse } from '../models/quizzes';
-import { QuizService } from '../services/quiz.service';
-import { IQuestionResponse } from '../models/question';
-// @ts-ignore:one-line
-import deepEqual from 'deep-equal';
-import { RealtimeService } from '../services/realtime.service';
-import { IUser } from '../models/user';
-import { CurrentQuizzes } from '../services/current-quizzes.service';
-import { Env } from '../services/environment.service';
 import { MatDialog } from '@angular/material/dialog';
 import { QuizSettingsModalComponent } from '../quiz-settings-modal/quiz-settings-modal.component';
-import { TestToolsService } from '../services/test-tools.service';
+import { FullQuizResponse, IQuizResponse } from 'src/app/models/quizzes';
+import { IUser } from 'src/app/models/user';
+import { QuizService } from 'src/app/services/quiz.service';
+import { RealtimeService } from 'src/app/services/realtime.service';
+import { CurrentQuizzes } from 'src/app/services/current-quizzes.service';
+import { Env } from 'src/app/services/environment.service';
+import { TestToolsService } from 'src/app/services/test-tools.service';
+import { IQuestionResponse } from 'src/app/models/question';
 
 @Component({
   selector: 'cb-quiz-detail',

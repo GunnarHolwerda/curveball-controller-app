@@ -1,10 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { CurrentQuizzes } from '../services/current-quizzes.service';
-import { QuizService } from '../services/quiz.service';
-import { FullQuizResponse } from '../models/quizzes';
-import { RealtimeService } from '../services/realtime.service';
-import { QuestionResults } from '../models/question-results';
-import { IQuestionResponse } from '../models/question';
+import { CurrentQuizzes } from '../../services/current-quizzes.service';
+import { QuizService } from '../../services/quiz.service';
+import { FullQuizResponse } from '../../models/quizzes';
+import { RealtimeService } from '../../services/realtime.service';
+import { QuestionResults } from '../../models/question-results';
+import { IQuestionResponse } from '../../models/question';
 import { Subscription } from 'rxjs/internal/Subscription';
 
 @Component({

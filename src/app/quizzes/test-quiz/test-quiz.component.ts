@@ -1,11 +1,11 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { IQuestionResponse, IChoiceResponse, ITokenResponse } from '../models/question';
-import { RealtimeService } from '../services/realtime.service';
-import { ActivatedRoute, Params } from '../../../node_modules/@angular/router';
-import { MatSnackBar } from '../../../node_modules/@angular/material';
-import { QuestionResults } from '../models/question-results';
-import { IUser } from '../models/user';
-import { CurrentQuizzes } from '../services/current-quizzes.service';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
+import { RealtimeService } from 'src/app/services/realtime.service';
+import { MatSnackBar } from '@angular/material';
+import { CurrentQuizzes } from 'src/app/services/current-quizzes.service';
+import { IQuestionResponse, ITokenResponse, IChoiceResponse } from 'src/app/models/question';
+import { QuestionResults } from 'src/app/models/question-results';
+import { IUser } from 'src/app/models/user';
 
 @Component({
   selector: 'cb-test-quiz',

@@ -93,10 +93,9 @@ export class RealtimeService {
     return this.http.get<{ quizId: string }>(`${this.apiPath}/quizzes/${quizId}`, { headers: this.headers }).toPromise();
   }
 
-  createQuizRoom(quiz: IQuizResponse, ticker: Array<{ sport: string, ticker: string }>, numQuestions: number): Promise<void> {
+  createQuizRoom(quiz: IQuizResponse): Promise<void> {
     const payload = {
-      quiz: { ...quiz, numQuestions },
-      ticker
+      quiz: { ...quiz },
     };
     return this.http.post<void>(`${this.apiPath}/quizzes`, payload, { headers: this.headers }).toPromise();
   }

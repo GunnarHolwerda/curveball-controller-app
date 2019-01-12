@@ -1,9 +1,14 @@
+import { QuestionTopic } from './question-topics-response';
+import { QuestionType } from './question-types-response';
+
 export interface IQuestionResponse {
     questionId: string;
     created: string;
     question: string;
     ticker: string;
-    sport: string;
+    topic: QuestionTopic;
+    type: QuestionType;
+    subjectId: number;
     questionNum: number;
     sent: boolean;
     expired: string;

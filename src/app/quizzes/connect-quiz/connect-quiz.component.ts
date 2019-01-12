@@ -9,10 +9,10 @@ import { IUser } from 'src/app/models/user';
 
 @Component({
   selector: 'cb-test-quiz',
-  templateUrl: './test-quiz.component.html',
-  styleUrls: ['./test-quiz.component.css']
+  templateUrl: './connect-quiz.component.html',
+  styleUrls: ['./connect-quiz.component.css']
 })
-export class TestQuizComponent implements OnInit, OnDestroy {
+export class ConnectQuizComponent implements OnInit, OnDestroy {
   quizRoom: SocketIOClient.Socket;
   quizId: string;
   events: Array<{ type: string, value: any }> = [];

@@ -34,7 +34,7 @@ export class AppComponent implements OnInit, OnDestroy {
           const snackbarRef = this.snackbar.open(`A quiz ${q.title} is currently live!`, 'View', {
             duration: 5000
           });
-          snackbarRef.onAction().subscribe(() => this.router.navigate(['/test', q.quizId]));
+          snackbarRef.onAction().subscribe(() => this.router.navigate(['/app', 'quizzes', q.quizId, 'connect']));
         });
       });
     });

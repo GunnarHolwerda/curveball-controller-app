@@ -3,6 +3,26 @@ import { ControlValueAccessor, FormGroup, FormControl, Validators, NG_VALUE_ACCE
 import { QuizService } from 'src/app/services/quiz.service';
 import { QuestionType } from 'src/app/models/question-types-response';
 import { QuestionTopic } from 'src/app/models/question-topics-response';
+import { QuestionPayload } from 'src/app/models/question-payload';
+
+export interface QuestionFormChoice {
+  text: string;
+  isAnswer: boolean;
+  subjectId: number;
+}
+
+export interface QuestionDetails {
+  question: string;
+  ticker: string;
+  subjectId: number;
+  choices: Array<QuestionFormChoice>;
+}
+
+export interface QuestionForm {
+  topic: number;
+  typeId: number;
+  questionDetails: QuestionDetails;
+}
 
 @Component({
   selector: 'cb-question-creator',
@@ -39,7 +59,7 @@ export class QuestionCreatorComponent implements OnInit, ControlValueAccessor {
 
     this.questionForm.valueChanges.subscribe((value) => {
       if (this.questionForm.valid) {
-        this.propagateChange({ ...value, questionNum: this.questionNum });
+        this.propagateChange(this.formAsQuestion(value));
       } else {
         this.propagateChange(null);
       }
@@ -76,5 +96,18 @@ export class QuestionCreatorComponent implements OnInit, ControlValueAccessor {
   selectedTypeMachineName(): string {
     const selectedType = this.typesForQuestion().find(t => t.id === this.questionForm.controls['typeId'].value);
     return selectedType ? selectedType.machineName : '';
+  }
+
+  formAsQuestion(formValue: QuestionForm): QuestionPayload {
+    const { topic, typeId, questionDetails } = formValue;
+    return {
+      question: questionDetails.question,
+      questionNum: this.questionNum,
+      ticker: questionDetails.ticker,
+      topic: topic,
+      typeId: typeId,
+      subjectId: questionDetails.subjectId,
+      choices: questionDetails.choices
+    };
   }
 }

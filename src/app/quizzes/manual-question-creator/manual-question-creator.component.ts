@@ -40,6 +40,7 @@ export class ManualQuestionCreatorComponent implements OnInit, ControlValueAcces
     });
   }
 
+  // TODO: Prevent more than 4 choices
   addChoice(): void {
     const choices = this.detailsForm.get('choices') as FormArray;
     choices.push(this.createChoice());

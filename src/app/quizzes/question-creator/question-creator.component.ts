@@ -93,9 +93,13 @@ export class QuestionCreatorComponent implements OnInit, ControlValueAccessor {
     }
   }
 
-  selectedTypeMachineName(): string {
+  selectedType(): QuestionType | undefined {
     const selectedType = this.typesForQuestion().find(t => t.id === this.questionForm.controls['typeId'].value);
-    return selectedType ? selectedType.machineName : '';
+    return selectedType;
+  }
+
+  selectedTopic(): QuestionTopic | undefined {
+    return this.topics.find(t => t.topicId === this.questionForm.controls['topic'].value);
   }
 
   formAsQuestion(formValue: QuestionForm): QuestionPayload {

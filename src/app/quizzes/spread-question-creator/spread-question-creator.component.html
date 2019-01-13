@@ -1,0 +1,19 @@
+<div class="col p-0">
+  <form [formGroup]="detailsForm">
+    <div class="row">
+      <mat-form-field class="col-4 px-2">
+        <mat-select formControlName="subjectId" placeholder="Game">
+          <mat-option *ngFor="let subject of questionSubjects" [value]="subject.subjectId">
+            {{subject.label}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="row">{{teams?.home.team.name}}</div>
+        <div class="row">{{teams?.away.team.name}}</div>
+      </div>
+    </div>
+  </form>
+</div>

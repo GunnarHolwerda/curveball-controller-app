@@ -21,7 +21,8 @@
     </div>
     <div class="row">
       <div style="width: 1em"></div>
-      <div class="col" [ngSwitch]="selectedTypeMachineName()">
+      <div class="col" *ngIf="selectedType()" [ngSwitch]="selectedType()?.machineName">
+        <cb-spread-question-creator *ngSwitchCase="'spread'" [topic]="selectedTopic()" [type]="selectedType()"></cb-spread-question-creator>
         <cb-manual-question-creator *ngSwitchDefault formControlName="questionDetails"></cb-manual-question-creator>
       </div>
     </div>

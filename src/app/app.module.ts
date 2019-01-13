@@ -14,6 +14,7 @@ import { LoginComponent } from './login/login.component';
 import { RealtimeService } from './services/realtime.service';
 import { TestToolsService } from './services/test-tools.service';
 import { SharedModule } from './shared/shared.module';
+import { SubjectService } from './services/subject.service';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { SharedModule } from './shared/shared.module';
   providers: [
     QuizService,
     Env,
-    TestToolsService
+    TestToolsService,
+    SubjectService
   ],
   bootstrap: [AppComponent]
 })

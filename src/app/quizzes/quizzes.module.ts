@@ -12,6 +12,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CurveballMaterialModule } from '../curveball-material/curveball-material.module';
 import { QuestionCreatorComponent } from './question-creator/question-creator.component';
 import { ManualQuestionCreatorComponent } from './manual-question-creator/manual-question-creator.component';
+import { SpreadQuestionCreatorComponent } from './spread-question-creator/spread-question-creator.component';
 
 @NgModule({
   imports: [
@@ -28,7 +29,8 @@ import { ManualQuestionCreatorComponent } from './manual-question-creator/manual
     ConnectQuizComponent,
     QuizSettingsModalComponent,
     QuestionCreatorComponent,
-    ManualQuestionCreatorComponent
+    ManualQuestionCreatorComponent,
+    SpreadQuestionCreatorComponent
   ],
   entryComponents: [
     QuizSettingsModalComponent

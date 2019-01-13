@@ -1,16 +1,30 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { ControlValueAccessor, FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
+import { Component, OnInit, Input, OnChanges, SimpleChanges, forwardRef } from '@angular/core';
+import { ControlValueAccessor, FormGroup, FormControl, Validators, FormArray, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { SubjectService } from 'src/app/services/subject.service';
 import { QuestionTopic } from 'src/app/models/question-topics-response';
 import { QuestionType } from 'src/app/models/question-types-response';
 import { SportGameResponse } from 'src/app/models/game-response';
 import { SportTeamResponse } from 'src/app/models/team-response';
 import { SubjectTypeTopicResponse } from 'src/app/models/subject-type-topic-response';
+import { QuestionDetails } from '../question-creator/question-creator.component';
+
+interface SpreadForm {
+  question: string;
+  ticker: string;
+  subjectId: number;
+  favoredTeam: SportTeamResponse;
+  spread: number;
+}
 
 @Component({
   selector: 'cb-spread-question-creator',
   templateUrl: './spread-question-creator.component.html',
-  styleUrls: ['./spread-question-creator.component.css']
+  styleUrls: ['./spread-question-creator.component.css'],
+  providers: [{
+    provide: NG_VALUE_ACCESSOR,
+    useExisting: forwardRef(() => SpreadQuestionCreatorComponent),
+    multi: true
+  }]
 })
 export class SpreadQuestionCreatorComponent implements OnInit, OnChanges, ControlValueAccessor {
   @Input() topic?: QuestionTopic;
@@ -30,7 +44,7 @@ export class SpreadQuestionCreatorComponent implements OnInit, OnChanges, Contro
         this.subjectResponse = response;
         this.questionSubjects = response.questionSubjects.map(s => {
           const { game } = s;
-          return { label: `${game.home.team.name} vs. ${game.away.team.name}`, subjectId: s.id };
+          return { label: `${game.home.team.name} vs. ${game.away.team.name}`, subjectId: s.subjectId };
         });
       });
     }
@@ -38,38 +52,60 @@ export class SpreadQuestionCreatorComponent implements OnInit, OnChanges, Contro
 
   ngOnInit() {
     this.detailsForm = new FormGroup({
-      question: new FormControl(null, [Validators.required, Validators.maxLength(64)]),
-      ticker: new FormControl(null, [Validators.required, Validators.maxLength(15)]),
       subjectId: new FormControl(null, [Validators.required]),
-      choices: new FormArray([this.createChoice()])
+      favoredTeam: new FormControl(null, Validators.required),
+      spread: new FormControl(null, Validators.required)
     });
 
-    this.detailsForm.controls['subjectId'].valueChanges.subscribe((value) => {
+    this.detailsForm.controls['subjectId'].valueChanges.subscribe((value: number) => {
       this.teams = {
-        home: this.subjectResponse.questionSubjects.find(g => g.id === value).game.home,
-        away: this.subjectResponse.questionSubjects.find(g => g.id === value).game.away
+        home: this.subjectResponse.questionSubjects.find(g => g.subjectId === value).game.home,
+        away: this.subjectResponse.questionSubjects.find(g => g.subjectId === value).game.away
       };
     });
-  }
 
-  createChoice(): FormGroup {
-    return new FormGroup({
-      text: new FormControl('', [Validators.required, Validators.maxLength(64)]),
-      subjectId: new FormControl(null, [Validators.required]),
-      isAnswer: new FormControl(false)
+    this.detailsForm.valueChanges.subscribe((value) => {
+      if (this.detailsForm.invalid) {
+        return null;
+      }
+      this.propogateChanges(this.convertToQuestionDetails(value));
     });
   }
 
-  writeValue(obj: any): void {
-    throw new Error('Method not implemented.');
+  propogateChanges = (_: QuestionDetails) => { };
+
+  writeValue(value: SpreadForm): void {
+    if (value) {
+      this.detailsForm.patchValue({ ...value });
+    }
   }
 
-  registerOnChange(fn: any): void {
-    throw new Error('Method not implemented.');
+  registerOnChange(fn: (details: QuestionDetails) => void): void {
+    this.propogateChanges = fn;
   }
 
-  registerOnTouched(fn: any): void {
-    throw new Error('Method not implemented.');
+  registerOnTouched(_: any): void {
+    // ignore interaction
+    return;
+  }
+
+  private convertToQuestionDetails(form: SpreadForm): QuestionDetails {
+    const { away, home } = this.teams;
+    const { favoredTeam, spread } = form;
+
+    const getSpreadValue = (teamId: number): string => {
+      return favoredTeam.subjectId === teamId ? `-${spread}` : `+${spread}`;
+    };
+
+    return {
+      question: `${home.team.name} vs. ${away.team.name}`,
+      ticker: `${home.team.abbreviation} vs. ${away.team.abbreviation}`,
+      subjectId: form.subjectId,
+      choices: [
+        { text: getSpreadValue(home.subjectId), subjectId: home.subjectId, isAnswer: false },
+        { text: getSpreadValue(away.subjectId), subjectId: away.subjectId, isAnswer: false },
+      ]
+    };
   }
 
 }

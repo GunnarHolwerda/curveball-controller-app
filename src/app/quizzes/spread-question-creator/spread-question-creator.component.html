@@ -8,11 +8,20 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
-    </div>
-    <div class="row">
-      <div class="col">
-        <div class="row">{{teams?.home.team.name}}</div>
-        <div class="row">{{teams?.away.team.name}}</div>
+      <div *ngIf="teams" class="col-8">
+        <mat-form-field class="col-8">
+          <mat-select formControlName="favoredTeam" placeholder="Favorite">
+            <mat-option [value]="teams.home">
+              {{teams.home.team.name}}
+            </mat-option>
+            <mat-option [value]="teams.away">
+              {{teams.away.team.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="col-4">
+          <input matInput placeholder="Spread" type="number" min="0" name="spread" formControlName="spread">
+        </mat-form-field>
       </div>
     </div>
   </form>

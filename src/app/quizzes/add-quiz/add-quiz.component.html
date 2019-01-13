@@ -10,69 +10,21 @@
           <mat-form-field class="ml-5" style="flex: 1">
             <input matInput placeholder="Amount" type="number" name="potAmount" formControlName="potAmount">
           </mat-form-field>
-          <mat-checkbox class="ml-5 pt-2" style="flex: 1" placeholder="Auth" type="checkbox" name="auth"
-            formControlName="auth">Enforce correct answers</mat-checkbox>
+          <!-- <mat-checkbox class="ml-5 pt-2" style="flex: 1" placeholder="Auth" type="checkbox" name="auth" -->
+          <!-- formControlName="auth">Enforce correct answers</mat-checkbox> -->
         </div>
         <div class="d-flex flex-row mt-3">
           <h3>Questions</h3>
         </div>
         <div formArrayName="questions" *ngFor="let question of questions.controls; let i = index;">
-          <div class="d-flex my-3" [formGroupName]="i">
-            <div class="flex-row d-flex justify-content-around w-100">
-              <div class="mx-2 my-auto" style="width: 1em">
-                {{question.value.questionNum}})
-              </div>
-              <mat-form-field style="flex: 5" class="px-2">
-                <input matInput [maxlength]="64" formControlName="question" type="text" placeholder="Question">
-              </mat-form-field>
-              <mat-form-field style="flex: 1" class="px-2">
-                <mat-select formControlName="topic" placeholder="Topic">
-                  <mat-option *ngFor="let topic of topics" [value]="topic.topicId">
-                    {{topic.label}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-              <mat-form-field style="flex: 1" class="px-2" *ngIf="typesLoadedForQuestion(i + 1)">
-                <mat-select formControlName="typeId" placeholder="Type">
-                  <mat-option *ngFor="let type of typesForQuestion(i + 1)" [value]="type.id">
-                    {{type.title}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-              <mat-form-field style="flex: 3" class="px-2">
-                <input matInput formControlName="ticker" type="text" placeholder="Headline (max 15 characters)">
-              </mat-form-field>
-            </div>
-          </div>
-          <mat-card class="ml-4">
-            <mat-card-title>
-              <span>Choices</span>
-            </mat-card-title>
-            <mat-card-content>
-              <div class="d-flex py-2 flex-column" [formGroupName]="i">
-                <div class="d-flex" formArrayName="choices" *ngFor="let choices of createQuizForm.get('questions').at(i).get('choices').controls; let j = index;">
-                  <div class="w-100 d-flex justify-content-around py-2" [formGroupName]="j">
-                    <button (click)="removeChoice(i, j)" mat-icon-button style="min-width: 0">
-                      <mat-icon>close</mat-icon>
-                    </button>
-                    <mat-form-field style="flex: 6" class="px-2">
-                      <input matInput [maxlength]="64" formControlName="text" type="text" placeholder="Text">
-                    </mat-form-field>
-                    <mat-checkbox *ngIf="enforcesCorrectAnswers()" style="flex: 1" class="ml-2 align-self-center"
-                      formControlName="isAnswer">Answer</mat-checkbox>
-                  </div>
-                </div>
-              </div>
-            </mat-card-content>
-            <mat-card-actions>
-              <button mat-button color="primary" (click)="addChoice(i)">Add Choice</button>
-            </mat-card-actions>
-          </mat-card>
+          <cb-question-creator [questionNum]="i + 1" [topics]="topics" [formControlName]="i"></cb-question-creator>
+          <mat-divider class="mt-3"></mat-divider>
         </div>
-        <mat-divider></mat-divider>
+        <div class="row p-4">
+          <button mat-raised-button color="accent" (click)="onSubmit()" [disabled]="createQuizForm.invalid">Create</button>
+          <button class="ml-3" mat-raised-button color="primary" (click)="addQuestion()">Add Question</button>
+        </div>
       </div>
-      <button class="mt-4" mat-raised-button color="accent" (click)="onSubmit()" [disabled]="createQuizForm.invalid">Create</button>
-      <button class="ml-3" mat-raised-button color="primary" (click)="addQuestion()">Add Question</button>
     </form>
   </div>
 </div>

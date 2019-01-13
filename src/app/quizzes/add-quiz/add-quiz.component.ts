@@ -32,46 +32,13 @@ export class AddQuizComponent implements OnInit {
     this.questions = this.createQuizForm.get('questions') as FormArray;
   }
 
-  createQuestion(questionNum = 1): FormGroup {
-    const questionGroup = new FormGroup({
-      question: new FormControl(null, [Validators.required, Validators.maxLength(64)]),
-      questionNum: new FormControl(questionNum, Validators.required),
-      topic: new FormControl(null, Validators.required),
-      typeId: new FormControl(null, Validators.required),
-      ticker: new FormControl(null, [Validators.required, Validators.maxLength(15)]),
-      choices: new FormArray([this.createChoice()])
-    });
-
-    questionGroup.controls['topic'].valueChanges.subscribe((newTopicId) => {
-      this.quizService.questionTypes(newTopicId).then(({ types }) => {
-        this.questionTypes[questionNum] = types;
-      });
-    });
-
+  createQuestion(): FormControl {
+    const questionGroup = new FormControl(null, Validators.required);
     return questionGroup;
   }
 
   addQuestion(): void {
-    this.questions.push(this.createQuestion(this.questions.length + 1));
-  }
-
-  createChoice(): FormGroup {
-    return new FormGroup({
-      text: new FormControl('', [Validators.required, Validators.maxLength(64)]),
-      isAnswer: new FormControl(false)
-    });
-  }
-
-  addChoice(question = 0): void {
-    const questions = this.createQuizForm.get('questions') as FormArray;
-    const choices = questions.at(question).get('choices') as FormArray;
-    choices.push(this.createChoice());
-  }
-
-  removeChoice(question: number, choice: number): void {
-    const questions = this.createQuizForm.get('questions') as FormArray;
-    const choices = questions.at(question).get('choices') as FormArray;
-    choices.removeAt(choice);
+    this.questions.push(this.createQuestion());
   }
 
   async onSubmit(): Promise<void> {
@@ -79,18 +46,6 @@ export class AddQuizComponent implements OnInit {
     const { quiz } = await this.quizService.createQuiz({ potAmount, title, auth });
     await this.quizService.addQuestions(quiz.quizId, { questions });
     this.router.navigate(['/quizzes', quiz.quizId]);
-  }
-
-  typesLoadedForQuestion(questionNum: number): boolean {
-    return this.questionTypes[questionNum] && this.questionTypes[questionNum].length > 0;
-  }
-
-  typesForQuestion(questionNum: number): Array<QuestionType> {
-    if (this.typesLoadedForQuestion(questionNum)) {
-      return this.questionTypes[questionNum];
-    } else {
-      return [];
-    }
   }
 
   enforcesCorrectAnswers(): boolean {

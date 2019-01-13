@@ -1,0 +1,37 @@
+<div class="col p-0">
+  <form [formGroup]="detailsForm">
+    <div class="row">
+      <mat-form-field class="col-8">
+        <input matInput [maxlength]="64" formControlName="question" type="text" placeholder="Question">
+      </mat-form-field>
+      <mat-form-field class="col px-2">
+        <input matInput [maxLength]="15" formControlName="ticker" type="text" placeholder="Headline (max 15 characters)">
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <div class="col">
+        <mat-card>
+          <mat-card-title>
+            <span>Choices</span>
+          </mat-card-title>
+          <mat-card-content>
+            <div class="d-flex" formArrayName="choices" *ngFor="let choices of detailsForm.get('choices').controls; let i = index;">
+              <div class="w-100 d-flex justify-content-around py-2" [formGroupName]="i">
+                <button (click)="removeChoice(i)" mat-icon-button style="min-width: 0">
+                  <mat-icon>close</mat-icon>
+                </button>
+                <mat-form-field style="flex: 6" class="px-2">
+                  <input matInput [maxlength]="64" formControlName="text" type="text" placeholder="Text">
+                </mat-form-field>
+                <!-- <mat-checkbox *ngIf="enforcesCorrectAnswers()" style="flex: 1" class="ml-2 align-self-center" formControlName="isAnswer">Answer</mat-checkbox> -->
+              </div>
+            </div>
+          </mat-card-content>
+          <mat-card-actions>
+            <button mat-button color="primary" (click)="addChoice()">Add Choice</button>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+    </div>
+  </form>
+</div>

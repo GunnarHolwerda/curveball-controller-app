@@ -1,0 +1,29 @@
+<form [formGroup]="questionForm">
+  <div class="col">
+    <div class="row align-items-center">
+      <div style="width: 1em">
+        <span>{{questionNum}})</span>
+      </div>
+      <mat-form-field class="col-4 px-2">
+        <mat-select formControlName="topic" placeholder="Topic">
+          <mat-option *ngFor="let topic of topics" [value]="topic.topicId">
+            {{topic.label}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="col px-2" *ngIf="typesLoadedForQuestion()">
+        <mat-select formControlName="typeId" placeholder="Type">
+          <mat-option *ngFor="let type of typesForQuestion()" [value]="type.id">
+            {{type.title}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <div style="width: 1em"></div>
+      <div class="col" [ngSwitch]="selectedTypeMachineName()">
+        <cb-manual-question-creator *ngSwitchDefault formControlName="questionDetails"></cb-manual-question-creator>
+      </div>
+    </div>
+  </div>
+</form>

@@ -13,6 +13,7 @@ import { CurveballMaterialModule } from '../curveball-material/curveball-materia
 import { QuestionCreatorComponent } from './question-creator/question-creator.component';
 import { ManualQuestionCreatorComponent } from './manual-question-creator/manual-question-creator.component';
 import { SpreadQuestionCreatorComponent } from './spread-question-creator/spread-question-creator.component';
+import { FantasyQuestionCreatorComponent } from './fantasy-question-creator/fantasy-question-creator.component';
 
 @NgModule({
   imports: [
@@ -30,7 +31,8 @@ import { SpreadQuestionCreatorComponent } from './spread-question-creator/spread
     QuizSettingsModalComponent,
     QuestionCreatorComponent,
     ManualQuestionCreatorComponent,
-    SpreadQuestionCreatorComponent
+    SpreadQuestionCreatorComponent,
+    FantasyQuestionCreatorComponent
   ],
   entryComponents: [
     QuizSettingsModalComponent

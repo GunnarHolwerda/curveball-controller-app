@@ -28,6 +28,7 @@ interface FantasyForm {
 export class FantasyQuestionCreatorComponent implements OnInit, OnChanges, ControlValueAccessor {
   @Input() topic?: QuestionTopic;
   @Input() type?: QuestionType;
+  positions: Array<string>;
   fantasyForm: FormGroup;
   playerOptions: Array<any>;
   filteredOptions: Array<Observable<string[]>> = [];
@@ -45,6 +46,14 @@ export class FantasyQuestionCreatorComponent implements OnInit, OnChanges, Contr
           this.subjectResponse = response;
           this.filterSubjects();
         });
+    }
+    if (topic) {
+      // TODO have this be a call to the backend to retrieve details for the question type
+      if (this.topic.machineName === 'nfl') {
+        this.positions = ['QB', 'RB', 'WR', 'TE', 'DEF', 'FLEX'];
+      } else if (this.topic.machineName === 'nba') {
+        this.positions = ['PG', 'SG', 'SF', 'PF', 'C'];
+      }
     }
   }
 
@@ -116,10 +125,6 @@ export class FantasyQuestionCreatorComponent implements OnInit, OnChanges, Contr
     return;
   }
 
-  get positions() {
-    return ['QB', 'RB', 'WR', 'TE', 'DEF', 'FLEX'];
-  }
-
   createPlayerForm(): FormGroup {
     const group = new FormGroup({
       option: new FormControl(null, [Validators.required]),
@@ -143,7 +148,6 @@ export class FantasyQuestionCreatorComponent implements OnInit, OnChanges, Contr
 
   private convertToQuestionDetails(form: FantasyForm): QuestionDetails {
     const { position, players } = form;
-    console.log('conversion', position, players);
 
     return {
       question: position,

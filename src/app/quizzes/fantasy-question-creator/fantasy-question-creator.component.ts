@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, SimpleChanges, OnChanges, forwardRef } from '@angular/core';
 import { QuestionDetails } from '../question-creator/question-creator.component';
-import { FormGroup, FormControl, Validators, FormArray, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormArray, ControlValueAccessor, NG_VALUE_ACCESSOR, AbstractControl } from '@angular/forms';
 import { QuestionTopic } from 'src/app/models/question-topics-response';
 import { QuestionType } from 'src/app/models/question-types-response';
 import { SubjectService } from 'src/app/services/subject.service';
@@ -12,7 +12,7 @@ import { startWith, map } from 'rxjs/operators';
 
 interface FantasyForm {
   position: string;
-  players: Array<any>;
+  players: Array<{ option: { label: string, subjectId: number } }>;
 }
 
 @Component({
@@ -31,6 +31,7 @@ export class FantasyQuestionCreatorComponent implements OnInit, OnChanges, Contr
   fantasyForm: FormGroup;
   playerOptions: Array<any>;
   filteredOptions: Array<Observable<string[]>> = [];
+  playerFormArray: FormArray;
   subjectResponse: SubjectTypeTopicResponse<any, SportTeamResponse | SportPlayerResponse>;
 
   constructor(private subjectService: SubjectService) { }
@@ -49,18 +50,24 @@ export class FantasyQuestionCreatorComponent implements OnInit, OnChanges, Contr
 
   ngOnInit() {
     this.fantasyForm = new FormGroup({
-      position: new FormControl(null, Validators.required),
+      position: new FormControl(null, [Validators.required]),
       players: new FormArray([this.createPlayerForm(), this.createPlayerForm(), this.createPlayerForm()])
     });
 
     this.fantasyForm.valueChanges.subscribe((value) => {
-      console.log(value);
+      if (this.formIsValid()) {
+        this.propogateChanges(this.convertToQuestionDetails(value));
+      }
     });
 
     this.fantasyForm.controls['position'].valueChanges.subscribe(() => {
-      this.fantasyForm.controls['players'] = new FormArray([this.createPlayerForm(), this.createPlayerForm(), this.createPlayerForm()]);
+      const playerFormArray: FormArray = this.fantasyForm.get('players') as FormArray;
+      playerFormArray.patchValue([{ option: null }, { option: null }, { option: null }], { emitEvent: false });
+      playerFormArray.reset();
       this.filterSubjects();
     });
+
+    this.playerFormArray = (this.fantasyForm.get('players') as FormArray);
   }
 
   filterSubjects(): void {
@@ -86,7 +93,10 @@ export class FantasyQuestionCreatorComponent implements OnInit, OnChanges, Contr
   }
 
   autocompleteDisplay(option: { label: string, subjectId: number }): string {
-    return option.label;
+    if (option) {
+      return option.label;
+    }
+    return '';
   }
 
   propogateChanges = (_: QuestionDetails) => { };
@@ -110,22 +120,21 @@ export class FantasyQuestionCreatorComponent implements OnInit, OnChanges, Contr
     return ['QB', 'RB', 'WR', 'TE', 'DEF', 'FLEX'];
   }
 
-  createPlayerForm(): FormControl {
-    const control = new FormControl({
-      subjectId: new FormControl(null, Validators.required),
-      text: new FormControl(null, Validators.required),
+  createPlayerForm(): FormGroup {
+    const group = new FormGroup({
+      option: new FormControl(null, [Validators.required]),
     });
-    this.filteredOptions.push(control.valueChanges
+    this.filteredOptions.push(group.valueChanges
       .pipe(
-        startWith(''),
+        startWith({ option: '' }),
         map(value => this._filter(value))
       ));
-    return control;
+    return group;
   }
 
-  private _filter(value: string): Array<string> {
-    if (typeof value === 'string') {
-      const filterValue = value.toLowerCase();
+  private _filter(value: { option: string }): Array<string> {
+    if (typeof value.option === 'string') {
+      const filterValue = value.option.toLowerCase();
       return this.playerOptions.filter(option => option.label.toLowerCase().includes(filterValue));
     } else {
       return [];
@@ -134,12 +143,24 @@ export class FantasyQuestionCreatorComponent implements OnInit, OnChanges, Contr
 
   private convertToQuestionDetails(form: FantasyForm): QuestionDetails {
     const { position, players } = form;
+    console.log('conversion', position, players);
 
     return {
       question: position,
       ticker: position,
       subjectId: null,
-      choices: players
+      choices: players.map((p) => ({ text: p.option.label, subjectId: p.option.subjectId, isAnswer: false }))
     };
+  }
+
+  private formIsValid(): boolean {
+    const baseFormIsValid = this.fantasyForm.valid;
+    let playersFormIsValid = true;
+    for (const playerControl of this.playerFormArray.controls) {
+      if (typeof playerControl.value !== 'object') {
+        playersFormIsValid = false;
+      }
+    }
+    return baseFormIsValid && playersFormIsValid;
   }
 }

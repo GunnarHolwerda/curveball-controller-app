@@ -102,8 +102,16 @@ export class SpreadQuestionCreatorComponent implements OnInit, OnChanges, Contro
       ticker: `${home.team.abbreviation} vs. ${away.team.abbreviation}`,
       subjectId: form.subjectId,
       choices: [
-        { text: getSpreadValue(home.subjectId), subjectId: home.subjectId, isAnswer: false },
-        { text: getSpreadValue(away.subjectId), subjectId: away.subjectId, isAnswer: false },
+        {
+          text: `${home.team.name} (${getSpreadValue(home.subjectId)})`,
+          subjectId: home.subjectId,
+          isAnswer: false
+        },
+        {
+          text: `${away.team.name} (${getSpreadValue(away.subjectId)})`,
+          subjectId: away.subjectId,
+          isAnswer: false
+        },
       ]
     };
   }

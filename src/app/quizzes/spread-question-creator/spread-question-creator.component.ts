@@ -105,12 +105,14 @@ export class SpreadQuestionCreatorComponent implements OnInit, OnChanges, Contro
         {
           text: `${home.team.name} (${getSpreadValue(home.subjectId)})`,
           subjectId: home.subjectId,
-          isAnswer: false
+          isAnswer: false,
+          data: { spread: getSpreadValue(home.subjectId) }
         },
         {
           text: `${away.team.name} (${getSpreadValue(away.subjectId)})`,
           subjectId: away.subjectId,
-          isAnswer: false
+          isAnswer: false,
+          data: { spread: getSpreadValue(away.subjectId) }
         },
       ]
     };

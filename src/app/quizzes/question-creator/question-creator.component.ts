@@ -9,7 +9,7 @@ export interface QuestionFormChoice {
   text: string;
   isAnswer: boolean;
   subjectId: number;
-  data: object | null;
+  data?: object | null;
 }
 
 export interface QuestionDetails {

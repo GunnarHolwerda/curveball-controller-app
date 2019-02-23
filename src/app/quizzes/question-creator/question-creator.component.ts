@@ -60,7 +60,6 @@ export class QuestionCreatorComponent implements OnInit, ControlValueAccessor {
 
     this.questionForm.valueChanges.subscribe((value) => {
       if (this.questionForm.valid) {
-        console.log('form is valid', this.questionForm.value);
         this.propagateChange(this.formAsQuestion(value));
       } else {
         this.propagateChange(null);

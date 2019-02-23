@@ -52,7 +52,7 @@ export class FantasyQuestionCreatorComponent implements OnInit, OnChanges, Contr
       if (this.topic.machineName === 'nfl') {
         this.positions = ['QB', 'RB', 'WR', 'TE', 'DEF', 'FLEX'];
       } else if (this.topic.machineName === 'nba') {
-        this.positions = ['PG', 'SG', 'SF', 'PF', 'C'];
+        this.positions = ['G', 'F', 'C'];
       }
     }
   }
@@ -84,11 +84,18 @@ export class FantasyQuestionCreatorComponent implements OnInit, OnChanges, Contr
       return;
     }
     const value = this.fantasyForm.controls['position'].value;
+    if (!value) {
+      return;
+    }
     this.playerOptions = this.subjectResponse.choiceSubjects.filter((sub) => {
       if (value === 'DEF' && !sub.hasOwnProperty('player')) {
         return true;
       } else {
-        return sub.hasOwnProperty('player') && (sub as SportPlayerResponse).player.position.toLowerCase() === value.toLowerCase();
+        if (!sub.hasOwnProperty('player')) {
+          return false;
+        }
+        const positions = (sub as SportPlayerResponse).player.position.toLowerCase().split('-');
+        return positions.find(p => p === value.toLowerCase()) !== undefined;
       }
     }).map((sub) => {
       if (!sub.hasOwnProperty('player')) {

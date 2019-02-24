@@ -1,0 +1,29 @@
+<div class="row">
+  <div class="col d-flex justify-content-center flex-column mx-auto mt-5" style="max-width: 40%">
+    <div class="row d-flex justify-content-center">
+      <h1 class="text-center">Create a Curveball Account</h1>
+    </div>
+    <div class="row d-flex">
+      <form [formGroup]="registerForm" class="d-flex justify-content-center flex-column" style="flex: 1">
+        <div class="row">
+          <mat-form-field class="w-100">
+            <input class="my-3" type="text" matInput formControlName="networkName" placeholder="Network Name">
+          </mat-form-field>
+        </div>
+        <div class="row">
+          <mat-form-field class="w-100">
+            <input class="my-3" type="text" matInput formControlName="email" placeholder="Email">
+          </mat-form-field>
+        </div>
+        <div class="row">
+          <mat-form-field class="w-100">
+            <input class="my-3" type="password" matInput formControlName="password" placeholder="Password">
+          </mat-form-field>
+        </div>
+        <div class="row d-flex justify-content-center">
+          <button class="ml-3" mat-button (click)="register()" color="primary">Create Account</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -7,12 +7,13 @@
       <form [formGroup]="loginForm" class="d-flex justify-content-center flex-column" style="flex: 1">
         <div class="row">
           <mat-form-field class="w-100">
-            <input class="my-3" type="text" matInput formControlName="email" placeholder="Email">
+            <input class="my-3" autocomplete="email" type="text" matInput formControlName="email" placeholder="Email">
           </mat-form-field>
         </div>
         <div class="row">
           <mat-form-field class="w-100">
-            <input class="my-3" type="password" matInput formControlName="password" placeholder="Password">
+            <input class="my-3" type="password" autocomplete="current-password" matInput formControlName="password"
+              placeholder="Password">
           </mat-form-field>
         </div>
         <div class="row d-flex justify-content-center">

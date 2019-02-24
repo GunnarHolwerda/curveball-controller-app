@@ -45,7 +45,7 @@ export class AddQuizComponent implements OnInit {
     const { potAmount, title, auth, questions } = this.createQuizForm.value;
     const { quiz } = await this.quizService.createQuiz({ potAmount, title, auth });
     await this.quizService.addQuestions(quiz.quizId, { questions });
-    this.router.navigate(['/quizzes', quiz.quizId]);
+    this.router.navigate(['/app', 'quizzes', quiz.quizId]);
   }
 
   enforcesCorrectAnswers(): boolean {

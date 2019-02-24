@@ -15,12 +15,17 @@ import { RealtimeService } from './services/realtime.service';
 import { TestToolsService } from './services/test-tools.service';
 import { SharedModule } from './shared/shared.module';
 import { SubjectService } from './services/subject.service';
+import { RegisterComponent } from './register/register.component';
+import { AccountService } from './services/account.service';
+import { UserService } from './services/user.service';
+import { AccountStoreService } from './stores/account-store.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     CurveballNavComponent,
     LoginComponent,
+    RegisterComponent,
   ],
   imports: [
     BrowserModule,
@@ -36,7 +41,10 @@ import { SubjectService } from './services/subject.service';
     QuizService,
     Env,
     TestToolsService,
-    SubjectService
+    SubjectService,
+    AccountService,
+    UserService,
+    AccountStoreService
   ],
   bootstrap: [AppComponent]
 })

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../services/user.service';
-import { IUser } from '../models/user';
+import { AccountStoreService } from '../stores/account-store.service';
+import { CurveballAccount } from '../models/curveball-account';
 
 @Component({
   selector: 'cb-curveball-nav',
@@ -8,14 +8,11 @@ import { IUser } from '../models/user';
   styleUrls: ['./curveball-nav.component.css']
 })
 export class CurveballNavComponent implements OnInit {
+  account: CurveballAccount;
 
-  constructor(private userService: UserService) { }
+  constructor(private accountStore: AccountStoreService) { }
 
   ngOnInit() {
+    this.accountStore.account$.subscribe(account => this.account = account);
   }
-
-  get user(): IUser {
-    return this.userService.activeUser;
-  }
-
 }

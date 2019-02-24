@@ -14,6 +14,7 @@ export interface IQuizResponse {
     created: string;
     auth: boolean;
     deleted: boolean;
+    closed: boolean;
 }
 export interface FullQuizResponse extends IQuizResponse {
     questions: Array<IQuestionResponse>;

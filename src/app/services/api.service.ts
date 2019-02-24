@@ -21,7 +21,7 @@ interface ApiRequestOptions {
 export class ApiService {
   basePath: string;
 
-  constructor(private http: HttpClient, private env: Env) {
+  constructor(protected http: HttpClient, protected env: Env) {
     this.basePath = this.env.quizEndpoint;
   }
 

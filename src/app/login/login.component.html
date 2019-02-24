@@ -1,18 +1,24 @@
 <div class="row">
-  <div class="col d-flex justify-content-center flex-column mx-auto" style="max-width: 40%">
-    <form [formGroup]="loginForm" class="d-flex justify-content-center flex-column">
-      <div *ngIf="!tokenSubmitted; else verifyForm">
-        <mat-form-field>
-          <input class="my-3" type="text" matInput formControlName="token" placeholder="Token">
-        </mat-form-field>
-        <button class="ml-3" mat-button (click)="submitToken()" color="primary">Next</button>
-      </div>
-      <ng-template #verifyForm>
-        <mat-form-field>
-          <input class="my-3" type="phone" matInput formControlName="phone" placeholder="Phone">
-        </mat-form-field>
-        <button class="ml-3" mat-button (click)="login()" color="primary">Login</button>
-      </ng-template>
-    </form>
+  <div class="col d-flex justify-content-center flex-column mx-auto mt-5" style="max-width: 40%">
+    <div class="row d-flex justify-content-center">
+      <h1 class="text-center">Login to Curveball</h1>
+    </div>
+    <div class="row d-flex">
+      <form [formGroup]="loginForm" class="d-flex justify-content-center flex-column" style="flex: 1">
+        <div class="row">
+          <mat-form-field class="w-100">
+            <input class="my-3" type="text" matInput formControlName="email" placeholder="Email">
+          </mat-form-field>
+        </div>
+        <div class="row">
+          <mat-form-field class="w-100">
+            <input class="my-3" type="password" matInput formControlName="password" placeholder="Password">
+          </mat-form-field>
+        </div>
+        <div class="row d-flex justify-content-center">
+          <button class="ml-3" mat-button (click)="login()" color="primary">Login</button>
+        </div>
+      </form>
+    </div>
   </div>
 </div>

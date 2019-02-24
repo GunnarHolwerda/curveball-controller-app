@@ -23,12 +23,10 @@ export class UserService {
 
   constructor(private http: HttpClient, private env: Env) {
     const quizJwt = sessionStorage.getItem('quizJwt');
-    const internalToken = sessionStorage.getItem('internalToken');
     const userJson = sessionStorage.getItem('user');
-    if (quizJwt && internalToken && userJson) {
+    if (quizJwt && userJson) {
       const user = JSON.parse(userJson);
       this.setActiveUser(user, quizJwt);
-      this.env.internalToken = internalToken;
     }
     this.path = this.env.quizEndpoint;
   }

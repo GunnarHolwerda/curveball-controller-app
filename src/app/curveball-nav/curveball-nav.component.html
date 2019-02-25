@@ -5,7 +5,7 @@
     <span class="navbar-toggler-icon"></span>
   </button>
 
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+  <div *ngIf="account" class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item" [routerLink]="['/app']" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
         <a class="nav-link">Home</a>
@@ -18,13 +18,14 @@
       </li>
     </ul>
   </div>
+
   <span *ngIf="account; else buttons" class="navbar-brand">
     <img *ngIf="account.photo" [src]="account.photo" width="30" height="30" class="d-inline-block align-top"
       alt="Profile image">
     Hello, {{account.firstName}}
   </span>
   <ng-template #buttons>
-    <ul class="navbar-nav mr-auto">
+    <ul class="navbar-nav ml-auto">
       <li class="nav-item" [routerLink]="['/register']">
         <a class="nav-link">Register</a>
       </li>

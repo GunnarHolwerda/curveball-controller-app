@@ -1,5 +1,10 @@
 export interface CurveballAccount {
     email: string;
-    networkName: string;
+    firstName: string;
+    lastName: string;
+    network: {
+        id: number;
+        name: string
+    };
     token: string;
 }

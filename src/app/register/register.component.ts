@@ -10,25 +10,48 @@ import { Router } from '@angular/router';
 })
 export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
+  currentPage = 1;
 
   constructor(private accountService: AccountService, private router: Router) { }
 
   ngOnInit() {
     this.registerForm = new FormGroup({
-      networkName: new FormControl('', [Validators.required]),
-      email: new FormControl('', [Validators.required]),
-      password: new FormControl('', [Validators.required])
+      details: new FormGroup({
+        networkName: new FormControl('', [Validators.required]),
+        firstName: new FormControl('', [Validators.required]),
+        lastName: new FormControl('', [Validators.required]),
+      }),
+      credentials: new FormGroup({
+        email: new FormControl('', [Validators.required]),
+        password: new FormControl('', [Validators.required]),
+      })
     });
+  }
+
+  public nextPage(): void {
+    this.currentPage++;
+  }
+
+  public backPage(): void {
+    this.currentPage--;
   }
 
   public async register(): Promise<void> {
     if (this.registerForm.invalid) {
       return;
     }
-    const { networkName, email, password } = this.registerForm.value;
+    const { details, credentials } = this.registerForm.value;
     try {
-      await this.accountService.createAccount(email, password, networkName);
-      await this.login(email, password);
+      await this.accountService.createAccount({
+        firstName: details.firstName,
+        lastName: details.lastName,
+        email: credentials.email,
+        password: credentials.password,
+        network: {
+          name: details.networkName
+        }
+      });
+      await this.login(credentials.email, credentials.password);
     } catch (e) {
       console.error('Error creating account', e);
     }

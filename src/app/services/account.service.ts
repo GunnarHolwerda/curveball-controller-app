@@ -5,6 +5,16 @@ import { HttpClient } from '@angular/common/http';
 import { AccountStoreService } from '../stores/account-store.service';
 import { CurveballAccount } from '../models/curveball-account';
 
+interface CreateAccountOptions {
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  network: {
+    name: string;
+  };
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -18,8 +28,8 @@ export class AccountService extends ApiService {
     }
   }
 
-  public createAccount(email: string, password: string, networkName: string): Promise<void> {
-    return this.post(`/accounts`, { email, password, networkName });
+  public createAccount(options: CreateAccountOptions): Promise<void> {
+    return this.post(`/accounts`, { ...options });
   }
 
   public async loginToAccount(email: string, password: string): Promise<CurveballAccount> {

@@ -18,9 +18,19 @@
       </li>
     </ul>
   </div>
-  <span *ngIf="account" class="navbar-brand">
+  <span *ngIf="account; else buttons" class="navbar-brand">
     <img *ngIf="account.photo" [src]="account.photo" width="30" height="30" class="d-inline-block align-top"
       alt="Profile image">
-    {{account.networkName}}
+    Hello, {{account.firstName}}
   </span>
+  <ng-template #buttons>
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item" [routerLink]="['/register']">
+        <a class="nav-link">Register</a>
+      </li>
+      <li class="nav-item" [routerLink]="['/login']">
+        <a class="nav-link text-primary">Login</a>
+      </li>
+    </ul>
+  </ng-template>
 </nav>

@@ -5,23 +5,41 @@
     </div>
     <div class="row d-flex">
       <form [formGroup]="registerForm" class="d-flex justify-content-center flex-column" style="flex: 1">
-        <div class="row">
-          <mat-form-field class="w-100">
-            <input class="my-3" type="text" matInput formControlName="networkName" placeholder="Network Name">
-          </mat-form-field>
+        <div class="col" #accountPage *ngIf="currentPage === 1" [formGroup]="registerForm.controls['details']">
+          <div class="row">
+            <mat-form-field class="w-100">
+              <input class="my-3" type="text" matInput formControlName="firstName" placeholder="First Name">
+            </mat-form-field>
+          </div>
+          <div class="row">
+            <mat-form-field class="w-100">
+              <input class="my-3" type="text" matInput formControlName="lastName" placeholder="Last Name">
+            </mat-form-field>
+          </div>
+          <div class="row">
+            <mat-form-field class="w-100">
+              <input class="my-3" type="text" matInput formControlName="networkName" placeholder="Network Name">
+            </mat-form-field>
+          </div>
+          <div class="row d-flex justify-content-center">
+            <button class="ml-3" mat-button (click)="nextPage()" color="primary">Continue</button>
+          </div>
         </div>
-        <div class="row">
-          <mat-form-field class="w-100">
-            <input class="my-3" type="text" matInput formControlName="email" placeholder="Email">
-          </mat-form-field>
-        </div>
-        <div class="row">
-          <mat-form-field class="w-100">
-            <input class="my-3" type="password" matInput formControlName="password" placeholder="Password">
-          </mat-form-field>
-        </div>
-        <div class="row d-flex justify-content-center">
-          <button class="ml-3" mat-button (click)="register()" color="primary">Create Account</button>
+        <div class="col" #networkPage *ngIf="currentPage === 2" [formGroup]="registerForm.controls['credentials']">
+          <div class="row">
+            <mat-form-field class="w-100">
+              <input class="my-3" type="email" matInput formControlName="email" placeholder="Email">
+            </mat-form-field>
+          </div>
+          <div class="row">
+            <mat-form-field class="w-100">
+              <input class="my-3" type="password" matInput formControlName="password" placeholder="Password">
+            </mat-form-field>
+          </div>
+          <div class="row d-flex justify-content-center">
+            <button class="ml-3" mat-button (click)="backPage()" color="primary">Back</button>
+            <button class="ml-3" mat-button (click)="register()" color="primary">Create Account</button>
+          </div>
         </div>
       </form>
     </div>

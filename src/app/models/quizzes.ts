@@ -10,7 +10,7 @@ export interface IQuizResponse {
     active: boolean;
     title: string;
     potAmount: number;
-    completed: boolean;
+    completedDate: string;
     created: string;
     auth: boolean;
     deleted: boolean;

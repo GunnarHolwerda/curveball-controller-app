@@ -48,7 +48,7 @@ export class QuizDetailComponent implements OnInit {
   }
 
   canStart(): boolean {
-    return !this.quiz.completed && this.quizRoom !== undefined;
+    return !this.quiz.completedDate && this.quizRoom !== undefined;
   }
 
   hasQuizRoom(): boolean {
@@ -90,7 +90,7 @@ export class QuizDetailComponent implements OnInit {
 
   async onSendWinners(): Promise<void> {
     const { users, amountWon } = await this.quizService.completeQuiz(this.quiz.quizId);
-    this.updateQuiz({ completed: true, active: false });
+    this.updateQuiz({ completedDate: (new Date().toISOString()), active: false });
     this.realTime.emitWinners(this.quiz.quizId, users, amountWon);
   }
 
@@ -108,9 +108,9 @@ export class QuizDetailComponent implements OnInit {
 
   async onDeleteQuizRoom(): Promise<void> {
     this.deletingQuizRoom = true;
-    if (!this.quiz.completed && this.allQuestionsAreSent()) {
+    if (!this.quiz.completedDate && this.allQuestionsAreSent()) {
       await this.quizService.completeQuiz(this.quiz.quizId);
-      this.updateQuiz({ completed: true, active: false });
+      this.updateQuiz({ completedDate: (new Date().toISOString()), active: false });
     }
     await this.realTime.emitComplete(this.quiz.quizId);
     setTimeout(async () => {

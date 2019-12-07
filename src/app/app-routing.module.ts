@@ -4,6 +4,7 @@ import { LoginComponent } from './login/login.component';
 import { UserGuard } from './user.guard';
 import { RegisterComponent } from './register/register.component';
 import { LoggedOutGuard } from './logged-out.guard';
+import { DemoTestComponent } from './demo-test/demo-test.component';
 
 const routes: Routes = [
   { path: 'login', canActivate: [LoggedOutGuard], component: LoginComponent },
@@ -18,6 +19,10 @@ const routes: Routes = [
       {
         path: 'teleprompter',
         loadChildren: './teleprompter/teleprompter.module#TeleprompterModule'
+      },
+      {
+        path: 'demo',
+        component: DemoTestComponent
       }
     ]
   },

@@ -20,12 +20,8 @@ interface CreateAccountOptions {
 })
 export class AccountService extends ApiService {
 
-  constructor(http: HttpClient, env: Env, private accountStore: AccountStoreService) {
-    super(http, env);
-    const internalToken = sessionStorage.getItem('internalToken');
-    if (internalToken) {
-      this.env.internalToken = internalToken;
-    }
+  constructor(http: HttpClient, env: Env, accountStore: AccountStoreService) {
+    super(http, env, accountStore);
   }
 
   public createAccount(options: CreateAccountOptions): Promise<void> {
@@ -34,8 +30,7 @@ export class AccountService extends ApiService {
 
   public async loginToAccount(email: string, password: string): Promise<CurveballAccount> {
     const loginResult = await this.post<CurveballAccount>(`/accounts:login`, { email, password });
-    sessionStorage.setItem('internalToken', loginResult.token);
-    this.env.internalToken = loginResult.token;
+    sessionStorage.setItem('session', JSON.stringify(loginResult));
     this.accountStore.account = loginResult;
     return loginResult;
   }

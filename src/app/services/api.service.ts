@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpClientModule, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Env } from './environment.service';
-import { HttpMethod } from 'blocking-proxy/built/lib/webdriver_commands';
+import { AccountStoreService } from '../stores/account-store.service';
 
 interface ApiRequestOptions {
   headers?: HttpHeaders | {
@@ -19,16 +19,17 @@ interface ApiRequestOptions {
   providedIn: 'root'
 })
 export class ApiService {
-  basePath: string;
+  protected basePath: string;
 
-  constructor(protected http: HttpClient, protected env: Env) {
+  constructor(protected http: HttpClient, protected env: Env, protected accountStore: AccountStoreService) {
     this.basePath = this.env.quizEndpoint;
   }
 
-  private get headers(): { [header: string]: string } {
-    return {
-      'Authorization': `Bearer ${this.env.internalToken}`
-    };
+  protected get headers(): { [header: string]: string } {
+    if (!this.accountStore.account) {
+      return {};
+    }
+    return { 'Authorization': `Bearer ${this.accountStore.account.token}` };
   }
 
   protected post<TResponse, TBody = any>(path: string, body?: TBody, options?: ApiRequestOptions): Promise<TResponse> {

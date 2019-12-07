@@ -3,6 +3,7 @@ import { ApiService } from './api.service';
 import { Env } from './environment.service';
 import { HttpClient } from '@angular/common/http';
 import { SubjectTypeTopicResponse } from '../models/subject-type-topic-response';
+import { AccountStoreService } from '../stores/account-store.service';
 
 export interface SubjectOptions {
   startDate?: string;
@@ -14,8 +15,8 @@ export interface SubjectOptions {
 })
 export class SubjectService extends ApiService {
 
-  constructor(http: HttpClient, env: Env) {
-    super(http, env);
+  constructor(http: HttpClient, env: Env, accountStore: AccountStoreService) {
+    super(http, env, accountStore);
   }
 
   public subjectsForTopicAndType<TQResponse, TCResponse>(

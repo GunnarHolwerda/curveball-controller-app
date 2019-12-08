@@ -22,7 +22,7 @@
   <span *ngIf="account; else buttons" class="navbar-brand">
     <img *ngIf="account.photo" [src]="account.photo" width="30" height="30" class="d-inline-block align-top"
       alt="Profile image">
-    Hello, {{account.firstName}}
+    <a [routerLink]="['/app', 'account']">Hello, {{account.firstName}}</a>
   </span>
   <ng-template #buttons>
     <ul class="navbar-nav ml-auto">

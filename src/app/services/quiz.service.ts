@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AllQuizzesResponse, IQuizResponse, FullQuizResponse, QuizCompleteResponse } from '../models/quizzes';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { QuizStartResponse } from '../models/started-quiz';
 import { IQuestionResponse } from '../models/question';
 import { QuestionsPayload } from '../models/question-payload';
@@ -9,21 +9,17 @@ import { IUser } from '../models/user';
 import { Env } from './environment.service';
 import { QuestionTopicsResponse } from '../models/question-topics-response';
 import { QuestionTypesResponse } from '../models/question-types-response';
+import { ApiService } from './api.service';
+import { AccountStoreService } from '../stores/account-store.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class QuizService {
-  private basePath: string;
+export class QuizService extends ApiService {
 
-  constructor(private http: HttpClient, private env: Env) {
+  constructor(http: HttpClient, env: Env, accountStore: AccountStoreService) {
+    super(http, env, accountStore);
     this.basePath = this.env.quizEndpoint;
-  }
-
-  private get headers(): { [header: string]: string } {
-    return {
-      'Authorization': `Bearer ${this.env.internalToken}`
-    };
   }
 
   allQuizzes(): Promise<AllQuizzesResponse> {

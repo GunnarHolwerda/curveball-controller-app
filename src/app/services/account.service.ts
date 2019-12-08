@@ -4,6 +4,7 @@ import { Env } from './environment.service';
 import { HttpClient } from '@angular/common/http';
 import { AccountStoreService } from '../stores/account-store.service';
 import { CurveballAccount } from '../models/curveball-account';
+import { IUser } from '../models/user';
 
 interface CreateAccountOptions {
   email: string;
@@ -20,12 +21,8 @@ interface CreateAccountOptions {
 })
 export class AccountService extends ApiService {
 
-  constructor(http: HttpClient, env: Env, private accountStore: AccountStoreService) {
-    super(http, env);
-    const internalToken = sessionStorage.getItem('internalToken');
-    if (internalToken) {
-      this.env.internalToken = internalToken;
-    }
+  constructor(http: HttpClient, env: Env, accountStore: AccountStoreService) {
+    super(http, env, accountStore);
   }
 
   public createAccount(options: CreateAccountOptions): Promise<void> {
@@ -34,9 +31,12 @@ export class AccountService extends ApiService {
 
   public async loginToAccount(email: string, password: string): Promise<CurveballAccount> {
     const loginResult = await this.post<CurveballAccount>(`/accounts:login`, { email, password });
-    sessionStorage.setItem('internalToken', loginResult.token);
-    this.env.internalToken = loginResult.token;
     this.accountStore.account = loginResult;
     return loginResult;
+  }
+
+  public async linkAccount(accountToken: string, userToken: string): Promise<void> {
+    const { user } = await this.post<{ user: IUser }>(`/accounts:link`, { accountToken, userToken });
+    this.accountStore.account = { ...this.accountStore.account, linkedUser: { user, token: userToken } };
   }
 }

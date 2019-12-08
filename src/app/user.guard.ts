@@ -1,20 +1,19 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, CanActivateChild } from '@angular/router';
-import { Env } from './services/environment.service';
+import { AccountStoreService } from './stores/account-store.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserGuard implements CanActivate, CanActivateChild {
-  constructor(private env: Env, private router: Router) { }
+  constructor(private router: Router, private accountStore: AccountStoreService) { }
 
   async canActivateChild(): Promise<boolean> {
     return this.canActivate();
   }
 
   async canActivate(): Promise<boolean> {
-    const token = this.env.internalToken;
-    if (token !== undefined) {
+    if (this.accountStore.account) {
       return true;
     }
     this.router.navigate(['/login']);

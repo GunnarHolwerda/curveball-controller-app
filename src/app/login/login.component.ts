@@ -31,10 +31,7 @@ export class LoginComponent implements OnInit {
     }
     const { email, password } = this.loginForm.value;
     try {
-      const result = await this.accountService.loginToAccount(email, password);
-      // this.accountService.setActiveUser(result.user, result.token);
-      // sessionStorage.setItem('quizJwt', result.token);
-      sessionStorage.setItem('internalToken', result.token);
+      await this.accountService.loginToAccount(email, password);
       this.router.navigate(['/app']);
     } catch (e) {
       console.error(e);

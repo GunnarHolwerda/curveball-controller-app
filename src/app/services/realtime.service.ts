@@ -10,6 +10,7 @@ import { UserService } from './user.service';
 
 import { Env } from './environment.service';
 import { CurrentQuizzes } from './current-quizzes.service';
+import { AccountStoreService } from '../stores/account-store.service';
 
 export interface ActiveQuiz {
   quizId: string;
@@ -29,9 +30,20 @@ export class RealtimeService {
   private socket: SocketIOClient.Socket;
   private basePath: string;
 
-  constructor(private http: HttpClient, private userService: UserService, private env: Env, private quizzes: CurrentQuizzes) {
+  constructor(
+    private http: HttpClient,
+    private userService: UserService,
+    private env: Env,
+    private quizzes: CurrentQuizzes,
+    private accountStore: AccountStoreService
+  ) {
     this.basePath = this.env.realtimeEndpoint;
-    this.userService.user.pipe(filter(u => u !== null)).subscribe(() => {
+    this.accountStore.account$.pipe(
+      filter(u => u !== null)
+    ).subscribe(newAccount => {
+      if (this.socket) {
+        this.socket.disconnect();
+      }
       this.socket = socketio.connect(this.basePath, this.socketIoOpts);
       this.socket.on('connect', () => {
         this.socket.on('authenticated', () => {
@@ -41,7 +53,7 @@ export class RealtimeService {
           this.socket.on('active_quizzes', (data: Array<ActiveQuiz>) => {
             this.quizzes.addQuiz(data);
           });
-        }).emit('authenticate', { token: this.userService.activeJwt });
+        }).emit('authenticate', { token: newAccount.linkedUser.token });
       });
     });
   }
@@ -52,7 +64,7 @@ export class RealtimeService {
 
   private get headers(): { [header: string]: string } {
     return {
-      'Authorization': `Bearer ${this.env.internalToken}`
+      'Authorization': `Bearer ${this.accountStore.account.token}`
     };
   }
 
@@ -110,7 +122,7 @@ export class RealtimeService {
       socket.on('connect', () => {
         socket.on('authenticated', () => {
           resolve(socket);
-        }).emit('authenticate', { token: this.userService.activeJwt });
+        }).emit('authenticate', { token: this.accountStore.account.linkedUser.token });
       });
     });
   }

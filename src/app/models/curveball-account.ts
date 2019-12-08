@@ -1,3 +1,5 @@
+import { UserData } from '../types/user-data';
+
 export interface CurveballAccount {
     email: string;
     firstName: string;
@@ -7,4 +9,5 @@ export interface CurveballAccount {
         name: string
     };
     token: string;
+    linkedUser: UserData | null;
 }

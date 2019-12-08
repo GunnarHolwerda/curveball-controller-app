@@ -8,7 +8,9 @@ import { CurveballAccount } from '../models/curveball-account';
 export class AccountStoreService {
   private _account$: BehaviorSubject<CurveballAccount | null> = new BehaviorSubject(null);
 
-  constructor() { }
+  constructor() {
+    this.account = JSON.parse(sessionStorage.getItem('session'));
+  }
 
   public get account$(): Observable<CurveballAccount> {
     return this._account$.asObservable();
@@ -16,6 +18,7 @@ export class AccountStoreService {
 
   public set account(value: CurveballAccount) {
     this._account$.next(value);
+    sessionStorage.setItem('session', JSON.stringify(value));
   }
 
   public get account(): CurveballAccount {

@@ -19,6 +19,8 @@ import { RegisterComponent } from './register/register.component';
 import { AccountService } from './services/account.service';
 import { UserService } from './services/user.service';
 import { AccountStoreService } from './stores/account-store.service';
+import { DemoTestComponent } from './demo-test/demo-test.component';
+import { AccountSettingsComponent } from './account-settings/account-settings.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +28,8 @@ import { AccountStoreService } from './stores/account-store.service';
     CurveballNavComponent,
     LoginComponent,
     RegisterComponent,
+    DemoTestComponent,
+    AccountSettingsComponent,
   ],
   imports: [
     BrowserModule,

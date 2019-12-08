@@ -1,0 +1,19 @@
+<div class="flex flex-col">
+  <div class="col-md-8" *ngIf="!userAccount">
+  <h3>Link Web account to App Account</h3>
+  <div class="row">
+    <mat-form-field>
+      <mat-label>Phone Number</mat-label>
+      <input matInput [(ngModel)]="phoneNumber" type="tel">
+    </mat-form-field>
+    <button class="ml-3" mat-raised-button (click)="getCode()">Get Verification Code</button>
+  </div>
+  <div class="row" *ngIf="userId">
+    <mat-form-field>
+      <mat-label>Verification Code</mat-label>
+      <input matInput [(ngModel)]="code">
+    </mat-form-field>
+    <button class="ml-3" mat-raised-button (click)="linkAccount()">Link Account</button>
+  </div>
+  </div>
+</div>

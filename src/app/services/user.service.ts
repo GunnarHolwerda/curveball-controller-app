@@ -5,14 +5,7 @@ import { Subject, BehaviorSubject } from '../../../node_modules/rxjs';
 import { Env } from './environment.service';
 import { ApiService } from './api.service';
 import { AccountStoreService } from '../stores/account-store.service';
-
-const AdminPhoneNum = '000-000-0000';
-const DefaultVerifyCode = '0000000';
-
-interface UserData {
-  user: IUser;
-  token: string;
-}
+import { UserData } from '../types/user-data';
 
 @Injectable({
   providedIn: 'root'

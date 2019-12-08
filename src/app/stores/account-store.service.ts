@@ -18,6 +18,7 @@ export class AccountStoreService {
 
   public set account(value: CurveballAccount) {
     this._account$.next(value);
+    sessionStorage.setItem('session', JSON.stringify(value));
   }
 
   public get account(): CurveballAccount {

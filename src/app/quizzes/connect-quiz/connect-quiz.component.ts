@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { RealtimeService } from 'src/app/services/realtime.service';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { CurrentQuizzes } from 'src/app/services/current-quizzes.service';
 import { IQuestionResponse, ITokenResponse, IChoiceResponse } from 'src/app/models/question';
 import { QuestionResults } from 'src/app/models/question-results';

@@ -53,7 +53,7 @@ export class RealtimeService {
           this.socket.on('active_quizzes', (data: Array<ActiveQuiz>) => {
             this.quizzes.addQuiz(data);
           });
-        }).emit('authenticate', { token: newAccount.token });
+        }).emit('authenticate', { token: newAccount.linkedUser.token });
       });
     });
   }
@@ -122,7 +122,7 @@ export class RealtimeService {
       socket.on('connect', () => {
         socket.on('authenticated', () => {
           resolve(socket);
-        }).emit('authenticate', { token: this.accountStore.account.token });
+        }).emit('authenticate', { token: this.accountStore.account.linkedUser.token });
       });
     });
   }

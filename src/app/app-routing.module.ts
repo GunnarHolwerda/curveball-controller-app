@@ -15,11 +15,11 @@ const routes: Routes = [
       { path: '', redirectTo: 'quizzes', pathMatch: 'full' },
       {
         path: 'quizzes',
-        loadChildren: './quizzes/quizzes.module#QuizzesModule'
+        loadChildren: () => import('./quizzes/quizzes.module').then(m => m.QuizzesModule)
       },
       {
         path: 'teleprompter',
-        loadChildren: './teleprompter/teleprompter.module#TeleprompterModule'
+        loadChildren: () => import('./teleprompter/teleprompter.module').then(m => m.TeleprompterModule)
       },
       {
         path: 'account',

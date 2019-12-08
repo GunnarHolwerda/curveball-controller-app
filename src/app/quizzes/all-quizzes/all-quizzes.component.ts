@@ -11,7 +11,7 @@ import { QuizService } from 'src/app/services/quiz.service';
   styleUrls: ['./all-quizzes.component.css']
 })
 export class AllQuizzesComponent implements OnInit {
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
   dataSource: MatTableDataSource<FullQuizResponse>;
   displayedColumns: Array<string> = ['title', 'questions', 'created', 'completed', 'active'];
   quizzes: Array<FullQuizResponse> = [];

@@ -1,5 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatSnackBar, MatSort, MatTableDataSource } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { FullQuizResponse } from 'src/app/models/quizzes';
 import { QuizService } from 'src/app/services/quiz.service';
 
@@ -9,7 +11,7 @@ import { QuizService } from 'src/app/services/quiz.service';
   styleUrls: ['./all-quizzes.component.css']
 })
 export class AllQuizzesComponent implements OnInit {
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
   dataSource: MatTableDataSource<FullQuizResponse>;
   displayedColumns: Array<string> = ['title', 'questions', 'created', 'completed', 'active'];
   quizzes: Array<FullQuizResponse> = [];

@@ -9,5 +9,5 @@ export interface CurveballAccount {
         name: string
     };
     token: string;
-    linkedUser: UserData;
+    linkedUser: UserData | null;
 }

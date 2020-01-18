@@ -4,8 +4,11 @@
       <mat-form-field class="col-8">
         <input matInput [maxlength]="64" formControlName="question" type="text" placeholder="Question">
       </mat-form-field>
-      <mat-form-field class="col px-2">
-        <input matInput [maxLength]="15" formControlName="ticker" type="text" placeholder="Headline (max 15 characters)">
+      <mat-form-field class="col-2 px-2">
+        <input matInput [maxLength]="15" formControlName="ticker" type="text" placeholder="Headline">
+      </mat-form-field>
+      <mat-form-field class="col-2 px-2">
+        <input matInput formControlName="score" type="number" placeholder="Points">
       </mat-form-field>
     </div>
     <div class="row">

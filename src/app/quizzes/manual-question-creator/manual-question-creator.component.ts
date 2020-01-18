@@ -21,6 +21,7 @@ export class ManualQuestionCreatorComponent implements OnInit, ControlValueAcces
     this.detailsForm = new FormGroup({
       question: new FormControl(null, [Validators.required, Validators.maxLength(64)]),
       ticker: new FormControl(null, [Validators.required, Validators.maxLength(15)]),
+      score: new FormControl(null, [Validators.required, Validators.min(0)]),
       choices: new FormArray([this.createChoice()])
     });
 

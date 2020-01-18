@@ -15,6 +15,7 @@ export interface QuestionFormChoice {
 export interface QuestionDetails {
   question: string;
   ticker: string;
+  score: number;
   subjectId: number;
   choices: Array<QuestionFormChoice>;
 }
@@ -60,7 +61,7 @@ export class QuestionCreatorComponent implements OnInit, ControlValueAccessor {
 
     this.questionForm.valueChanges.subscribe((value) => {
       if (this.questionForm.valid) {
-        this.propagateChange(this.formAsQuestion(value));
+        this.propagateChange(this.formAsQuestionPayload(value));
       } else {
         this.propagateChange(null);
       }
@@ -103,7 +104,7 @@ export class QuestionCreatorComponent implements OnInit, ControlValueAccessor {
     return this.topics.find(t => t.topicId === this.questionForm.controls['topic'].value);
   }
 
-  formAsQuestion(formValue: QuestionForm): QuestionPayload {
+  formAsQuestionPayload(formValue: QuestionForm): QuestionPayload {
     const { topic, typeId, questionDetails } = formValue;
     return {
       question: questionDetails.question,
@@ -112,7 +113,7 @@ export class QuestionCreatorComponent implements OnInit, ControlValueAccessor {
       topic: topic,
       typeId: typeId,
       subjectId: questionDetails.subjectId,
-      choices: questionDetails.choices
+      choices: questionDetails.choices.map(c => ({ ...c, score: questionDetails.score }))
     };
   }
 }

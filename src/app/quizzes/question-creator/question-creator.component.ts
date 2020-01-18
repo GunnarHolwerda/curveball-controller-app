@@ -15,7 +15,7 @@ export interface QuestionFormChoice {
 export interface QuestionDetails {
   question: string;
   ticker: string;
-  score: number;
+  score?: number | null;
   subjectId: number;
   choices: Array<QuestionFormChoice>;
 }

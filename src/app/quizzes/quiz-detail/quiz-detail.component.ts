@@ -9,7 +9,7 @@ import { RealtimeService } from 'src/app/services/realtime.service';
 import { CurrentQuizzes } from 'src/app/services/current-quizzes.service';
 import { Env } from 'src/app/services/environment.service';
 import { TestToolsService } from 'src/app/services/test-tools.service';
-import { IQuestionResponse } from 'src/app/models/question';
+import { IQuestionResponse, IChoiceResponse } from 'src/app/models/question';
 
 @Component({
   selector: 'cb-quiz-detail',
@@ -143,6 +143,13 @@ export class QuizDetailComponent implements OnInit {
     const results = await this.quizService.calculateResults(this.quiz.quizId, question.questionId);
     this.realTime.emitResults(this.quiz.quizId, results);
     this.quizService.getParticipants(this.quiz.quizId).then(result => this.alivePlayers = result.users);
+  }
+
+  async markAsAnswer(choice: IChoiceResponse): Promise<void> {
+    const response = await this.quizService.updateChoice(this.quiz.quizId, choice.questionId, choice.choiceId, { isAnswer: true });
+    const questionIndex = this.quiz.questions.findIndex(q => q.questionId == choice.questionId);
+    const choiceIndex = this.quiz.questions[questionIndex].choices.findIndex(c => c.choiceId === choice.choiceId);
+    this.quiz.questions[questionIndex].choices[choiceIndex] = response;
   }
 
   async onGenerateRandomAnswers(event: { questionId: string, numAnswers: number }): Promise<void> {

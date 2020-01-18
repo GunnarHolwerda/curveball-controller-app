@@ -17,6 +17,7 @@ export class QuestionCardComponent implements OnInit, OnChanges {
   @Output() generateRandomAnswers: EventEmitter<{ questionId: string, numAnswers: number }> = new EventEmitter();
 
   secondsRemaining: number;
+  hasAnswer: boolean = false;
   countdown: any;
 
   constructor(private env: Env) { }
@@ -27,6 +28,9 @@ export class QuestionCardComponent implements OnInit, OnChanges {
     const { question } = changes;
     if (question && (question.firstChange || question.previousValue.expired !== question.currentValue.expired)) {
       this.startCountdown();
+    }
+    if (question) {
+      this.hasAnswer = (question.currentValue as IQuestionResponse).choices.some(c => c.isAnswer);
     }
   }
 

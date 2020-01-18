@@ -31,7 +31,12 @@
   </mat-card-subtitle>
   <mat-card-content>
     <div class="d-flex flex-row">
-      <button *ngFor="let choice of question.choices" class="mx-2" mat-flat-button color="primary" (click)="onChoiceSelect(choice)">{{choice.text}}</button>
+      <button mat-flat-button color="primary"
+        *ngFor="let choice of question.choices" 
+        class="mx-2" 
+        [disabled]="hasAnswer" 
+        (click)="onChoiceSelect(choice)"
+        matTooltip="Mark as correct">{{choice.text}}</button>
     </div>
   </mat-card-content>
   <mat-card-actions *ngIf="!disableActions">

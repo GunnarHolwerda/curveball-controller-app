@@ -23,6 +23,7 @@ export interface ITokenResponse {
 export interface IChoiceResponse {
     choiceId: string;
     questionId: string;
+    score: number;
     text: string;
-    isAnswer?: boolean;
+    isAnswer: boolean;
 }

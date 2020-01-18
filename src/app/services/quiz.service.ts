@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AllQuizzesResponse, IQuizResponse, FullQuizResponse, QuizCompleteResponse } from '../models/quizzes';
 import { HttpClient } from '@angular/common/http';
 import { QuizStartResponse } from '../models/started-quiz';
-import { IQuestionResponse } from '../models/question';
+import { IQuestionResponse, IChoiceResponse } from '../models/question';
 import { QuestionsPayload } from '../models/question-payload';
 import { QuestionResults } from '../models/question-results';
 import { IUser } from '../models/user';
@@ -86,6 +86,12 @@ export class QuizService extends ApiService {
     return this.http.get<QuestionTypesResponse>(
       `${this.basePath}/questions/type`,
       { headers: this.headers, params: { forTopic: forTopic.toString() } }
+    ).toPromise();
+  }
+
+  updateChoice(quizId: string, questionId: string, choiceId: string, newChoice: Partial<IChoiceResponse>): Promise<IChoiceResponse> {
+    return this.http.put<IChoiceResponse>(
+      `${this.basePath}/quizzes/${quizId}/questions/${questionId}/choices/${choiceId}`, newChoice, { headers: this.headers }
     ).toPromise();
   }
 }
